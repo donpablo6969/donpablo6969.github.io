@@ -757,44 +757,24 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
     <div className="space-y-4">
       {/* ================= FORMAT 1: MUTASI SALDO PEMAIN / HISTORY TRANSAKSI ================= */}
       {viewMode === 'mutasi' && (
-        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-4 space-y-4">
+        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-4 space-y-4">
           {/* Controls Header */}
-          <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[#EAE0D2] dark:border-[#332218]">
+          <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[#EAE0D2] dark:border-[#C59656]/35">
             <div className="flex flex-wrap items-center gap-2">
               <Sparkles className="w-4 h-4 text-[#4A2B18] dark:text-[#E5B874]" />
               <span className="text-sm font-extrabold text-black dark:text-white">
                 Generator Transaksi Simulasi
               </span>
-              <span className="text-[11px] font-semibold text-[#5D4C3E] dark:text-[#D6C7B5]">
-                · Withdraw 1x · Deposit PGA unik · Deposit bulat
-              </span>
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
-              <div className="inline-flex items-center gap-1 p-0.5 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] border border-[#CBB9A0] dark:border-[#4D3627]">
-                <button
-                  type="button"
-                  onClick={() => setViewMode('mutasi')}
-                  className="px-2.5 py-1 rounded-md text-[11px] font-extrabold bg-[#4A2B18] text-white dark:bg-[#C59656] dark:text-[#140D09] cursor-pointer whitespace-nowrap"
-                >
-                  Mutasi Saldo
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setViewMode('seamless')}
-                  className="px-2.5 py-1 rounded-md text-[11px] font-extrabold text-black dark:text-white hover:bg-[#EAE0D2] dark:hover:bg-[#2C1E16] cursor-pointer whitespace-nowrap"
-                >
-                  Seamless IDN
-                </button>
-              </div>
-
               <button
                 type="button"
                 onClick={() => setMutasiEditMode((v) => !v)}
                 className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold border transition-colors cursor-pointer ${
                   mutasiEditMode
                     ? 'bg-[#4A2B18] text-white border-[#4A2B18] dark:bg-[#C59656] dark:text-[#140D09] dark:border-[#C59656]'
-                    : 'bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border-[#CBB9A0] dark:border-[#4D3627] hover:bg-[#EAE0D2] dark:hover:bg-[#2C1E16]'
+                    : 'bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border-[#CBB9A0] dark:border-[#D4A373]/75 hover:bg-[#EAE0D2] dark:hover:bg-[#2C1E16]'
                 }`}
               >
                 <Edit3 className="w-3.5 h-3.5" />
@@ -807,7 +787,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold border transition-colors cursor-pointer ${
                   mutasiWatermark
                     ? 'bg-[#4A2B18] text-white border-[#4A2B18] dark:bg-[#C59656] dark:text-[#140D09] dark:border-[#C59656]'
-                    : 'bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border-[#CBB9A0] dark:border-[#4D3627] hover:bg-[#EAE0D2] dark:hover:bg-[#2C1E16]'
+                    : 'bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border-[#CBB9A0] dark:border-[#D4A373]/75 hover:bg-[#EAE0D2] dark:hover:bg-[#2C1E16]'
                 }`}
               >
                 <Shield className="w-3.5 h-3.5" />
@@ -826,7 +806,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 type="text"
                 value={playerName}
                 onChange={(e) => setPlayerName(e.target.value)}
-                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-bold"
+                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-bold"
               />
             </div>
 
@@ -838,7 +818,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 type="number"
                 value={lastBalance}
                 onChange={(e) => setLastBalance(Math.max(0, parseInt(e.target.value, 10) || 0))}
-                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-bold"
+                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-bold"
               />
             </div>
 
@@ -852,7 +832,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 max={40}
                 value={rowCount}
                 onChange={(e) => setRowCount(e.target.value)}
-                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-bold"
+                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-bold"
               />
             </div>
 
@@ -864,7 +844,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 type="number"
                 value={depMin}
                 onChange={(e) => setDepMin(e.target.value)}
-                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-bold"
+                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-bold"
               />
             </div>
 
@@ -876,7 +856,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 type="number"
                 value={depMax}
                 onChange={(e) => setDepMax(e.target.value)}
-                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-bold"
+                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-bold"
               />
             </div>
 
@@ -888,7 +868,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 type="number"
                 value={wdMin}
                 onChange={(e) => setWdMin(e.target.value)}
-                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-bold"
+                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-bold"
               />
             </div>
 
@@ -901,7 +881,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 max={100000000}
                 value={wdMax}
                 onChange={(e) => setWdMax(e.target.value)}
-                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-bold"
+                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-bold"
               />
             </div>
 
@@ -913,7 +893,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 type="number"
                 value={jedaMin}
                 onChange={(e) => setJedaMin(e.target.value)}
-                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-bold"
+                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-bold"
               />
             </div>
 
@@ -925,7 +905,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 type="number"
                 value={jedaMax}
                 onChange={(e) => setJedaMax(e.target.value)}
-                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-bold"
+                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-bold"
               />
             </div>
           </div>
@@ -945,7 +925,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
               <button
                 type="button"
                 onClick={handleAddMutasiRow}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Tambah Baris</span>
@@ -956,7 +936,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
               <button
                 type="button"
                 onClick={handleCopyMutasiText}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#F8F4EE] hover:bg-[#EAE0D2] dark:bg-[#140D09] dark:hover:bg-[#2C1E16] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#F8F4EE] hover:bg-[#EAE0D2] dark:bg-[#140D09] dark:hover:bg-[#2C1E16] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer"
               >
                 <Copy className="w-3.5 h-3.5" />
                 <span>Salin Text</span>
@@ -965,7 +945,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
               <select
                 value={mutasiFormat}
                 onChange={(e) => setMutasiFormat(e.target.value as 'png' | 'jpeg')}
-                className="px-2.5 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer"
+                className="px-2.5 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer"
               >
                 <option value="png">PNG</option>
                 <option value="jpeg">JPEG</option>
@@ -983,7 +963,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
           </div>
 
           {/* Authentic HTML Admin Table Preview (Exact match to attached HTML table script) */}
-          <div className="overflow-x-auto rounded-xl border border-[#DFD1BE] dark:border-[#3A281D] bg-white p-3">
+          <div className="overflow-x-auto rounded-xl border border-[#DFD1BE] dark:border-[#C59656]/60 bg-white p-3">
             <div
               ref={mutasiTableRef}
               className="relative bg-white text-black min-w-[780px] max-w-[980px] mx-auto p-2"
@@ -1229,8 +1209,8 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
 
       {/* ================= FORMAT 2: DETAIL RONDE IDN (DEBIT & CREDIT) / TRANSAKSI SEAMLESS ================= */}
       {viewMode === 'seamless' && (
-        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-4 space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[#EAE0D2] dark:border-[#332218]">
+        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-4 space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[#EAE0D2] dark:border-[#C59656]/35">
             <div className="flex flex-wrap items-center gap-2">
               <Sparkles className="w-4 h-4 text-[#4A2B18] dark:text-[#E5B874]" />
               <span className="text-sm font-extrabold text-black dark:text-white">
@@ -1242,7 +1222,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
-              <div className="inline-flex items-center gap-1 p-0.5 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] border border-[#CBB9A0] dark:border-[#4D3627]">
+              <div className="inline-flex items-center gap-1 p-0.5 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] border border-[#CBB9A0] dark:border-[#D4A373]/75">
                 <button
                   type="button"
                   onClick={() => setViewMode('mutasi')}
@@ -1265,7 +1245,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold border transition-colors cursor-pointer ${
                   seamlessEditMode
                     ? 'bg-[#4A2B18] text-white border-[#4A2B18] dark:bg-[#C59656] dark:text-[#140D09] dark:border-[#C59656]'
-                    : 'bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border-[#CBB9A0] dark:border-[#4D3627] hover:bg-[#EAE0D2] dark:hover:bg-[#2C1E16]'
+                    : 'bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border-[#CBB9A0] dark:border-[#D4A373]/75 hover:bg-[#EAE0D2] dark:hover:bg-[#2C1E16]'
                 }`}
               >
                 <Edit3 className="w-3.5 h-3.5" />
@@ -1278,7 +1258,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold border transition-colors cursor-pointer ${
                   seamlessWatermark
                     ? 'bg-[#4A2B18] text-white border-[#4A2B18] dark:bg-[#C59656] dark:text-[#140D09] dark:border-[#C59656]'
-                    : 'bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border-[#CBB9A0] dark:border-[#4D3627] hover:bg-[#EAE0D2] dark:hover:bg-[#2C1E16]'
+                    : 'bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border-[#CBB9A0] dark:border-[#D4A373]/75 hover:bg-[#EAE0D2] dark:hover:bg-[#2C1E16]'
                 }`}
               >
                 <Shield className="w-3.5 h-3.5" />
@@ -1297,7 +1277,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 type="text"
                 value={seamlessPlayer}
                 onChange={(e) => setSeamlessPlayer(e.target.value)}
-                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-bold"
+                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-bold"
               />
             </div>
 
@@ -1313,7 +1293,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                   const list = PROVIDER_GAMES[prov];
                   if (list?.length) setSeamlessGame(list[0]);
                 }}
-                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-bold"
+                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-bold"
               >
                 {Object.keys(PROVIDER_GAMES).map((prov) => (
                   <option key={prov} value={prov}>
@@ -1331,7 +1311,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 type="text"
                 value={seamlessGame}
                 onChange={(e) => setSeamlessGame(e.target.value)}
-                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-bold"
+                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-bold"
               />
             </div>
 
@@ -1345,7 +1325,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 max={30}
                 value={seamlessRounds}
                 onChange={(e) => setSeamlessRounds(e.target.value)}
-                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-bold"
+                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-bold"
               />
             </div>
 
@@ -1357,7 +1337,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 type="number"
                 value={seamlessBetMin}
                 onChange={(e) => setSeamlessBetMin(e.target.value)}
-                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-bold"
+                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-bold"
               />
             </div>
 
@@ -1369,7 +1349,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 type="number"
                 value={seamlessBetMax}
                 onChange={(e) => setSeamlessBetMax(e.target.value)}
-                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-bold"
+                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-bold"
               />
             </div>
 
@@ -1381,7 +1361,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 type="number"
                 value={seamlessStartBal}
                 onChange={(e) => setSeamlessStartBal(e.target.value)}
-                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-bold"
+                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-bold"
               />
             </div>
 
@@ -1394,7 +1374,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
                 onChange={(e) =>
                   setSeamlessScenario(e.target.value as 'random' | 'win' | 'lose')
                 }
-                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-bold"
+                className="w-full px-2.5 py-2 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-bold"
               >
                 <option value="random">Acak Realistis</option>
                 <option value="win">Menang / JP</option>
@@ -1418,7 +1398,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
               <button
                 type="button"
                 onClick={handleAddSeamlessPair}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Tambah 1 Ronde (Debit+Credit)</span>
@@ -1429,7 +1409,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
               <button
                 type="button"
                 onClick={handleCopySeamlessText}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#F8F4EE] hover:bg-[#EAE0D2] dark:bg-[#140D09] dark:hover:bg-[#2C1E16] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#F8F4EE] hover:bg-[#EAE0D2] dark:bg-[#140D09] dark:hover:bg-[#2C1E16] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer"
               >
                 <Copy className="w-3.5 h-3.5" />
                 <span>Salin Text</span>
@@ -1438,7 +1418,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
               <select
                 value={seamlessFormat}
                 onChange={(e) => setSeamlessFormat(e.target.value as 'png' | 'jpeg')}
-                className="px-2.5 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer"
+                className="px-2.5 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer"
               >
                 <option value="png">PNG</option>
                 <option value="jpeg">JPEG</option>
@@ -1456,7 +1436,7 @@ export const TransaksiSlotPanel: React.FC<TransaksiSlotPanelProps> = ({
           </div>
 
           {/* Seamless HTML Table Preview */}
-          <div className="overflow-x-auto rounded-xl border border-[#DFD1BE] dark:border-[#3A281D] bg-white p-3">
+          <div className="overflow-x-auto rounded-xl border border-[#DFD1BE] dark:border-[#C59656]/60 bg-white p-3">
             <div
               ref={seamlessTableRef}
               className="relative bg-white text-black min-w-[780px] max-w-[980px] mx-auto p-2"

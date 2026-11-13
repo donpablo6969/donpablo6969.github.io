@@ -550,7 +550,7 @@ ${bodyWithTemplate}
   }, []);
 
   return (
-    <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] overflow-hidden">
+    <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 overflow-hidden">
       <iframe
         ref={iframeRef}
         title="Generator Struk BNI Wonder"

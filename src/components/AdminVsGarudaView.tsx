@@ -391,10 +391,10 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
     const hasFile = Boolean(slot.fileData);
 
     return (
-      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 space-y-4 shadow-xs">
+      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 space-y-4 shadow-xs">
         {/* Card Header */}
         <div className="flex items-center gap-2.5">
-          <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md bg-[#EAE0D2] dark:bg-[#2E2017] border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold font-mono-tabular text-[#4A2B18] dark:text-[#E5B874]">
+          <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md bg-[#EAE0D2] dark:bg-[#2E2017] border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold font-mono-tabular text-[#4A2B18] dark:text-[#E5B874]">
             {badgeNumber}
           </span>
           <h2 className="text-base font-extrabold text-black dark:text-white">
@@ -420,7 +420,7 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
           className={`rounded-xl border-2 border-dashed px-4 py-4 transition-colors text-center ${
             slot.isDragging
               ? 'border-[#4A2B18] bg-[#EFE7DC] dark:border-[#C59656] dark:bg-[#2B1D14]'
-              : 'border-[#CBB9A0] dark:border-[#4D3627] bg-[#F8F4EE] dark:bg-[#140D09]'
+              : 'border-[#CBB9A0] dark:border-[#D4A373]/75 bg-[#F8F4EE] dark:bg-[#140D09]'
           }`}
         >
           <p className="text-xs font-extrabold text-[#4A2B18] dark:text-[#E5B874] mb-2">
@@ -439,7 +439,7 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
             <button
               type="button"
               onClick={() => inputRef.current?.click()}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#B8A286] dark:border-[#5C4130] text-xs font-extrabold cursor-pointer whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#B8A286] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer whitespace-nowrap"
             >
               <Upload className="w-3.5 h-3.5" />
               <span>Pilih File</span>
@@ -459,8 +459,8 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
             slot.isError
               ? 'bg-[#FBE7EB] dark:bg-[#3E1621] border-[#F4B6C2] dark:border-[#6B2135] text-[#9F1239] dark:text-[#FDA4AF]'
               : hasFile
-                ? 'bg-[#F4EDE3] dark:bg-[#261A12] border-[#DFD1BE] dark:border-[#3A281D] text-black dark:text-white'
-                : 'bg-[#F8F4EE] dark:bg-[#18100B] border-[#E5DACB] dark:border-[#2E1F16] text-[#5D4C3E] dark:text-[#B8A592]'
+                ? 'bg-[#F4EDE3] dark:bg-[#261A12] border-[#DFD1BE] dark:border-[#C59656]/60 text-black dark:text-white'
+                : 'bg-[#F8F4EE] dark:bg-[#18100B] border-[#E5DACB] dark:border-[#C59656]/35 text-[#5D4C3E] dark:text-[#B8A592]'
           }`}
         >
           <FileSpreadsheet className="w-3.5 h-3.5 shrink-0 text-[#4A2B18] dark:text-[#E5B874]" />
@@ -476,7 +476,7 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
             <select
               value={slot.fileData.selectedSheet}
               onChange={(e) => handleSheetChange(sideIndex, e.target.value)}
-              className="w-full px-3 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
+              className="w-full px-3 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
             >
               {slot.fileData.sheetNames.map((name) => (
                 <option key={name} value={name}>
@@ -501,7 +501,7 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
                 setSlot((prev) => ({ ...prev, idCol: val }));
                 invalidateComparison();
               }}
-              className="w-full px-3 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-bold disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
+              className="w-full px-3 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-bold disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
             >
               {!hasFile ? (
                 <option value="">—</option>
@@ -530,7 +530,7 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
                 setSlot((prev) => ({ ...prev, valCol: val }));
                 invalidateComparison();
               }}
-              className="w-full px-3 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-bold disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
+              className="w-full px-3 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-bold disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
             >
               {!hasFile ? (
                 <option value="">—</option>
@@ -560,7 +560,7 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
               setSlot((prev) => ({ ...prev, mode }));
               invalidateComparison();
             }}
-            className="w-full px-3 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
+            className="w-full px-3 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
           >
             <option value="auto">Otomatis</option>
             <option value="id">Indonesia (1.000,50)</option>
@@ -574,7 +574,7 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
   return (
     <div className="space-y-5">
       {/* Header Banner */}
-      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 sm:p-6">
+      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 sm:p-6">
         <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-[#4A2B18] dark:text-[#E5B874] mb-1">
           <Scale className="w-4 h-4" />
           <span>MODUL AUDIT CARI SELISIH · BANDING FILE</span>
@@ -628,7 +628,7 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
         <button
           type="button"
           onClick={handleReset}
-          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white hover:bg-[#F4EDE3] dark:bg-[#211711] dark:hover:bg-[#2C1E16] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer whitespace-nowrap shrink-0"
+          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white hover:bg-[#F4EDE3] dark:bg-[#211711] dark:hover:bg-[#2C1E16] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer whitespace-nowrap shrink-0"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           <span>Reset</span>
@@ -637,7 +637,7 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
         <button
           type="button"
           onClick={handleLoadDemo}
-          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer whitespace-nowrap shrink-0"
+          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer whitespace-nowrap shrink-0"
         >
           <Sparkles className="w-3.5 h-3.5 text-[#4A2B18] dark:text-[#E5B874]" />
           <span>Coba data contoh</span>
@@ -680,7 +680,7 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
         ].map((card) => (
           <div
             key={card.label}
-            className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-4 shadow-xs"
+            className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-4 shadow-xs"
           >
             <div className="text-xs font-bold text-[#3D322B] dark:text-[#D6C7B5]">
               {card.label}
@@ -694,11 +694,11 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
 
       {/* Collapsible Skipped Rows Details */}
       {skipped.length > 0 && (
-        <details className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] px-4 py-3 text-xs">
+        <details className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 px-4 py-3 text-xs">
           <summary className="font-extrabold text-[#4A2B18] dark:text-[#E5B874] cursor-pointer select-none">
             {skipped.length} baris tanpa User ID dilewati — klik untuk melihat
           </summary>
-          <div className="mt-3 max-h-48 overflow-y-auto space-y-1.5 border-t border-[#E5DACB] dark:border-[#332218] pt-2.5 font-mono-tabular text-black dark:text-white">
+          <div className="mt-3 max-h-48 overflow-y-auto space-y-1.5 border-t border-[#E5DACB] dark:border-[#C59656]/35 pt-2.5 font-mono-tabular text-black dark:text-white">
             {skipped.map((item, idx) => (
               <p key={idx}>
                 File {item.file} • Baris {item.row} • Nominal: {item.nominal}
@@ -711,10 +711,10 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
       {/* Main Results Container */}
       <section
         ref={resultsRef}
-        className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] overflow-hidden shadow-xs"
+        className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 overflow-hidden shadow-xs"
       >
         {/* Results Toolbar */}
-        <div className="p-4 sm:p-5 border-b border-[#E5DACB] dark:border-[#332218] flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div className="p-4 sm:p-5 border-b border-[#E5DACB] dark:border-[#C59656]/35 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <h2 className="text-base sm:text-lg font-extrabold text-black dark:text-white">
             Hasil — Selisih Admin dan GARUDA
           </h2>
@@ -727,7 +727,7 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Cari User ID..."
-                className="w-full sm:w-52 pl-8 pr-3 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-semibold placeholder:text-[#7A6858] dark:placeholder:text-[#8E7A66] focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
+                className="w-full sm:w-52 pl-8 pr-3 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-semibold placeholder:text-[#7A6858] dark:placeholder:text-[#8E7A66] focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
               />
             </div>
 
@@ -745,7 +745,7 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
               type="button"
               disabled={!compared || visibleRows.length === 0}
               onClick={handleExportCsv}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-[#F4EDE3] dark:bg-[#211711] dark:hover:bg-[#2C1E16] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed whitespace-nowrap shrink-0"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-[#F4EDE3] dark:bg-[#211711] dark:hover:bg-[#2C1E16] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed whitespace-nowrap shrink-0"
             >
               <Download className="w-3.5 h-3.5" />
               <span>Unduh CSV</span>
@@ -756,8 +756,8 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
         {/* Two-Column Split Result Tables */}
         <div className="p-4 sm:p-5 grid grid-cols-1 lg:grid-cols-2 gap-5">
           {/* Left Panel: Lebih di Admin */}
-          <div className="rounded-xl border border-[#DFD1BE] dark:border-[#3A281D] bg-[#FCF9F5] dark:bg-[#18100B] flex flex-col overflow-hidden">
-            <div className="px-4 py-3 border-b border-[#E5DACB] dark:border-[#332218] flex items-center justify-between gap-2 bg-[#F4EDE3] dark:bg-[#261A12]">
+          <div className="rounded-xl border border-[#DFD1BE] dark:border-[#C59656]/60 bg-[#FCF9F5] dark:bg-[#18100B] flex flex-col overflow-hidden">
+            <div className="px-4 py-3 border-b border-[#E5DACB] dark:border-[#C59656]/35 flex items-center justify-between gap-2 bg-[#F4EDE3] dark:bg-[#261A12]">
               <div className="flex items-baseline gap-2 min-w-0">
                 <h3 className="text-sm font-extrabold text-black dark:text-white truncate">
                   Lebih di Admin
@@ -779,13 +779,13 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
 
             <div className="flex-1 overflow-x-auto max-h-80 overflow-y-auto">
               <table className="w-full text-left border-collapse">
-                <thead className="sticky top-0 bg-[#F8F4EE] dark:bg-[#1F150F] border-b border-[#DFD1BE] dark:border-[#3A281D]">
+                <thead className="sticky top-0 bg-[#F8F4EE] dark:bg-[#1F150F] border-b border-[#DFD1BE] dark:border-[#C59656]/60">
                   <tr className="text-[11px] font-extrabold uppercase tracking-wider text-[#3D322B] dark:text-[#D6C7B5]">
                     <th className="py-2.5 px-4">User ID</th>
                     <th className="py-2.5 px-4 text-right">Nominal</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#EAE0D2] dark:divide-[#2E1F16] text-xs">
+                <tbody className="divide-y divide-[#EAE0D2] dark:divide-[#C59656]/30 text-xs">
                   {groupA.map((r, idx) => (
                     <tr
                       key={`${r.id}-${r.nominal}-${idx}`}
@@ -810,7 +810,7 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
               )}
             </div>
 
-            <div className="px-4 py-3 border-t border-[#DFD1BE] dark:border-[#3A281D] bg-[#EFE7DC] dark:bg-[#221710] flex items-center justify-between text-xs font-extrabold">
+            <div className="px-4 py-3 border-t border-[#DFD1BE] dark:border-[#C59656]/60 bg-[#EFE7DC] dark:bg-[#221710] flex items-center justify-between text-xs font-extrabold">
               <span className="text-black dark:text-white">
                 Total lebih di Admin
               </span>
@@ -821,8 +821,8 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
           </div>
 
           {/* Right Panel: Lebih di GARUDA */}
-          <div className="rounded-xl border border-[#DFD1BE] dark:border-[#3A281D] bg-[#FCF9F5] dark:bg-[#18100B] flex flex-col overflow-hidden">
-            <div className="px-4 py-3 border-b border-[#E5DACB] dark:border-[#332218] flex items-center justify-between gap-2 bg-[#F4EDE3] dark:bg-[#261A12]">
+          <div className="rounded-xl border border-[#DFD1BE] dark:border-[#C59656]/60 bg-[#FCF9F5] dark:bg-[#18100B] flex flex-col overflow-hidden">
+            <div className="px-4 py-3 border-b border-[#E5DACB] dark:border-[#C59656]/35 flex items-center justify-between gap-2 bg-[#F4EDE3] dark:bg-[#261A12]">
               <div className="flex items-baseline gap-2 min-w-0">
                 <h3 className="text-sm font-extrabold text-black dark:text-white truncate">
                   Lebih di GARUDA
@@ -844,13 +844,13 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
 
             <div className="flex-1 overflow-x-auto max-h-80 overflow-y-auto">
               <table className="w-full text-left border-collapse">
-                <thead className="sticky top-0 bg-[#F8F4EE] dark:bg-[#1F150F] border-b border-[#DFD1BE] dark:border-[#3A281D]">
+                <thead className="sticky top-0 bg-[#F8F4EE] dark:bg-[#1F150F] border-b border-[#DFD1BE] dark:border-[#C59656]/60">
                   <tr className="text-[11px] font-extrabold uppercase tracking-wider text-[#3D322B] dark:text-[#D6C7B5]">
                     <th className="py-2.5 px-4">User ID</th>
                     <th className="py-2.5 px-4 text-right">Nominal</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#EAE0D2] dark:divide-[#2E1F16] text-xs">
+                <tbody className="divide-y divide-[#EAE0D2] dark:divide-[#C59656]/30 text-xs">
                   {groupB.map((r, idx) => (
                     <tr
                       key={`${r.id}-${r.nominal}-${idx}`}
@@ -875,7 +875,7 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
               )}
             </div>
 
-            <div className="px-4 py-3 border-t border-[#DFD1BE] dark:border-[#3A281D] bg-[#EFE7DC] dark:bg-[#221710] flex items-center justify-between text-xs font-extrabold">
+            <div className="px-4 py-3 border-t border-[#DFD1BE] dark:border-[#C59656]/60 bg-[#EFE7DC] dark:bg-[#221710] flex items-center justify-between text-xs font-extrabold">
               <span className="text-black dark:text-white">
                 Total lebih di GARUDA
               </span>
@@ -892,7 +892,7 @@ export const AdminVsGarudaView: React.FC<AdminVsGarudaViewProps> = ({
         </div>
 
         {/* Combined & Net Totals */}
-        <div className="border-t border-[#DFD1BE] dark:border-[#3A281D] bg-[#EFE7DC] dark:bg-[#241811] divide-y divide-[#DFD1BE] dark:divide-[#3A281D]">
+        <div className="border-t border-[#DFD1BE] dark:border-[#C59656]/60 bg-[#EFE7DC] dark:bg-[#241811] divide-y divide-[#DFD1BE] dark:divide-[#C59656]/35">
           <div className="px-5 py-3.5 flex items-center justify-between gap-4 text-sm font-extrabold">
             <div className="flex items-baseline gap-2">
               <span className="text-black dark:text-white">Total gabungan</span>

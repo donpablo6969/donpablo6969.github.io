@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import { AdminVsGarudaView } from './components/AdminVsGarudaView';
 import { CariSelisihView } from './components/CariSelisihView';
+import { CekNawalaPanel } from './components/CekNawalaPanel';
 import { DashboardHome } from './components/DashboardHome';
 import { LoginGate } from './components/LoginGate';
 import { ToolsCsViews } from './components/ToolsCsViews';
-import { ToolsKasirViews } from './components/ToolsKasirViews';
 import { TopNavbar } from './components/TopNavbar';
 import { WdAutoFlopView } from './components/WdAutoFlopView';
 import {
@@ -14,13 +14,7 @@ import {
   INITIAL_WD_QUEUE,
   MEMBER_DIRECTORY,
 } from './data/initialData';
-import {
-  BankChannel,
-  CashierMutationItem,
-  MutationStatus,
-  NavRoute,
-  WdQueueItem,
-} from './types';
+import { BankChannel, NavRoute, WdQueueItem } from './types';
 
 export default function App() {
   const [isDark, setIsDark] = useState<boolean>(() => {
@@ -44,9 +38,6 @@ export default function App() {
   const [activeRoute, setActiveRoute] = useState<NavRoute>('dashboard');
   const [wdQueue, setWdQueue] = useState<WdQueueItem[]>(INITIAL_WD_QUEUE);
   const [bankChannels, setBankChannels] = useState<BankChannel[]>(INITIAL_BANK_CHANNELS);
-  const [cashierQueue, setCashierQueue] = useState<CashierMutationItem[]>(
-    INITIAL_CASHIER_MUTATIONS
-  );
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [cacheResetKey, setCacheResetKey] = useState<number>(0);
 
@@ -108,13 +99,6 @@ export default function App() {
       prev.map((b) => (b.id === updated.id ? updated : b))
     );
     showToast(`Saluran ${updated.bankName} diperbarui (${updated.status})`);
-  };
-
-  const handleUpdateMutationStatus = (id: string, status: MutationStatus) => {
-    setCashierQueue((prev) =>
-      prev.map((m) => (m.id === id ? { ...m, status } : m))
-    );
-    showToast(`Mutasi ${id} diubah menjadi ${status}`);
   };
 
   const handleLoginSuccess = () => {
@@ -182,7 +166,7 @@ export default function App() {
           <DashboardHome
             wdQueue={wdQueue}
             bankChannels={bankChannels}
-            cashierQueue={cashierQueue}
+            cashierQueue={INITIAL_CASHIER_MUTATIONS}
             memberDirectory={MEMBER_DIRECTORY}
             onNavigate={setActiveRoute}
             onFlopNow={handleFlopNow}
@@ -219,17 +203,12 @@ export default function App() {
           />
         )}
 
-        {(activeRoute === 'info-dp-wd' || activeRoute === 'info-spasi') && (
-          <ToolsKasirViews
-            route={activeRoute}
-            cashierQueue={cashierQueue}
-            onUpdateMutationStatus={handleUpdateMutationStatus}
-            onCopyText={handleCopyText}
-          />
+        {activeRoute === 'cek-nawala' && (
+          <CekNawalaPanel onCopyText={handleCopyText} />
         )}
       </main>
 
-      <footer className="border-t border-[#D4C4AE] dark:border-[#3A281D] bg-white/80 dark:bg-[#1A110C]/80 py-4 px-4 sm:px-6 lg:px-8">
+      <footer className="border-t border-[#D4C4AE] dark:border-[#C59656]/60 bg-white/80 dark:bg-[#1A110C]/80 py-4 px-4 sm:px-6 lg:px-8">
         <div className="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[#3D322B] dark:text-[#D6C7B5]">
           <span className="font-bold text-black dark:text-white">
             DON PABLO · Portal Kerja Operasional

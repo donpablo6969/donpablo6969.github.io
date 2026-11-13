@@ -246,10 +246,10 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
   return (
     <div className="space-y-5">
       {/* Header Card */}
-      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="space-y-1">
           <div className="flex flex-wrap items-center gap-2 text-[11px] font-extrabold uppercase tracking-wider text-[#4A2B18] dark:text-[#E5B874]">
-            <span className="px-2 py-0.5 rounded bg-[#EAE0D2] dark:bg-[#2E2017] border border-[#CBB9A0] dark:border-[#4D3627]">
+            <span className="px-2 py-0.5 rounded bg-[#EAE0D2] dark:bg-[#2E2017] border border-[#CBB9A0] dark:border-[#D4A373]/75">
               TOOLS KERJA CS
             </span>
             <span>Otomatisasi Rekapan Data Harian &amp; Validasi PL</span>
@@ -264,7 +264,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
           </p>
         </div>
 
-        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#EAE0D2] dark:bg-[#2C1E16] border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold text-[#4A2B18] dark:text-[#E5B874] shrink-0">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#EAE0D2] dark:bg-[#2C1E16] border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold text-[#4A2B18] dark:text-[#E5B874] shrink-0">
           <Zap className="w-3.5 h-3.5" />
           <span>3 MODE REKAPAN</span>
         </div>
@@ -278,7 +278,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
           className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-extrabold border cursor-pointer ${
             mode === 'validasi-pl'
               ? 'bg-[#4A2B18] text-white border-[#4A2B18] dark:bg-[#C59656] dark:text-[#140D09] dark:border-[#C59656]'
-              : 'bg-white dark:bg-[#1F150F] text-black dark:text-white border-[#D4C4AE] dark:border-[#3A281D]'
+              : 'bg-white dark:bg-[#1F150F] text-black dark:text-white border-[#D4C4AE] dark:border-[#C59656]/60'
           }`}
         >
           <Check className="w-3.5 h-3.5" />
@@ -291,7 +291,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
           className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-extrabold border cursor-pointer ${
             mode === 'rekap-koin'
               ? 'bg-[#4A2B18] text-white border-[#4A2B18] dark:bg-[#C59656] dark:text-[#140D09] dark:border-[#C59656]'
-              : 'bg-white dark:bg-[#1F150F] text-black dark:text-white border-[#D4C4AE] dark:border-[#3A281D]'
+              : 'bg-white dark:bg-[#1F150F] text-black dark:text-white border-[#D4C4AE] dark:border-[#C59656]/60'
           }`}
         >
           <Coins className="w-3.5 h-3.5" />
@@ -304,7 +304,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
           className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-extrabold border cursor-pointer ${
             mode === 'data-turnover'
               ? 'bg-[#4A2B18] text-white border-[#4A2B18] dark:bg-[#C59656] dark:text-[#140D09] dark:border-[#C59656]'
-              : 'bg-white dark:bg-[#1F150F] text-black dark:text-white border-[#D4C4AE] dark:border-[#3A281D]'
+              : 'bg-white dark:bg-[#1F150F] text-black dark:text-white border-[#D4C4AE] dark:border-[#C59656]/60'
           }`}
         >
           <TrendingUp className="w-3.5 h-3.5" />
@@ -313,7 +313,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
       </div>
 
       {mode === 'validasi-pl' && (
-        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 space-y-4">
+        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 space-y-4">
           {/* Centered Pill Header */}
           <div className="text-center space-y-1">
             <span className="inline-block px-4 py-1 rounded-full bg-[#4A2B18] dark:bg-[#C59656] text-white dark:text-[#140D09] text-xs font-extrabold uppercase tracking-wider">
@@ -333,7 +333,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
               <button
                 type="button"
                 onClick={() => setRawInput(SAMPLE_41_LOG)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer"
               >
                 <Sparkles className="w-3.5 h-3.5 text-[#4A2B18] dark:text-[#E5B874]" />
                 <span>Format Log CS 41 Transaksi (Jago &amp; Bonus711)</span>
@@ -341,7 +341,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
               <button
                 type="button"
                 onClick={() => setRawInput(SAMPLE_SHORT_LOG)}
-                className="px-3 py-1.5 rounded-lg bg-[#F8F4EE] hover:bg-[#EAE0D2] dark:bg-[#140D09] dark:hover:bg-[#2C1E16] text-black dark:text-white border border-[#D4C4AE] dark:border-[#3A281D] text-xs font-bold cursor-pointer"
+                className="px-3 py-1.5 rounded-lg bg-[#F8F4EE] hover:bg-[#EAE0D2] dark:bg-[#140D09] dark:hover:bg-[#2C1E16] text-black dark:text-white border border-[#D4C4AE] dark:border-[#C59656]/60 text-xs font-bold cursor-pointer"
               >
                 Preset Singkat
               </button>
@@ -351,7 +351,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
               <button
                 type="button"
                 onClick={handlePasteClipboard}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer"
               >
                 <ClipboardPaste className="w-3.5 h-3.5" />
                 <span>Tempel Clipboard</span>
@@ -373,7 +373,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
             value={rawInput}
             onChange={(e) => setRawInput(e.target.value)}
             placeholder="Tempel data transaksi di sini..."
-            className="w-full p-4 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
+            className="w-full p-4 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
           />
 
           {/* Live Detection Counters Bar */}
@@ -412,7 +412,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
               <span className="text-[#3D322B] dark:text-[#D6C7B5] font-semibold">
                 Total Transaksi Bank (20 Bank):
               </span>
-              <span className="px-2.5 py-1 rounded-lg bg-[#EAE0D2] dark:bg-[#2C1E16] border border-[#CBB9A0] dark:border-[#4D3627] font-mono-tabular font-extrabold text-black dark:text-white">
+              <span className="px-2.5 py-1 rounded-lg bg-[#EAE0D2] dark:bg-[#2C1E16] border border-[#CBB9A0] dark:border-[#D4A373]/75 font-mono-tabular font-extrabold text-black dark:text-white">
                 {analysis.totalBankTx}
               </span>
             </div>
@@ -429,7 +429,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
           </div>
 
           {/* Horizontal Bank Matrix Table */}
-          <div className="overflow-x-auto rounded-xl border border-[#CBB9A0] dark:border-[#4D3627]">
+          <div className="overflow-x-auto rounded-xl border border-[#CBB9A0] dark:border-[#D4A373]/75">
             <table className="w-full text-center border-collapse min-w-[1180px]">
               <thead>
                 <tr className="text-[10px] font-extrabold uppercase tracking-wider">
@@ -454,7 +454,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
                   {BANK_COLUMNS.map((bank) => (
                     <td
                       key={bank}
-                      className={`py-3 px-2 border-r border-[#DFD1BE] dark:border-[#2E1F16] ${
+                      className={`py-3 px-2 border-r border-[#DFD1BE] dark:border-[#C59656]/35 ${
                         analysis.counts[bank] > 0
                           ? 'text-[#4A2B18] dark:text-[#E5B874]'
                           : 'text-black dark:text-white'
@@ -463,7 +463,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
                       {analysis.counts[bank]}
                     </td>
                   ))}
-                  <td className="py-3 px-3 border-r border-[#DFD1BE] dark:border-[#2E1F16] text-black dark:text-white bg-[#EFE7DC] dark:bg-[#1F150F]">
+                  <td className="py-3 px-3 border-r border-[#DFD1BE] dark:border-[#C59656]/35 text-black dark:text-white bg-[#EFE7DC] dark:bg-[#1F150F]">
                     {analysis.totalBankTx}
                   </td>
                   <td className="py-3 px-3 text-[#9F1239] dark:text-[#FDA4AF] bg-[#FBE7EB]/60 dark:bg-[#3E1621]/50">
@@ -484,7 +484,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
             <button
               type="button"
               onClick={handleCopyAllColumns}
-              className="lg:col-span-4 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer"
+              className="lg:col-span-4 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer"
             >
               <Copy className="w-3.5 h-3.5" />
               <span>Copy Semua Kolom (20 Bank)</span>
@@ -502,7 +502,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
             <button
               type="button"
               onClick={handleCopyChatFormat}
-              className="lg:col-span-3 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-[#F4EDE3] dark:bg-[#211711] dark:hover:bg-[#2C1E16] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer"
+              className="lg:col-span-3 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-[#F4EDE3] dark:bg-[#211711] dark:hover:bg-[#2C1E16] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer"
             >
               <MessageSquare className="w-3.5 h-3.5" />
               <span>Salin Format Chat CS</span>
@@ -521,7 +521,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
       )}
 
       {mode === 'rekap-koin' && (
-        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 space-y-4">
+        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <h2 className="text-base font-extrabold text-black dark:text-white">
@@ -550,10 +550,10 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
             rows={4}
             value={coinRaw}
             onChange={(e) => setCoinRaw(e.target.value)}
-            className="w-full p-3.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular"
+            className="w-full p-3.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular"
           />
 
-          <div className="overflow-x-auto rounded-xl border border-[#DFD1BE] dark:border-[#3A281D]">
+          <div className="overflow-x-auto rounded-xl border border-[#DFD1BE] dark:border-[#C59656]/60">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
                 <tr className="bg-[#F4EDE3] dark:bg-[#291C14] text-[11px] font-extrabold uppercase text-[#3D322B] dark:text-[#D6C7B5]">
@@ -563,7 +563,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
                   <th className="py-2.5 px-4 text-right">NETTO</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#EAE0D2] dark:divide-[#2E1F16] font-mono-tabular">
+              <tbody className="divide-y divide-[#EAE0D2] dark:divide-[#C59656]/30 font-mono-tabular">
                 {coinSummary.rows.map((r, idx) => (
                   <tr key={idx}>
                     <td className="py-2.5 px-4 font-extrabold text-black dark:text-white">
@@ -587,7 +587,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
       )}
 
       {mode === 'data-turnover' && (
-        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 space-y-4">
+        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <h2 className="text-base font-extrabold text-black dark:text-white">
@@ -616,11 +616,11 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
             rows={4}
             value={turnoverRaw}
             onChange={(e) => setTurnoverRaw(e.target.value)}
-            className="w-full p-3.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular"
+            className="w-full p-3.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular"
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="p-3.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] border border-[#DFD1BE] dark:border-[#3A281D]">
+            <div className="p-3.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] border border-[#DFD1BE] dark:border-[#C59656]/60">
               <div className="text-[11px] font-bold text-[#3D322B] dark:text-[#D6C7B5]">
                 TOTAL TURNOVER
               </div>
@@ -628,7 +628,7 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
                 {formatRupiah(turnoverSummary.totalTo)}
               </div>
             </div>
-            <div className="p-3.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] border border-[#DFD1BE] dark:border-[#3A281D]">
+            <div className="p-3.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] border border-[#DFD1BE] dark:border-[#C59656]/60">
               <div className="text-[11px] font-bold text-[#3D322B] dark:text-[#D6C7B5]">
                 TOTAL WIN / LOSE
               </div>

@@ -143,7 +143,7 @@ export const RekapanWlSportbooksPanel: React.FC<
 
   return (
     <div className="max-w-5xl mx-auto">
-      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 sm:p-7 space-y-5 shadow-xs">
+      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 sm:p-7 space-y-5 shadow-xs">
         {/* Centered Header */}
         <div className="text-center space-y-1.5">
           <h1 className="text-2xl sm:text-3xl font-extrabold text-[#4A2B18] dark:text-[#E5B874]">
@@ -155,7 +155,7 @@ export const RekapanWlSportbooksPanel: React.FC<
         </div>
 
         {/* Excel Column Layout Guide */}
-        <div className="rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] border border-[#DFD1BE] dark:border-[#3A281D] p-4 space-y-1.5">
+        <div className="rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] border border-[#DFD1BE] dark:border-[#C59656]/60 p-4 space-y-1.5">
           <div className="text-xs font-extrabold text-black dark:text-white">
             Susunan Kolom Excel (Paste mulai dari Sel AK3):
           </div>
@@ -182,7 +182,7 @@ export const RekapanWlSportbooksPanel: React.FC<
             value={rawInput}
             onChange={(e) => setRawInput(e.target.value)}
             placeholder="Tempelkan data tabel di sini..."
-            className="w-full p-4 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
+            className="w-full p-4 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
           />
         </div>
 
@@ -191,7 +191,7 @@ export const RekapanWlSportbooksPanel: React.FC<
           <button
             type="button"
             onClick={() => setRawInput('')}
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer"
           >
             <Eraser className="w-3.5 h-3.5" />
             <span>Clear</span>
@@ -226,7 +226,7 @@ export const RekapanWlSportbooksPanel: React.FC<
             rows={5}
             value={converted.tsv}
             placeholder="Hasil konversi 1 baris berbentuk tab Excel..."
-            className="w-full p-4 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular focus:outline-none"
+            className="w-full p-4 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular focus:outline-none"
           />
         </div>
       </div>

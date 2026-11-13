@@ -54,10 +54,6 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
     () => cashierQueue.filter((item) => item.type === 'DP' && item.status === 'PENDING').length,
     [cashierQueue]
   );
-  const totalPendingCashier = useMemo(
-    () => cashierQueue.filter((item) => item.status === 'PENDING').length,
-    [cashierQueue]
-  );
   const onlineBankCount = useMemo(
     () => bankChannels.filter((b) => b.status === 'ONLINE').length,
     [bankChannels]
@@ -97,7 +93,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
   return (
     <div className="space-y-6">
       {/* Operational Shift Header Card */}
-      <section className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 sm:p-6 shadow-xs">
+      <section className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 sm:p-6 shadow-xs">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
           <div className="space-y-2 max-w-2xl">
             <div className="flex flex-wrap items-center gap-2 text-xs">
@@ -122,20 +118,20 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
               untuk penarikan instan,{' '}
               <button
                 type="button"
-                onClick={() => onNavigate('bagi-bonus')}
+                onClick={() => onNavigate('rekapan-toto')}
                 className="font-bold text-[#6E3E20] dark:text-[#E5B874] hover:underline cursor-pointer"
               >
-                TOOLS CS
+                ISI REKAPAN
               </button>{' '}
-              untuk kelola bonus &amp; rekapan, dan{' '}
+              untuk validasi &amp; rekapan, serta{' '}
               <button
                 type="button"
-                onClick={() => onNavigate('info-dp-wd')}
+                onClick={() => onNavigate('edit-pembayaran')}
                 className="font-bold text-[#6E3E20] dark:text-[#E5B874] hover:underline cursor-pointer"
               >
-                TOOLS KASIR
+                EDITING
               </button>{' '}
-              untuk verifikasi mutasi rekening.
+              untuk kelola struk &amp; transaksi.
             </p>
           </div>
 
@@ -151,11 +147,11 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
 
             <button
               type="button"
-              onClick={() => onNavigate('info-dp-wd')}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold tracking-wide transition-colors cursor-pointer whitespace-nowrap"
+              onClick={() => onNavigate('edit-pembayaran')}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold tracking-wide transition-colors cursor-pointer whitespace-nowrap"
             >
-              <ArrowUpDown className="w-4 h-4 text-[#4A2B18] dark:text-[#E5B874]" />
-              <span>ANTRIAN DP/WD ({totalPendingCashier})</span>
+              <FileText className="w-4 h-4 text-[#4A2B18] dark:text-[#E5B874]" />
+              <span>EDITING</span>
             </button>
           </div>
         </div>
@@ -163,7 +159,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
 
       {/* 4 KPI Summary Strip */}
       <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 flex flex-col justify-between gap-3">
+        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 flex flex-col justify-between gap-3">
           <div className="flex items-center justify-between gap-2">
             <span className="text-xs font-extrabold tracking-wide uppercase text-[#3D322B] dark:text-[#D6C7B5]">
               WD AUTO FLOP SUKSES
@@ -185,7 +181,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
           </p>
         </div>
 
-        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 flex flex-col justify-between gap-3">
+        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 flex flex-col justify-between gap-3">
           <div className="flex items-center justify-between gap-2">
             <span className="text-xs font-extrabold tracking-wide uppercase text-[#3D322B] dark:text-[#D6C7B5]">
               ANTRIAN DP PENDING
@@ -207,7 +203,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
           </p>
         </div>
 
-        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 flex flex-col justify-between gap-3">
+        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 flex flex-col justify-between gap-3">
           <div className="flex items-center justify-between gap-2">
             <span className="text-xs font-extrabold tracking-wide uppercase text-[#3D322B] dark:text-[#D6C7B5]">
               REKENING BANK CS
@@ -229,7 +225,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
           </p>
         </div>
 
-        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 flex flex-col justify-between gap-3">
+        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 flex flex-col justify-between gap-3">
           <div className="flex items-center justify-between gap-2">
             <span className="text-xs font-extrabold tracking-wide uppercase text-[#3D322B] dark:text-[#D6C7B5]">
               LAPORAN CS HARI INI
@@ -255,8 +251,8 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
       {/* Main Operational Split: WD Monitoring Table (Left) + Member Lookup & Bank Accounts (Right) */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left: Monitoring Antrian WD Auto Flop */}
-        <div className="lg:col-span-8 rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] overflow-hidden">
-          <div className="px-5 py-4 border-b border-[#E5DACB] dark:border-[#332218] flex flex-wrap items-center justify-between gap-3">
+        <div className="lg:col-span-8 rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 overflow-hidden">
+          <div className="px-5 py-4 border-b border-[#E5DACB] dark:border-[#C59656]/35 flex flex-wrap items-center justify-between gap-3">
             <div>
               <h2 className="text-base font-extrabold text-black dark:text-white">
                 MONITORING ANTRIAN WD AUTO FLOP
@@ -277,7 +273,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse min-w-[680px]">
               <thead>
-                <tr className="bg-[#F4EDE3] dark:bg-[#291C14] border-b border-[#DFD1BE] dark:border-[#3A281D] text-[11px] font-extrabold tracking-wider uppercase text-[#3D322B] dark:text-[#D6C7B5]">
+                <tr className="bg-[#F4EDE3] dark:bg-[#291C14] border-b border-[#DFD1BE] dark:border-[#C59656]/60 text-[11px] font-extrabold tracking-wider uppercase text-[#3D322B] dark:text-[#D6C7B5]">
                   <th className="py-3 px-4">ID &amp; WAKTU</th>
                   <th className="py-3 px-4">USER ID</th>
                   <th className="py-3 px-4">TUJUAN BANK</th>
@@ -286,7 +282,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
                   <th className="py-3 px-4 text-center">AKSI</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#EAE0D2] dark:divide-[#2E1F16] text-xs">
+              <tbody className="divide-y divide-[#EAE0D2] dark:divide-[#C59656]/30 text-xs">
                 {wdQueue.slice(0, 5).map((row) => (
                   <tr
                     key={row.id}
@@ -357,7 +353,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
                             )
                           }
                           title="Salin detail transaksi"
-                          className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-[#F4EDE3] hover:bg-[#EAE0D2] dark:bg-[#2B1D14] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#D4C4AE] dark:border-[#4D3627] transition-colors cursor-pointer"
+                          className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-[#F4EDE3] hover:bg-[#EAE0D2] dark:bg-[#2B1D14] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#D4C4AE] dark:border-[#D4A373]/75 transition-colors cursor-pointer"
                         >
                           {copiedId === row.id ? (
                             <Check className="w-3.5 h-3.5 text-[#147D4E] dark:text-[#6EE7A8]" />
@@ -377,7 +373,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
         {/* Right Column: Cari Cepat Member + Rekening Tujuan CS Siap Salin */}
         <div className="lg:col-span-4 space-y-6">
           {/* Cari Cepat Member & Rek */}
-          <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 space-y-4">
+          <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 space-y-4">
             <div className="flex items-center gap-2">
               <Search className="w-4 h-4 text-[#4A2B18] dark:text-[#E5B874]" />
               <h2 className="text-sm font-extrabold text-black dark:text-white">
@@ -397,7 +393,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
                 value={lookupQuery}
                 onChange={(e) => setLookupQuery(e.target.value)}
                 placeholder="Ketik User ID / No Rek..."
-                className="flex-1 min-w-0 px-3.5 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white placeholder-[#6B5D54] dark:placeholder-[#9E8B78] border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#D4A373]"
+                className="flex-1 min-w-0 px-3.5 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white placeholder-[#6B5D54] dark:placeholder-[#9E8B78] border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#D4A373]"
               />
               <button
                 type="submit"
@@ -424,7 +420,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
             </div>
 
             {lookupResult && (
-              <div className="rounded-xl bg-[#F4EDE3] dark:bg-[#291C14] border border-[#CBB9A0] dark:border-[#4D3627] p-3.5 space-y-2 text-xs">
+              <div className="rounded-xl bg-[#F4EDE3] dark:bg-[#291C14] border border-[#CBB9A0] dark:border-[#D4A373]/75 p-3.5 space-y-2 text-xs">
                 <div className="flex items-center justify-between gap-2">
                   <span className="font-extrabold text-black dark:text-white">
                     {lookupResult.userId}
@@ -457,7 +453,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
                     Salin Rek
                   </button>
                 </div>
-                <div className="pt-1.5 border-t border-[#DFD1BE] dark:border-[#3D2B20] flex items-center justify-between">
+                <div className="pt-1.5 border-t border-[#DFD1BE] dark:border-[#C59656]/55 flex items-center justify-between">
                   <span className="text-[#3D322B] dark:text-[#D6C7B5]">Saldo Dompet:</span>
                   <span className="font-extrabold text-black dark:text-white font-mono-tabular">
                     {formatRupiah(lookupResult.balance)}
@@ -474,7 +470,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
           </div>
 
           {/* Rekening Tujuan CS Siap Salin */}
-          <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 space-y-3.5">
+          <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 space-y-3.5">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <Landmark className="w-4 h-4 text-[#4A2B18] dark:text-[#E5B874]" />
@@ -495,7 +491,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
               {bankChannels.slice(0, 4).map((bank) => (
                 <div
                   key={bank.id}
-                  className="rounded-xl bg-[#F8F4EE] dark:bg-[#291C14] border border-[#DFD1BE] dark:border-[#3D2B20] p-3 flex items-center justify-between gap-3"
+                  className="rounded-xl bg-[#F8F4EE] dark:bg-[#291C14] border border-[#DFD1BE] dark:border-[#C59656]/55 p-3 flex items-center justify-between gap-3"
                 >
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
@@ -532,7 +528,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({
                       )
                     }
                     title={`Salin rekening ${bank.bankName}`}
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-white hover:bg-[#EAE0D2] dark:bg-[#1F150F] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] transition-colors shrink-0 cursor-pointer"
+                    className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-white hover:bg-[#EAE0D2] dark:bg-[#1F150F] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 transition-colors shrink-0 cursor-pointer"
                   >
                     {copiedId === bank.id ? (
                       <Check className="w-4 h-4 text-[#147D4E] dark:text-[#6EE7A8]" />

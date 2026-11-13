@@ -278,10 +278,10 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
   return (
     <div className="space-y-5">
       {/* Top Header Card */}
-      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
+      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
         <div className="space-y-1">
           <div className="flex flex-wrap items-center gap-2 text-[11px] font-extrabold uppercase tracking-wider text-[#4A2B18] dark:text-[#E5B874]">
-            <span className="px-2 py-0.5 rounded bg-[#EAE0D2] dark:bg-[#2E2017] border border-[#CBB9A0] dark:border-[#4D3627]">
+            <span className="px-2 py-0.5 rounded bg-[#EAE0D2] dark:bg-[#2E2017] border border-[#CBB9A0] dark:border-[#D4A373]/75">
               TOOLS KASIR
             </span>
             <span>Ekstraksi Laporan DP, WD &amp; Flop</span>
@@ -298,7 +298,7 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
 
         {/* Right Controls: Kode Alias, Sertakan NB, Nominal Filter */}
         <div className="flex flex-wrap items-center gap-2.5">
-          <div className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] border border-[#CBB9A0] dark:border-[#4D3627] text-xs">
+          <div className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs">
             <span className="font-bold text-[#3D322B] dark:text-[#D6C7B5] whitespace-nowrap">
               Kode Alias:
             </span>
@@ -307,7 +307,7 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
               value={aliasInput}
               onChange={(e) => setAliasInput(e.target.value)}
               placeholder="CONTOH: G1,"
-              className="w-24 px-2 py-0.5 rounded bg-white dark:bg-[#1F150F] text-black dark:text-white border border-[#D4C4AE] dark:border-[#3A281D] text-xs font-mono-tabular font-bold focus:outline-none"
+              className="w-24 px-2 py-0.5 rounded bg-white dark:bg-[#1F150F] text-black dark:text-white border border-[#D4C4AE] dark:border-[#C59656]/60 text-xs font-mono-tabular font-bold focus:outline-none"
             />
           </div>
 
@@ -317,7 +317,7 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
             className={`px-3.5 py-2 rounded-xl text-xs font-extrabold border cursor-pointer whitespace-nowrap ${
               includeNb
                 ? 'bg-[#4A2B18] text-white border-[#4A2B18] dark:bg-[#C59656] dark:text-[#140D09] dark:border-[#C59656]'
-                : 'bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border-[#CBB9A0] dark:border-[#4D3627]'
+                : 'bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border-[#CBB9A0] dark:border-[#D4A373]/75'
             }`}
           >
             Sertakan NB: {includeNb ? 'YA' : 'TIDAK'}
@@ -326,7 +326,7 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
           <select
             value={nominalFilter}
             onChange={(e) => setNominalFilter(e.target.value as NominalFilter)}
-            className="px-3.5 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold focus:outline-none"
+            className="px-3.5 py-2 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold focus:outline-none"
           >
             <option value="ALL">Semua Nominal (Tanpa Filter)</option>
             <option value="500K">Minimal Rp 500.000</option>
@@ -336,7 +336,7 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
       </div>
 
       {/* Info Strip */}
-      <div className="rounded-xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] px-4 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs">
+      <div className="rounded-xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 px-4 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs">
         <span className="font-semibold text-[#3D322B] dark:text-[#D6C7B5]">
           Otomatis: Format mentah yang ditempel akan otomatis hilang setelah hasil
           laporan di-copy.
@@ -347,7 +347,7 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
           className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[11px] font-extrabold border cursor-pointer ${
             timer5sActive
               ? 'bg-[#E4F4EC] text-[#0E603A] border-[#9FD7B9] dark:bg-[#143B27] dark:text-[#7CE8AD] dark:border-[#246342]'
-              : 'bg-[#F8F4EE] text-black border-[#CBB9A0] dark:bg-[#140D09] dark:text-white dark:border-[#4D3627]'
+              : 'bg-[#F8F4EE] text-black border-[#CBB9A0] dark:bg-[#140D09] dark:text-white dark:border-[#D4A373]/75'
           }`}
         >
           <Timer className="w-3.5 h-3.5" />
@@ -358,10 +358,10 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
       {/* Middle 2-Column Workspace: Box 01 & Box 02 */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
         {/* Box 01 */}
-        <div className="lg:col-span-6 rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 flex flex-col gap-3">
+        <div className="lg:col-span-6 rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 flex flex-col gap-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2.5">
-              <span className="px-2 py-0.5 rounded bg-[#EAE0D2] dark:bg-[#2E2017] border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold font-mono-tabular text-[#4A2B18] dark:text-[#E5B874]">
+              <span className="px-2 py-0.5 rounded bg-[#EAE0D2] dark:bg-[#2E2017] border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold font-mono-tabular text-[#4A2B18] dark:text-[#E5B874]">
                 01
               </span>
               <div>
@@ -378,12 +378,12 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
               <button
                 type="button"
                 onClick={handlePasteClipboard}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-[10px] font-extrabold cursor-pointer"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-[10px] font-extrabold cursor-pointer"
               >
                 <ClipboardPaste className="w-3 h-3" />
                 <span>PASTE CLIPBOARD</span>
               </button>
-              <span className="px-2 py-1 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] border border-[#D4C4AE] dark:border-[#3A281D] text-[10px] font-extrabold text-[#4A2B18] dark:text-[#E5B874]">
+              <span className="px-2 py-1 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] border border-[#D4C4AE] dark:border-[#C59656]/60 text-[10px] font-extrabold text-[#4A2B18] dark:text-[#E5B874]">
                 INPUT KASIR
               </span>
             </div>
@@ -398,7 +398,7 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
             }}
             onPaste={() => scheduleAutoClear()}
             placeholder={`Tempelkan format report WD / DP / Flop di sini...\n\nFormat yang didukung otomatis:\n1. WD Multi-line:\n1 goshjay\nWithdraw 2026-08-28 05:54:45 600,000 145\nG4\nGOPAY, 088279904053, Pudja Arafat\n\n2. WD Baris Log:\n1 2026-08-28 05:54:45 goshjay Withdraw Pudja Arafat, 088279904053, GOPAY - 300,000 ACCEPT\n\n3. Format Flop:\npasti99 adi suryadi, 082219020312, DANA 5,000,000 5,000,000`}
-            className="flex-1 w-full p-3.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
+            className="flex-1 w-full p-3.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
           />
 
           <div className="flex items-center gap-2.5">
@@ -406,7 +406,7 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
               type="button"
               disabled={!rawInput.trim()}
               onClick={() => onCopyText(rawInput, 'Data Mentah Kasir')}
-              className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold disabled:opacity-45 cursor-pointer"
+              className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold disabled:opacity-45 cursor-pointer"
             >
               <Copy className="w-3.5 h-3.5" />
               <span>Copy Data Mentah</span>
@@ -426,10 +426,10 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
         </div>
 
         {/* Box 02 */}
-        <div className="lg:col-span-6 rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 flex flex-col gap-3">
+        <div className="lg:col-span-6 rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 flex flex-col gap-3">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5">
-              <span className="px-2 py-0.5 rounded bg-[#EAE0D2] dark:bg-[#2E2017] border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold font-mono-tabular text-[#4A2B18] dark:text-[#E5B874]">
+              <span className="px-2 py-0.5 rounded bg-[#EAE0D2] dark:bg-[#2E2017] border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold font-mono-tabular text-[#4A2B18] dark:text-[#E5B874]">
                 02
               </span>
               <div>
@@ -444,7 +444,7 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
               </div>
             </div>
 
-            <span className="px-2.5 py-1 rounded-lg bg-[#EAE0D2] dark:bg-[#2C1E16] border border-[#CBB9A0] dark:border-[#4D3627] text-[10px] font-extrabold text-[#4A2B18] dark:text-[#E5B874]">
+            <span className="px-2.5 py-1 rounded-lg bg-[#EAE0D2] dark:bg-[#2C1E16] border border-[#CBB9A0] dark:border-[#D4A373]/75 text-[10px] font-extrabold text-[#4A2B18] dark:text-[#E5B874]">
               READY TO COPY
             </span>
           </div>
@@ -454,7 +454,7 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
             rows={10}
             value={compiledReport}
             placeholder="Laporan hasil ekstraksi otomatis akan langsung muncul di sini sesuai format standar kasir..."
-            className="flex-1 w-full p-3.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular focus:outline-none"
+            className="flex-1 w-full p-3.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular focus:outline-none"
           />
 
           <button
@@ -488,10 +488,10 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
       </div>
 
       {/* Bottom Box 03: Tabel Transaksi & Pengaturan Keterangan */}
-      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] overflow-hidden">
-        <div className="p-4 sm:p-5 border-b border-[#E5DACB] dark:border-[#332218] flex flex-col xl:flex-row xl:items-center xl:justify-between gap-3">
+      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 overflow-hidden">
+        <div className="p-4 sm:p-5 border-b border-[#E5DACB] dark:border-[#C59656]/35 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <span className="px-2 py-0.5 rounded bg-[#EAE0D2] dark:bg-[#2E2017] border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold font-mono-tabular text-[#4A2B18] dark:text-[#E5B874]">
+            <span className="px-2 py-0.5 rounded bg-[#EAE0D2] dark:bg-[#2E2017] border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold font-mono-tabular text-[#4A2B18] dark:text-[#E5B874]">
               03
             </span>
             <div>
@@ -509,7 +509,7 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
             <button
               type="button"
               onClick={() => applyAllKeterangan('')}
-              className="px-2.5 py-1.5 rounded-lg bg-[#F8F4EE] hover:bg-[#EAE0D2] dark:bg-[#140D09] dark:hover:bg-[#2C1E16] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-[11px] font-bold cursor-pointer"
+              className="px-2.5 py-1.5 rounded-lg bg-[#F8F4EE] hover:bg-[#EAE0D2] dark:bg-[#140D09] dark:hover:bg-[#2C1E16] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-[11px] font-bold cursor-pointer"
             >
               Kosongkan Ket
             </button>
@@ -540,7 +540,7 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
               onChange={(e) => {
                 if (e.target.value) applyAllKeterangan(e.target.value);
               }}
-              className="px-2.5 py-1.5 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-[11px] font-bold"
+              className="px-2.5 py-1.5 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-[11px] font-bold"
             >
               <option value="">Ubah Semua: Pilih Keterangan...</option>
               {KETERANGAN_OPTIONS.map((opt) => (
@@ -565,7 +565,7 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[860px]">
             <thead>
-              <tr className="bg-[#F4EDE3] dark:bg-[#291C14] border-b border-[#DFD1BE] dark:border-[#3A281D] text-[10px] font-extrabold uppercase tracking-wider text-[#3D322B] dark:text-[#D6C7B5]">
+              <tr className="bg-[#F4EDE3] dark:bg-[#291C14] border-b border-[#DFD1BE] dark:border-[#C59656]/60 text-[10px] font-extrabold uppercase tracking-wider text-[#3D322B] dark:text-[#D6C7B5]">
                 <th className="py-2.5 px-4">NO</th>
                 <th className="py-2.5 px-4">TANGGAL &amp; JAM</th>
                 <th className="py-2.5 px-4">USER ID</th>
@@ -576,7 +576,7 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
                 <th className="py-2.5 px-4 text-center">STATUS</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#EAE0D2] dark:divide-[#2E1F16] text-xs">
+            <tbody className="divide-y divide-[#EAE0D2] dark:divide-[#C59656]/30 text-xs">
               {visibleRows.length === 0 ? (
                 <tr>
                   <td
@@ -622,7 +622,7 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
                           }))
                         }
                         placeholder="G1"
-                        className="w-20 px-2 py-1 rounded bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-bold"
+                        className="w-20 px-2 py-1 rounded bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-bold"
                       />
                     </td>
                     <td className="py-2.5 px-4">
@@ -639,7 +639,7 @@ export const InfoDpWdPanel: React.FC<InfoDpWdPanelProps> = ({ onCopyText }) => {
                             },
                           }))
                         }
-                        className="w-48 px-2 py-1 rounded bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-bold"
+                        className="w-48 px-2 py-1 rounded bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-bold"
                       />
                     </td>
                     <td className="py-2.5 px-4 text-center">

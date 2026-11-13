@@ -8,8 +8,8 @@ export type NavRoute =
   | 'rekapan-toto'
   | 'rekapan-wl-sportbooks'
   | 'laporan-cs'
-  | 'info-dp-wd'
-  | 'info-spasi';
+  | 'validasi'
+  | 'cek-nawala';
 
 export type WdStatus = 'FLOP SUKSES' | 'WAITING' | 'MANUAL';
 

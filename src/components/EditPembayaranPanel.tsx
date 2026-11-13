@@ -378,7 +378,7 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
   return (
     <div className="space-y-5">
       {/* Compact Header + Category Bar */}
-      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] px-4 py-3 space-y-2.5">
+      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 px-4 py-3 space-y-2.5">
         <div className="space-y-0.5">
           <div className="text-[11px] font-extrabold uppercase tracking-wider text-[#4A2B18] dark:text-[#E5B874]">
             PAYMENT &amp; TRANSACTION SUITE
@@ -388,7 +388,7 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
           </h1>
         </div>
 
-        <div className="pt-2 border-t border-[#EAE0D2] dark:border-[#332218] flex flex-wrap items-center gap-2">
+        <div className="pt-2 border-t border-[#EAE0D2] dark:border-[#C59656]/35 flex flex-wrap items-center gap-2">
           <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#4A2B18] dark:text-[#E5B874] mr-1 whitespace-nowrap">
             PILIHAN KATEGORI EDIT :
           </span>
@@ -407,7 +407,7 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
                       : 'bg-[#4A2B18] text-white border-[#4A2B18] dark:bg-[#C59656] dark:text-[#140D09] dark:border-[#C59656]'
                     : isInvoiceRed
                       ? 'bg-[#FBE7EB] dark:bg-[#3E1621] text-[#9F1239] dark:text-[#FDA4AF] border-[#F2B8C6] dark:border-[#70263A] hover:brightness-95'
-                      : 'bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border-[#CBB9A0] dark:border-[#4D3627] hover:bg-[#EAE0D2] dark:hover:bg-[#2C1E16]'
+                      : 'bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border-[#CBB9A0] dark:border-[#D4A373]/75 hover:bg-[#EAE0D2] dark:hover:bg-[#2C1E16]'
                 }`}
               >
                 {cat.id === 'slot' ? (
@@ -424,10 +424,10 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
         </div>
       </div>
 
-      {activeCategory !== 'slot' && (
+      {activeCategory === 'struk' && (
         <>
           {/* Bank Channel Selector Strip (Strictly the 6 user-requested channels) */}
-          <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] px-4 py-3 flex flex-wrap items-center gap-2.5">
+          <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 px-4 py-3 flex flex-wrap items-center gap-2.5">
             <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#4A2B18] dark:text-[#E5B874] mr-1">
               PILIH BANK / STRUK:
             </span>
@@ -441,7 +441,7 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
                   className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-extrabold border transition-colors cursor-pointer whitespace-nowrap ${
                     active
                       ? 'bg-[#4A2B18] text-white border-[#4A2B18] dark:bg-[#C59656] dark:text-[#140D09] dark:border-[#C59656] shadow-xs'
-                      : 'bg-[#F8F4EE] hover:bg-[#EAE0D2] dark:bg-[#140D09] dark:hover:bg-[#2C1E16] text-black dark:text-white border-[#CBB9A0] dark:border-[#4D3627]'
+                      : 'bg-[#F8F4EE] hover:bg-[#EAE0D2] dark:bg-[#140D09] dark:hover:bg-[#2C1E16] text-black dark:text-white border-[#CBB9A0] dark:border-[#D4A373]/75'
                   }`}
                 >
                   <Smartphone className="w-3.5 h-3.5" />
@@ -452,7 +452,7 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
           </div>
 
           {/* Selected Bank Banner */}
-          <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
+          <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
             <div className="space-y-0.5">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="text-sm font-extrabold text-black dark:text-white uppercase">
@@ -468,7 +468,7 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
             <button
               type="button"
               onClick={handleCycleBank}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer whitespace-nowrap"
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span>Pilih Bank Lain &rarr;</span>
@@ -480,7 +480,10 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
       {/* Main Editor Workspace */}
       {activeCategory === 'slot' ? (
         <TransaksiSlotPanel onCopyText={onCopyText} />
-      ) : selectedBank === 'MY - BCA' && activeCategory === 'struk' ? (
+      ) : activeCategory === 'togel' ||
+        activeCategory === 'invoice-merah' ||
+        activeCategory === 'livegame' ? null : selectedBank === 'MY - BCA' &&
+        activeCategory === 'struk' ? (
         <MyBcaGeneratorEmbed />
       ) : selectedBank === 'BCA MOBILE' && activeCategory === 'struk' ? (
         <BcaMobileGeneratorEmbed />
@@ -495,8 +498,8 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
       ) : (
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left: Editor Form Card */}
-        <div className="lg:col-span-6 rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 space-y-4 shadow-xs">
-          <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#E5DACB] dark:border-[#332218]">
+        <div className="lg:col-span-6 rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 space-y-4 shadow-xs">
+          <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#E5DACB] dark:border-[#C59656]/35">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#4A2B18] dark:bg-[#E5B874]" />
               <h2 className="text-sm font-extrabold uppercase tracking-wide text-black dark:text-white">
@@ -507,7 +510,7 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
             <button
               type="button"
               onClick={() => setDateTime(formatNowDdMmYyyy())}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-[11px] font-extrabold cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-[11px] font-extrabold cursor-pointer"
             >
               <Clock className="w-3.5 h-3.5" />
               <span>Waktu Sekarang</span>
@@ -524,28 +527,18 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
                   type="text"
                   value={memberId}
                   onChange={(e) => setMemberId(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-bold"
+                  className="w-full px-3 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-bold"
                 />
               </div>
               <div>
                 <label className="block text-[11px] font-extrabold text-black dark:text-white mb-1">
-                  {activeCategory === 'togel' || activeCategory === 'invoice-merah'
-                    ? 'Pasaran & Angka Bet'
-                    : 'Provider / Permainan'}
+                  Provider / Permainan
                 </label>
                 <input
                   type="text"
-                  value={
-                    activeCategory === 'togel' || activeCategory === 'invoice-merah'
-                      ? betPeriod
-                      : providerGame
-                  }
-                  onChange={(e) =>
-                    activeCategory === 'togel' || activeCategory === 'invoice-merah'
-                      ? setBetPeriod(e.target.value)
-                      : setProviderGame(e.target.value)
-                  }
-                  className="w-full px-3 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-bold"
+                  value={providerGame}
+                  onChange={(e) => setProviderGame(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-bold"
                 />
               </div>
             </div>
@@ -559,7 +552,7 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
               type="text"
               value={nominal}
               onChange={(e) => setNominal(formatDots(e.target.value))}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-[#147D4E] dark:text-[#6EE7A8] border border-[#CBB9A0] dark:border-[#4D3627] text-sm font-mono-tabular font-extrabold focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-[#147D4E] dark:text-[#6EE7A8] border border-[#CBB9A0] dark:border-[#D4A373]/75 text-sm font-mono-tabular font-extrabold focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
             />
           </div>
 
@@ -571,7 +564,7 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
               type="text"
               value={recipientName}
               onChange={(e) => setRecipientName(e.target.value.toUpperCase())}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold uppercase focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold uppercase focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
             />
           </div>
 
@@ -584,7 +577,7 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
                 type="text"
                 value={senderAcc}
                 onChange={(e) => setSenderAcc(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-bold"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-bold"
               />
             </div>
             <div>
@@ -595,7 +588,7 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
                 type="text"
                 value={recipientAcc}
                 onChange={(e) => setRecipientAcc(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-[#4A2B18] dark:text-[#E5B874] border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-extrabold"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-[#4A2B18] dark:text-[#E5B874] border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-extrabold"
               />
             </div>
           </div>
@@ -609,7 +602,7 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
                 type="text"
                 value={dateTime}
                 onChange={(e) => setDateTime(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-semibold"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-semibold"
               />
             </div>
             <div>
@@ -621,13 +614,13 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
                   type="text"
                   value={refCode}
                   onChange={(e) => setRefCode(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular font-semibold"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-semibold"
                 />
               ) : (
                 <select
                   value={betStatus}
                   onChange={(e) => setBetStatus(e.target.value as typeof betStatus)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold"
                 >
                   <option value="SUKSES">SUKSES</option>
                   <option value="MENANG">MENANG</option>
@@ -642,7 +635,7 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
             <button
               type="button"
               onClick={handleRandomize}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer"
             >
               <Shuffle className="w-4 h-4" />
               <span>ACAK DATA</span>
@@ -661,7 +654,7 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
           <button
             type="button"
             onClick={handleCopyWhatsappText}
-            className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#F8F4EE] hover:bg-[#EAE0D2] dark:bg-[#140D09] dark:hover:bg-[#261A12] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer"
+            className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#F8F4EE] hover:bg-[#EAE0D2] dark:bg-[#140D09] dark:hover:bg-[#261A12] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold cursor-pointer"
           >
             <Copy className="w-3.5 h-3.5" />
             <span>Salin Format Teks Chat / WhatsApp</span>
@@ -669,7 +662,7 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
         </div>
 
         {/* Right: Live Phone / Canvas Preview */}
-        <div className="lg:col-span-6 rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 space-y-4 shadow-xs">
+        <div className="lg:col-span-6 rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 space-y-4 shadow-xs">
           <div className="flex items-center justify-between text-xs">
             <span className="font-extrabold text-black dark:text-white">
               Pratinjau Struk {selectedBank}
@@ -681,51 +674,8 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
 
           <div className="flex justify-center py-2">
             {/* Phone Bezel Frame */}
-            <div className="w-[310px] rounded-[28px] border-[6px] border-[#2C1E16] dark:border-[#4D3627] bg-[#140D09] shadow-xl overflow-hidden">
-              {activeCategory === 'invoice-merah' ? (
-                <div className="bg-white text-black min-h-[470px] flex flex-col">
-                  <div className="bg-[#9F1239] text-white p-4 space-y-1">
-                    <div className="text-[11px] font-extrabold uppercase tracking-wider opacity-90">
-                      INVOICE SLIP BET TOGEL
-                    </div>
-                    <div className="text-base font-extrabold">{betPeriod}</div>
-                    <div className="text-[11px] font-mono-tabular opacity-85">
-                      {dateTime}
-                    </div>
-                  </div>
-                  <div className="p-4 flex-1 space-y-3 text-xs">
-                    <div className="flex justify-between border-b border-neutral-200 pb-2">
-                      <span className="text-neutral-600 font-bold">USER ID</span>
-                      <span className="font-extrabold">{memberId}</span>
-                    </div>
-                    <div className="flex justify-between border-b border-neutral-200 pb-2">
-                      <span className="text-neutral-600 font-bold">NOMINAL BET</span>
-                      <span className="font-mono-tabular font-extrabold text-[#9F1239]">
-                        Rp {nominal},00
-                      </span>
-                    </div>
-                    <div className="flex justify-between border-b border-neutral-200 pb-2">
-                      <span className="text-neutral-600 font-bold">STATUS</span>
-                      <span className="px-2 py-0.5 rounded bg-[#FBE7EB] text-[#9F1239] font-extrabold">
-                        {betStatus}
-                      </span>
-                    </div>
-                    <div className="flex justify-between border-b border-neutral-200 pb-2">
-                      <span className="text-neutral-600 font-bold">REK TUJUAN</span>
-                      <span className="font-mono-tabular font-bold">
-                        {recipientAcc}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-neutral-600 font-bold">REF TIKET</span>
-                      <span className="font-mono-tabular">{refCode}</span>
-                    </div>
-                  </div>
-                  <div className="bg-neutral-100 p-3 text-center text-[11px] font-bold text-neutral-600">
-                    SLIP RESMI TRANSAKSI TOGEL
-                  </div>
-                </div>
-              ) : activeCategory !== 'struk' ? (
+            <div className="w-[310px] rounded-[28px] border-[6px] border-[#2C1E16] dark:border-[#D4A373]/75 bg-[#140D09] shadow-xl overflow-hidden">
+              {activeCategory !== 'struk' ? (
                 <div className="bg-[#F8F4EE] text-black min-h-[470px] flex flex-col">
                   <div className="bg-[#4A2B18] text-white p-4">
                     <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#E5B874]">
