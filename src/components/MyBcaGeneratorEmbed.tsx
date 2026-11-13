@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { ISOLATED_BLUR_HELPER_JS } from '../utils/isolatedBlurExport';
 
 const MY_BCA_BODY_AND_SCRIPT = `<h2>BUKTI TRANSFER MY-BCA</h2>
 <div class="main-wrapper">
@@ -144,65 +145,7 @@ function resetData(){
   updatePreview();
 }
 
-/* Algoritma Pixel Box Blur langsung pada Canvas ImageData agar tidak pernah hilang saat didownload */
-function applyPixelBlur(canvas, rect, radius) {
-  const r = Math.max(1, Math.round(radius));
-  const x = Math.max(0, Math.floor(rect.x));
-  const y = Math.max(0, Math.floor(rect.y));
-  const w = Math.min(canvas.width - x, Math.ceil(rect.w));
-  const h = Math.min(canvas.height - y, Math.ceil(rect.h));
-  if (w <= 0 || h <= 0) return;
-
-  const ctx = canvas.getContext('2d');
-  const imgData = ctx.getImageData(x, y, w, h);
-  const pixels = imgData.data;
-  const temp = new Uint8ClampedArray(pixels);
-
-  // 3x pass box blur untuk meniru Gaussian blur CSS secara akurat
-  for (let pass = 0; pass < 3; pass++) {
-    // Horizontal pass
-    for (let row = 0; row < h; row++) {
-      for (let col = 0; col < w; col++) {
-        let rSum = 0, gSum = 0, bSum = 0, aSum = 0, count = 0;
-        for (let k = -r; k <= r; k++) {
-          const c = Math.min(w - 1, Math.max(0, col + k));
-          const idx = (row * w + c) * 4;
-          rSum += pixels[idx];
-          gSum += pixels[idx + 1];
-          bSum += pixels[idx + 2];
-          aSum += pixels[idx + 3];
-          count++;
-        }
-        const outIdx = (row * w + col) * 4;
-        temp[outIdx] = rSum / count;
-        temp[outIdx + 1] = gSum / count;
-        temp[outIdx + 2] = bSum / count;
-        temp[outIdx + 3] = aSum / count;
-      }
-    }
-    // Vertical pass
-    for (let col = 0; col < w; col++) {
-      for (let row = 0; row < h; row++) {
-        let rSum = 0, gSum = 0, bSum = 0, aSum = 0, count = 0;
-        for (let k = -r; k <= r; k++) {
-          const rw = Math.min(h - 1, Math.max(0, row + k));
-          const idx = (rw * w + col) * 4;
-          rSum += temp[idx];
-          gSum += temp[idx + 1];
-          bSum += temp[idx + 2];
-          aSum += temp[idx + 3];
-          count++;
-        }
-        const outIdx = (row * w + col) * 4;
-        pixels[outIdx] = rSum / count;
-        pixels[outIdx + 1] = gSum / count;
-        pixels[outIdx + 2] = bSum / count;
-        pixels[outIdx + 3] = aSum / count;
-      }
-    }
-  }
-  ctx.putImageData(imgData, x, y);
-}
+${ISOLATED_BLUR_HELPER_JS}
 
 async function downloadImage(){
   const format = $('input-format').value; // 'png' atau 'jpeg'
@@ -212,60 +155,14 @@ async function downloadImage(){
   try{
     await document.fonts.ready;
 
-    // 1. Ambil koordinat elemen yang ter-blur SEBELUM filter dimatikan
-    const base = el.getBoundingClientRect();
-    const targets = [];
-    ['nama-penerima', 'rekening'].forEach(id => {
-      const wrap = $(id);
-      if (!wrap) return;
-      const spans = wrap.querySelectorAll('.partial-blur');
-      spans.forEach(s => {
-        const r = s.getBoundingClientRect();
-        if (r.width > 0 && r.height > 0) {
-          targets.push({
-            left: r.left - base.left,
-            top: r.top - base.top,
-            width: r.width,
-            height: r.height
-          });
-        }
-      });
-    });
-
-    // 2. Matikan CSS filter sementara agar html2canvas merender teks tajam terlebih dahulu
-    const blurredNodes = el.querySelectorAll('.partial-blur');
-    blurredNodes.forEach(node => {
-      node.style.filter = 'none';
-      node.style.webkitFilter = 'none';
-    });
-
-    // 3. Render elemen ke Canvas
-    const scaleFactor = 3;
-    const canvas = await html2canvas(el, {
-      scale: scaleFactor,
+    const radiusCss = parseFloat($('input-blur')?.value || '4') || 4;
+    const canvas = await renderReceiptWithIsolatedBlur(el, {
+      scale: 3,
       backgroundColor: '#ffffff',
       useCORS: true
-    });
+    }, radiusCss);
 
-    // 4. Kembalikan tampilan blur di pratinjau web
-    applyBlur();
-
-    // 5. Terapkan Pixel Blur permanen ke koordinat yang sudah disimpan
-    const kx = canvas.width / base.width;
-    const ky = canvas.height / base.height;
-    const radiusCss = parseFloat($('input-blur').value) || 4;
-    const padVal = radiusCss * 1.5;
-
-    targets.forEach(rect => {
-      applyPixelBlur(canvas, {
-        x: (rect.left - padVal) * kx,
-        y: (rect.top - padVal) * ky,
-        w: (rect.width + padVal * 2) * kx,
-        h: (rect.height + padVal * 2) * ky
-      }, radiusCss * kx * 0.65);
-    });
-
-    // 6. Ekspor sesuai pilihan format (PNG atau JPEG)
+    // Ekspor sesuai pilihan format (PNG atau JPEG)
     const mimeType = format === 'jpeg' ? 'image/jpeg' : 'image/png';
     const quality = format === 'jpeg' ? 0.95 : undefined;
     const ext = format === 'jpeg' ? 'jpg' : 'png';
@@ -279,7 +176,6 @@ async function downloadImage(){
 
     $('status').textContent = \`Gambar \${format.toUpperCase()} berhasil diunduh dengan efek blur terjaga.\`;
   } catch(err){
-    applyBlur();
     $('status').textContent = 'Gagal membuat gambar: ' + err.message;
   }
 }
