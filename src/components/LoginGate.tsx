@@ -11,7 +11,7 @@ interface LoginGateProps {
 const VALID_ID = 'donpablo';
 const VALID_PASS = '6969';
 const LOGIN_IMAGE_SRC =
-  '/assets/aistudio/8ec91335-cd7f-479e-ba84-1a3e4e825de2_28f32334.png';
+  './assets/aistudio/8ec91335-cd7f-479e-ba84-1a3e4e825de2_28f32334.png';
 
 export const LoginGate: React.FC<LoginGateProps> = ({
   isDark,

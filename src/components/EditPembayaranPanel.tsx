@@ -11,7 +11,8 @@ import {
   Shuffle,
   Smartphone,
 } from 'lucide-react';
-import { BankChannel, BankStatus } from '../types';
+import { BankChannel } from '../types';
+import { MyBcaGeneratorEmbed } from './MyBcaGeneratorEmbed';
 
 interface EditPembayaranPanelProps {
   bankChannels: BankChannel[];
@@ -127,12 +128,12 @@ function formatDots(value: string): string {
 }
 
 export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
-  bankChannels,
-  onUpdateBankChannel,
+  bankChannels: _bankChannels,
+  onUpdateBankChannel: _onUpdateBankChannel,
   onCopyText,
 }) => {
   const [activeCategory, setActiveCategory] = useState<EditCategory>('struk');
-  const [selectedBank, setSelectedBank] = useState<ReceiptBankKey>('BCA MOBILE');
+  const [selectedBank, setSelectedBank] = useState<ReceiptBankKey>('MY - BCA');
 
   // Transfer receipt state
   const [nominal, setNominal] = useState('20.000.000');
@@ -149,13 +150,8 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
   const [betStatus, setBetStatus] = useState<'SUKSES' | 'MENANG' | 'KALAH' | 'SETTLED'>('SUKSES');
 
   const bankMeta = useMemo(
-    () => RECEIPT_BANKS.find((b) => b.key === selectedBank) || RECEIPT_BANKS[1],
+    () => RECEIPT_BANKS.find((b) => b.key === selectedBank) || RECEIPT_BANKS[0],
     [selectedBank]
-  );
-
-  const matchedChannel = useMemo(
-    () => bankChannels.find((c) => c.bankName === selectedBank),
-    [bankChannels, selectedBank]
   );
 
   const handleCycleBank = () => {
@@ -462,7 +458,7 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
         })}
       </div>
 
-      {/* Selected Bank Banner + Live Channel Status Sync */}
+      {/* Selected Bank Banner */}
       <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
         <div className="space-y-0.5">
           <div className="flex flex-wrap items-center gap-2">
@@ -472,28 +468,6 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
             <span className="px-2 py-0.5 rounded bg-[#4A2B18] dark:bg-[#C59656] text-white dark:text-[#140D09] text-[10px] font-extrabold">
               {bankMeta.badge}
             </span>
-            {matchedChannel && (
-              <div className="inline-flex items-center gap-1 ml-1 p-0.5 rounded-lg bg-[#EFE7DC] dark:bg-[#140D09] border border-[#D4C4AE] dark:border-[#3A281D]">
-                {(['ONLINE', 'GANGGUAN', 'OFFLINE'] as BankStatus[]).map((st) => (
-                  <button
-                    key={st}
-                    type="button"
-                    onClick={() => onUpdateBankChannel({ ...matchedChannel, status: st })}
-                    className={`px-2 py-0.5 rounded text-[10px] font-extrabold cursor-pointer ${
-                      matchedChannel.status === st
-                        ? st === 'ONLINE'
-                          ? 'bg-[#147D4E] text-white'
-                          : st === 'GANGGUAN'
-                            ? 'bg-[#B45309] text-white'
-                            : 'bg-[#9F1239] text-white'
-                        : 'text-black dark:text-white'
-                    }`}
-                  >
-                    {st}
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
           <p className="text-xs text-[#3D322B] dark:text-[#D6C7B5]">{bankMeta.subtitle}</p>
         </div>
@@ -508,7 +482,10 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
         </button>
       </div>
 
-      {/* Main Two-Column Editor & Phone Preview */}
+      {/* Main Editor Workspace: Exact Attached Script for MY - BCA, or Multi-Bank Editor */}
+      {selectedBank === 'MY - BCA' && activeCategory === 'struk' ? (
+        <MyBcaGeneratorEmbed />
+      ) : (
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left: Editor Form Card */}
         <div className="lg:col-span-6 rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 space-y-4 shadow-xs">
@@ -877,6 +854,7 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
           </div>
         </div>
       </div>
+      )}
     </div>
   );
 };
