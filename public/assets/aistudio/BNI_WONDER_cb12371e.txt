@@ -1,0 +1,269 @@
+<div class="container">
+    <div class="left-panel">
+      <label>Nominal Transfer</label>
+      <input id="input-nominal" oninput="formatNominal(this); updateStruk();" placeholder="0">
+
+      <label>Tanggal Transaksi</label>
+      <input id="input-tanggal" oninput="updateStruk()" placeholder="04 Sep 2025">
+
+      <label>Waktu Lengkap</label>
+      <input id="input-waktu-lengkap" oninput="updateStruk()" placeholder="18:16:07 WIB">
+
+      <label>Nomor Referensi</label>
+      <input id="input-ref" oninput="updateStruk()" placeholder="0">
+
+      <label>Nama Penerima</label>
+      <input id="input-nama-penerima" oninput="updateStruk()" placeholder="ANDI SETIAWAN">
+
+      <label>No. Rekening Penerima</label>
+      <input id="input-norek-penerima" oninput="updateStruk()" placeholder="5678901234">
+
+      <label>Nama Pengirim</label>
+      <input id="input-nama-pengirim" oninput="updateStruk()" placeholder="HENDRA AJA">
+
+      <label>4 Digit Akhir Rekening Pengirim</label>
+      <input id="input-norek-pengirim-suffix" oninput="updateStruk()" maxlength="4" placeholder="012">
+
+      <div class="button-group">
+        <button class="btn-secondary" onclick="acakData()">Acak Data</button>
+        <button class="btn-primary" onclick="downloadPNG()">Download PNG</button>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="frame" id="capture">
+        <img src="https://ik.imagekit.io/donpablo69/WONDER.jpeg" class="background" alt="Struk WONDER" crossorigin="anonymous">
+        <div class="overlay">
+          <div class="header">
+              <div class="amount" id="amount">Rp55.000.000</div>
+              <div class="meta" id="datetime">11 Nov 2026 · 06:44:36 WIB ·</div>
+              <div class="ref" id="ref">Ref ID: 20261111065336978946</div>
+            </div>
+
+          <div class="card rcv-card">
+            <div class="line name">
+              <span id="rcv_title" class="piece">Ibu</span>
+              <span id="rcv_name" class="piece">LIA HERMAN</span>
+            </div>
+            <div class="line sub">
+              <span id="rcv_bank" class="piece">BNI</span>
+              <span id="src_dot1" class="piece">·</span>
+              <span id="rcv_number" class="piece">5678901234</span>
+            </div>
+          </div>
+
+          <div class="card src-card">
+            <div class="line name"><span id="src_name" class="piece">ELLY SAFITRI</span></div>
+            <div class="line sub">
+              <span id="src_product" class="piece">TAPLUS</span>
+              <span id="src_dot2" class="piece">·</span>
+              <span id="src_number" class="piece">*******</span>
+			  <span id="src_number01" class="piece">989</span>	
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<script>
+/* ================= UTIL ================= */
+const $ = id => document.getElementById(id);
+
+function rupiah(n) {
+  return "Rp" + n.toLocaleString("id-ID");
+}
+
+function toNumberID(str) {
+  const digits = (str || "").replace(/[^\d]/g, "");
+  return digits ? parseInt(digits, 10) : 0;
+}
+
+function formatNominal(el) {
+  const val = toNumberID(el.value);
+  el.value = val ? val.toLocaleString("id-ID") : "";
+}
+
+/* ================= DATASET ACAK (WAJIB ADA) ================= */
+const penerimaNames = [
+  "HASAN BASRI","SITI NURHALIZA","AHMAD WIJAYA","DEWI SARTIKA","RIZKI PRATAMA",
+  "MAYA SARI","ANDI SETIAWAN","BUDI PRASETYO","CINDY LESTARI","GITA NURANI",
+  "JOKO SUDARSO","LISA PUTRI","YUDI PRATAMA","TANIA WULANDARI","HENDRIK KURNIAWAN",
+  "VIVIANA KENCANA","FIRDAUS AHMAD","RINA MUNIR","EDY SULISTYO","ANITA KURNIATI",
+  "SAMSON HALIM","LIA HERMAN","RUDI KUSUMA","NATASHA HASTARI","SYAIFUL HAKIM",
+  "JESSICA NOVIANTI","IMAM ZULKIFLI","ARIYANTI SIREGAR","CATHERINE HARAHAP",
+  "GUNAWAN SANTOSA","WAWAN KUSNADI","ZULFADLI MAHMUD","ELSA SUTANTO",
+  "BANGKIT WIRAWAN","ANGGI YULIANTI"
+];
+
+const sumberNames = [
+  "BAGASTIO ABDURRAJA","HENDRA AJA","MAYA KUSUMA","FAJAR PRATAMA","LINDA PERMATA",
+  "WILLIAM SANTOSO","NADYA WULANDARI","DINO KURNIAWAN","SUSI HARTINI","BUDI ARIANTO",
+  "TOMMY WINANTO","RINA MELANIA","ALDO RAHARDIAN","ELLY SAFITRI","MARCELLA HANDAYANI",
+  "RAFAEL DWI","MADE WIRAWAN","FANYA KURNIA","DANI PERMANA","ANDREW TARING",
+  "NADIA NURJANAH","REZA RIZAL","VINA NOVITA","YUDHI SETIAWAN","RIZKI FADILLAH",
+  "JULIUS PRATAMA","EMILIA SARI","DEWANGGA ALIF","MELISSA SUTISNA","TINO KAWI",
+  "RIZAL NOVIANTO","VIRGITA AGUSTINA","RAHMAT HIDAYAT","CINTA MAHARANI"
+];
+
+const rekNumbers = [
+  "1908457073","5678901234","9876543210","1234567890","3456789012"
+];
+
+const srcTails = [
+  "012","027","053","088","102","123","145","167","189","201",
+  "234","256","278","299","301","321","345","367","389","401",
+  "423","445","467","489","501","523","545","567","589","601",
+  "623","645","667","689","701","723","745","767","789","801",
+  "823","845","867","889","901","923","945","967","989"
+];
+
+/* ================= RANDOM NOMINAL (UNTUK ACAK SAJA) ================= */
+function randNominal(){
+  const MIN = 20_000_000;
+  const MAX = 100_000_000;
+  const STEP = 100_000;
+  const P100 = 0.2;
+
+  if (Math.random() < P100) return MAX;
+
+  const hi = MAX - STEP;
+  const steps = Math.floor((hi - MIN) / STEP) + 1;
+  const idx = Math.floor(Math.random() * steps);
+  return MIN + idx * STEP;
+}
+
+/* ================= GENDER (TIDAK DIUBAH) ================= */
+function getGender(name) {
+  const maleNames = [
+    "HASAN BASRI","AHMAD WIJAYA","RIZKI PRATAMA","ANDI SETIAWAN","JOKO SUDARSO",
+    "YUDI PRATAMA","HENDRIK KURNIAWAN","FIRDAUS AHMAD","EDY SULISTYO",
+    "SAMSON HALIM","RUDI KUSUMA","SYAIFUL HAKIM","IMAM ZULKIFLI",
+    "GUNAWAN SANTOSA","WAWAN KUSNADI","ZULFADLI MAHMUD","BANGKIT WIRAWAN"
+  ];
+
+  const femaleNames = [
+    "SITI NURHALIZA","DEWI SARTIKA","MAYA SARI","CINDY LESTARI","GITA NURANI",
+    "LISA PUTRI","TANIA WULANDARI","VIVIANA KENCANA","RINA MUNIR",
+    "ANITA KURNIATI","LIA HERMAN","NATASHA HASTARI","JESSICA NOVIANTI",
+    "CATHERINE HARAHAP","ELSA SUTANTO","ANGGI YULIANTI"
+  ];
+
+  if (maleNames.includes(name)) return "Bpk";
+  if (femaleNames.includes(name)) return "Ibu";
+  return "";
+}
+
+/* ================= UPDATE STRUK (INTI) ================= */
+function updateStruk() {
+
+  // Nominal (BEBAS, TANPA BATASAN)
+  const n = toNumberID($("input-nominal").value);
+  $("amount").textContent = n ? rupiah(n) : "Rp0";
+
+  // Tanggal & Waktu
+  const tgl = $("input-tanggal").value.trim();
+  const wkt = $("input-waktu-lengkap").value.trim();
+  if (tgl && wkt) {
+    $("datetime").textContent = `${tgl} · ${wkt} ·`;
+  }
+
+  // Ref ID
+  const ref = $("input-ref").value.trim();
+  if (ref) $("ref").textContent = `Ref ID: ${ref}`;
+
+  // Nama Penerima (LOGIKA ASLI)
+  const namaPenerima = $("input-nama-penerima").value.trim();
+  if (namaPenerima) {
+    $("rcv_name").textContent = namaPenerima;
+    const title = getGender(namaPenerima.toUpperCase());
+    $("rcv_title").textContent = title ? title : "Bpk";
+  }
+
+  // Rekening Penerima
+  const rekPenerima = $("input-norek-penerima").value.trim();
+  if (rekPenerima) $("rcv_number").textContent = rekPenerima;
+
+  // Nama Pengirim (LOGIKA ASLI)
+  const namaPengirim = $("input-nama-pengirim").value.trim();
+  if (namaPengirim) $("src_name").textContent = namaPengirim;
+
+  // Rekening Pengirim
+  const suf = $("input-norek-pengirim-suffix").value.trim();
+  if (suf) {
+    $("src_number").textContent = "*******";
+    $("src_number01").textContent = suf;
+  }
+}
+
+/* ================= ACAK DATA ================= */
+function acakData() {
+  const now = new Date();
+
+  const penerima = penerimaNames[Math.floor(Math.random() * penerimaNames.length)];
+  const pengirim = sumberNames[Math.floor(Math.random() * sumberNames.length)];
+  const rekening = rekNumbers[Math.floor(Math.random() * rekNumbers.length)];
+  const suf = srcTails[Math.floor(Math.random() * srcTails.length)];
+
+  const YYYY = now.getFullYear();
+  const MM = String(now.getMonth() + 1).padStart(2, "0");
+  const DD = String(now.getDate()).padStart(2, "0");
+  const HH = String(now.getHours()).padStart(2, "0");
+  const mm = String(now.getMinutes()).padStart(2, "0");
+  const ss = String(now.getSeconds()).padStart(2, "0");
+
+  const random6 = Math.floor(Math.random() * 1_000_000)
+    .toString()
+    .padStart(6, "0");
+
+  $("input-ref").value = `${YYYY}${MM}${DD}${HH}${mm}${ss}${random6}`;
+
+  const nominal = randNominal();
+  $("input-nominal").value = nominal.toString();
+  formatNominal($("input-nominal"));
+
+  $("input-tanggal").value = now.toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  });
+
+  $("input-waktu-lengkap").value =
+    now.toLocaleTimeString("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    }).replaceAll(".", ":") + " WIB";
+
+  $("input-nama-penerima").value = penerima;
+  $("input-norek-penerima").value = rekening;
+  $("input-nama-pengirim").value = pengirim;
+  $("input-norek-pengirim-suffix").value = suf;
+
+  updateStruk();
+}
+
+/* ================= DOWNLOAD PNG ================= */
+async function downloadPNG() {
+  try {
+    const canvas = await html2canvas(document.getElementById("capture"), {
+      useCORS: true,
+      scale: 3,
+      backgroundColor: "#ffffff"
+    });
+
+    canvas.toBlob(blob => {
+      if (!blob) return alert("Gagal membuat gambar.");
+      const a = document.createElement("a");
+      a.download = "Struk-WONDER-BNI.png";
+      a.href = URL.createObjectURL(blob);
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+  } catch (err) {
+    alert("Gagal mengunduh gambar.");
+    console.error(err);
+  }
+}
+</script>
+
+
+</div>

@@ -1,0 +1,209 @@
+<body>
+    <h2>Edit Struk m‑BCA Instan</h2>
+    
+    <div class="main-wrapper">
+        
+        <!-- CONTROL PANEL UNTUK EDIT DATA -->
+        <div id="control-panel">
+            
+            <label style="grid-column: 1 / 3;">Nominal (dengan titik)</label>
+            <input type="text" id="input-nominal" oninput="formatInputNominal(this); updateStruk();" placeholder="Contoh: 2.000.000" style="grid-column: 1 / 3;">
+
+            <label style="grid-column: 1 / 3;">Nama Penerima (UPPERCASE)</label>
+            <input type="text" id="input-nama" oninput="this.value = this.value.toUpperCase(); updateStruk();" placeholder="HARTANTO" style="grid-column: 1 / 3;">
+
+            <label>Rek. Pengirim</label>
+            <input type="text" id="input-rek-dari" oninput="updateStruk()" placeholder="3780971991">
+
+            <label>Rek. Penerima</label>
+            <input type="text" id="input-rek-ke" oninput="updateStruk()" placeholder="3801435031">
+
+            <label style="grid-column: 1 / 3;">Tanggal &amp; Waktu (DD/MM/YYYY HH:MM:SS)</label>
+            <input type="text" id="input-tanggal" oninput="updateStruk()" placeholder="07/07/2025 19:29:03" style="grid-column: 1 / 3;">
+            
+            <!-- Button Group, dipindahkan ke dalam Control Panel -->
+            <div class="button-wrap-cp">
+                <button onclick="acakData()" class="random-btn">Acak Data</button>
+                <button onclick="downloadStruk()" class="download-btn">Download PNG</button>
+            </div>
+        </div>
+        <!-- END CONTROL PANEL -->
+        
+        <!-- TAMPILAN STRUK ASLI (Preview Area) -->
+        <div class="preview-area">
+            <div class="container" id="strukBCA">
+                <!-- Tambahkan crossorigin untuk html2canvas -->
+                <img src="https://ik.imagekit.io/donpablo69/BCA%20MOBILE.jpeg" class="background" alt="Struk m-BCA" crossorigin="anonymous">
+                <div class="overlay">
+                    <!-- Data Pengirim/Penerima di bagian atas -->
+                    <div class="field" id="dari-rek">3780971991</div>
+                    <div class="field" id="ke-rek">3801435031 - HARTANTO</div>
+                    
+                    <!-- Data Hasil Transaksi (Posisi/Style sesuai permintaan user) -->
+                    <div class="field" id="status-line">m-Transfer:</div>
+                    <div class="field" id="status-bold">BERHASIL</div>
+                    <div class="field" id="tanggal">07/07/2025 19:29:03</div>
+                    <div class="field" id="rekening">Ke 3801435031</div>
+                    <div class="field" id="nama">HARTANTO</div>
+                    <div class="field" id="nominal">Rp 20.000.000,00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Message Box untuk menampilkan error/notifikasi (Pengganti alert) -->
+    <div id="message-box" role="alert"></div>
+
+    <script>
+        // ===============================
+        // HELPER FUNCTIONS
+        // ===============================
+
+        const getInputValue = (id) => (document.getElementById(id)?.value || "").trim();
+
+        function cleanNominal(raw) {
+            // Bersihkan nominal dari format "2.000.000,00" -> "2000000"
+            return String(raw || "").replace(/[^\d]/g, "");
+        }
+
+        function formatRupiah(angka) {
+            // format tampilan rupiah "2000000" -> "Rp 2.000.000,00" (Sesuai logic asli user)
+            const num = parseInt(cleanNominal(angka), 10) || 0;
+            // Pastikan format rupiah menggunakan koma untuk desimal dan titik untuk ribuan
+            return "Rp " + num.toLocaleString("id-ID") + ",00"; 
+        }
+
+        function formatInputNominal(el) {
+            // format input nominal realtime: user ketik -> jadi bertitik
+            let value = cleanNominal(el.value);
+            if (!value) {
+                el.value = "";
+                return;
+            }
+            el.value = Number(value).toLocaleString("id-ID");
+        }
+
+        function displayMessage(message, duration = 3000) {
+            const msgBox = document.getElementById('message-box');
+            msgBox.innerText = message;
+            msgBox.style.display = 'block';
+            setTimeout(() => {
+                msgBox.style.display = 'none';
+            }, duration);
+        }
+
+
+        // ===============================
+        // UPDATE STRUK
+        // ===============================
+        function updateStruk() {
+            const nominalRaw = getInputValue("input-nominal");
+            const nama = (getInputValue("input-nama") || "NAMA PENERIMA").toUpperCase();
+            const rekKe = getInputValue("input-rek-ke") || "0000000000";
+            const rekDari = getInputValue("input-rek-dari") || "0000000000";
+            const tanggalWaktu = getInputValue("input-tanggal") || "00/00/0000 00:00:00";
+
+            // Batasi panjang nama agar tidak meluber di struk
+            const namaPenerimaDisplay = nama.length > 25 ? nama.substring(0, 25) + '...' : nama;
+
+
+            // Update elemen-elemen di struk
+            document.getElementById("tanggal").innerText = tanggalWaktu;
+            document.getElementById("rekening").innerText = "Ke " + rekKe;
+            document.getElementById("nama").innerText = namaPenerimaDisplay;
+            document.getElementById("nominal").innerText = formatRupiah(nominalRaw);
+            document.getElementById("dari-rek").innerText = rekDari;
+            document.getElementById("ke-rek").innerText = rekKe + " - " + namaPenerimaDisplay;
+        }
+
+        // ===============================
+        // ACAK DATA
+        // ===============================
+        function acakData() {
+            const namaList = [
+                "HARTANTO","AGUS SULISTYO","RINA WULANDARI","TONO WIRAWAN",
+                "HASAN BASRI","SITI NURHALIZA","AHMAD WIJAYA","DEWI SARTIKA",
+                "RIZKI PRATAMA","MAYA SARI","ANDI SETIAWAN","LINDA KUSUMA",
+                "HENDRA GUNAWAN","RATNA DEWI"
+            ];
+
+            const rekeningList = [
+                "3801435031","1234567890","3902019384","9283746501","5610928374"
+            ];
+
+            const dariRekeningList = ["3780971991","8123456789","7778889990"];
+
+            // Nominal random (angka murni): 10 Juta sampai 50 Juta
+            const nominal = (Math.floor(Math.random() * 41) + 10) * 1000000;
+
+            // Tanggal DD/MM/YYYY HH:MM:SS
+            const now = new Date();
+            const tanggal =
+                `${String(now.getDate()).padStart(2, "0")}/${String(now.getMonth() + 1).padStart(2, "0")}/${now.getFullYear()} ` +
+                `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`;
+
+            const nama = namaList[Math.floor(Math.random() * namaList.length)];
+            const rekKe = rekeningList[Math.floor(Math.random() * rekeningList.length)];
+            const rekDari = dariRekeningList[Math.floor(Math.random() * dariRekeningList.length)];
+
+            // Set ke input (nominal dibuat bertitik)
+            const inputNominal = document.getElementById("input-nominal");
+            inputNominal.value = Number(nominal).toLocaleString("id-ID"); 
+
+            document.getElementById("input-nama").value = nama;
+            document.getElementById("input-rek-ke").value = rekKe;
+            document.getElementById("input-rek-dari").value = rekDari;
+            document.getElementById("input-tanggal").value = tanggal;
+
+            updateStruk();
+        }
+
+        // ===============================
+// DOWNLOAD STRUK SEGI EMPAT (BERSIH) – VERSI FINAL
+// ===============================
+async function downloadStruk() {
+    updateStruk();
+
+    const strukElement = document.getElementById("strukBCA");
+
+    // Tambahkan class untuk tampilan segi empat
+    strukElement.classList.add("clean-download");
+
+    try {
+        // Render canvas dari elemen struk
+        const canvas = await html2canvas(strukElement, {
+            useCORS: true,
+            scale: 3,
+            backgroundColor: "#ffffff"
+        });
+
+        // ==========================
+        // POTONG 10px DARI BAWAH
+        // ==========================
+        const cropHeight = canvas.height - 10;
+        const croppedCanvas = document.createElement("canvas");
+        croppedCanvas.width = canvas.width;
+        croppedCanvas.height = cropHeight;
+
+        const ctx = croppedCanvas.getContext("2d");
+        ctx.drawImage(canvas, 0, 0, canvas.width, cropHeight, 0, 0, canvas.width, cropHeight);
+
+        // Buat & klik link unduhan
+        const link = document.createElement("a");
+        link.download = "struk-bersih.png";
+        link.href = croppedCanvas.toDataURL("image/png");
+        link.click();
+
+        displayMessage("✅ Struk berhasil diunduh!", 2000);
+
+    } catch (err) {
+        console.error("❌ Gagal saat screenshot:", err);
+        displayMessage("❌ Gagal mengunduh struk!", 3000);
+    } finally {
+        strukElement.classList.remove("clean-download");
+    }
+}
+    </script>
+    
+
+</body>

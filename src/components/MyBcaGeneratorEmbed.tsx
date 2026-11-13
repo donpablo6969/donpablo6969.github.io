@@ -33,7 +33,7 @@ const MY_BCA_BODY_AND_SCRIPT = `<h2>BUKTI TRANSFER MY-BCA</h2>
       <button class="secondary" onclick="resetData()">Reset</button>
       <button class="success" onclick="downloadImage()">Download Gambar</button>
     </div>
-    <p class="status" id="status">MODE SIMULASI — BUKAN BUKTI TRANSAKSI.</p>
+    <p class="status" id="status"></p>
   </section>
 
   <section class="preview-area">
@@ -289,7 +289,7 @@ window.addEventListener('load', randomizeData);
 
 export const MyBcaGeneratorEmbed: React.FC = () => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [iframeHeight, setIframeHeight] = useState<number>(940);
+  const [iframeHeight, setIframeHeight] = useState<number>(960);
   const [isDark, setIsDark] = useState<boolean>(() =>
     typeof document !== 'undefined'
       ? document.documentElement.classList.contains('dark')
@@ -339,7 +339,7 @@ export const MyBcaGeneratorEmbed: React.FC = () => {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 *{box-sizing:border-box}
-body{margin:0;padding:16px;background:transparent;color:#000000;font-family:'Plus Jakarta Sans',Arial,Helvetica,sans-serif;transition:color .2s}
+body{margin:0;padding:16px 16px 50px;background:transparent;color:#000000;font-family:'Plus Jakarta Sans',Arial,Helvetica,sans-serif;transition:color .2s}
 html.dark body{color:#ffffff}
 h2{text-align:center;color:#4A2B18;margin:4px 0 20px;font-weight:800;letter-spacing:.02em}
 html.dark h2{color:#E5B874}
@@ -379,9 +379,10 @@ html.dark button.secondary{background:#3E1621;color:#FDA4AF;border-color:#70263A
 button.success{background:#4A2B18;color:#ffffff;border-color:#4A2B18;flex:100%}
 html.dark button.success{background:#C59656;color:#140D09;border-color:#C59656}
 button:hover{filter:brightness(.94)}
-.status{font-size:12px;color:#5D4C3E;margin-top:12px;line-height:1.5;font-weight:600}
+.status{font-size:12px;color:#5D4C3E;margin:12px 0 0;line-height:1.5;font-weight:600}
+.status:empty{display:none;margin:0}
 html.dark .status{color:#D6C7B5}
-@media(max-width:760px){body{padding:8px}.main-wrapper{grid-template-columns:1fr}#control-panel{order:1}.preview-area{order:2}#struk{width:min(100%,390px)}}
+@media(max-width:760px){body{padding:8px 8px 50px}.main-wrapper{grid-template-columns:1fr}#control-panel{order:1}.preview-area{order:2}#struk{width:min(100%,390px)}}
 </style>
 </head>
 <body>
@@ -398,18 +399,22 @@ ${bodyWithTemplate}
       'dark',
       document.documentElement.classList.contains('dark')
     );
-    const nextHeight = Math.max(
-      doc.body?.scrollHeight || 0,
-      doc.documentElement?.scrollHeight || 0
-    );
-    if (nextHeight > 200) {
-      setIframeHeight(nextHeight + 16);
+    const wrapper = doc.querySelector('.main-wrapper') as HTMLElement | null;
+    if (wrapper) {
+      const nextHeight = Math.ceil(wrapper.offsetTop + wrapper.offsetHeight + 50);
+      if (nextHeight > 200) {
+        setIframeHeight((prev) => (prev === nextHeight ? prev : nextHeight));
+      }
     }
   };
 
   useEffect(() => {
-    const interval = window.setInterval(syncIframeHeight, 500);
-    return () => window.clearInterval(interval);
+    const interval = window.setInterval(syncIframeHeight, 400);
+    window.addEventListener('resize', syncIframeHeight);
+    return () => {
+      window.clearInterval(interval);
+      window.removeEventListener('resize', syncIframeHeight);
+    };
   }, []);
 
   return (

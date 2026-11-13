@@ -13,6 +13,11 @@ import {
 } from 'lucide-react';
 import { BankChannel } from '../types';
 import { MyBcaGeneratorEmbed } from './MyBcaGeneratorEmbed';
+import { BcaMobileGeneratorEmbed } from './BcaMobileGeneratorEmbed';
+import { BniMobileGeneratorEmbed } from './BniMobileGeneratorEmbed';
+import { BniWonderGeneratorEmbed } from './BniWonderGeneratorEmbed';
+import { LivinMandiriGeneratorEmbed } from './LivinMandiriGeneratorEmbed';
+import { BrimoGeneratorEmbed } from './BrimoGeneratorEmbed';
 
 interface EditPembayaranPanelProps {
   bankChannels: BankChannel[];
@@ -482,9 +487,19 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
         </button>
       </div>
 
-      {/* Main Editor Workspace: Exact Attached Script for MY - BCA, or Multi-Bank Editor */}
+      {/* Main Editor Workspace: Exact Attached Script for MY - BCA / BCA MOBILE / BNI MOBILE / BNI WONDER, or Multi-Bank Editor */}
       {selectedBank === 'MY - BCA' && activeCategory === 'struk' ? (
         <MyBcaGeneratorEmbed />
+      ) : selectedBank === 'BCA MOBILE' && activeCategory === 'struk' ? (
+        <BcaMobileGeneratorEmbed />
+      ) : selectedBank === 'BNI MOBILE' && activeCategory === 'struk' ? (
+        <BniMobileGeneratorEmbed />
+      ) : selectedBank === 'BNI WONDER' && activeCategory === 'struk' ? (
+        <BniWonderGeneratorEmbed />
+      ) : selectedBank === 'MANDIRI LIVIN' && activeCategory === 'struk' ? (
+        <LivinMandiriGeneratorEmbed />
+      ) : selectedBank === 'BRIMO' && activeCategory === 'struk' ? (
+        <BrimoGeneratorEmbed />
       ) : (
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left: Editor Form Card */}

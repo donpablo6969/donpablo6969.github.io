@@ -1,0 +1,123 @@
+<body>
+
+    <div class="editor-panel">
+        <h2 style="color: #fff; text-align: center; margin: 0 0 15px 0; font-size: 16px;">BNI EDITOR PRO</h2>
+        
+        <div class="input-group"><label>Pengirim</label><input type="text" id="in-pengirim" oninput="updateStruk()" value="M. SULAEMAN"></div>
+        <div class="input-group"><label>Penerima</label><input type="text" id="in-penerima" oninput="updateStruk()" value="Ibu ROHMAT"></div>
+        <div class="input-group"><label>No. Rekening</label><input type="text" id="in-rek" oninput="updateStruk()" value="1910995890"></div>
+        <div class="input-group"><label>Nominal</label><input type="text" id="in-nom" oninput="formatUang(this); updateStruk()" value="50.000.000"></div>
+        
+        <div style="display: flex; gap: 10px;">
+            <div class="input-group" style="flex: 1;"><label>Tanggal</label><input type="text" id="in-tgl" oninput="updateStruk()" placeholder="DD-MM-YYYY"></div>
+            <div class="input-group" style="flex: 1;"><label>Jam</label><input type="text" id="in-jam" oninput="updateStruk()" placeholder="HH:mm:ss"></div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn" style="background: var(--bni-orange);" onclick="acakSistem()">🎲 ACAK</button>
+            <button class="btn" style="background: var(--bni-teal);" onclick="download()">📥 DOWNLOAD</button>
+        </div>
+    </div>
+
+    <div class="container" id="strukBNI">
+        <img src="https://ik.imagekit.io/donpablo69/BNIMOBILE.jpeg" class="background">
+        <div class="watermark-container">
+            <div class="wm-text">BNI BNI BNI BNI BNI</div>
+            <div class="wm-text">BNI BNI BNI BNI BNI</div>
+        </div>
+        <div class="overlay">
+            <div class="st-header">
+                <div class="st-info-title">Informasi</div>
+                <div class="st-status-msg">Transaksi Berhasil</div>
+            </div>
+            <div class="st-row" id="row-rek"><div class="st-label">Rekening Tujuan</div><div class="st-value" id="v-rek">1910995890</div></div>
+            <div class="st-row" id="row-penerima"><div class="st-label">Nama Penerima</div><div class="st-value" id="v-penerima">Ibu ROHMAT</div></div>
+            <div class="st-row" id="row-tgl"><div class="st-label">Tanggal Transaksi</div><div class="st-value" id="v-tgl">11-11-2026</div></div>
+            <div class="st-row" id="row-jam"><div class="st-label">Waktu Transaksi</div><div class="st-value" id="v-jam">15:31:56 WIB</div></div>
+            <div class="st-row" id="row-email"><div class="st-label">Email Penerima</div><div class="st-value"></div></div>
+            <div class="st-row" id="row-bank"><div class="st-label">Bank Tujuan</div><div class="st-value">BNI</div></div>
+            <div class="st-row" id="row-pengirim"><div class="st-label">Nama Pengirim</div><div class="st-value" id="v-pengirim">M. SULAEMAN</div></div>
+            <div class="st-row" id="row-nom"><div class="st-label">Nominal</div><div class="st-value" id="v-nom">Rp50.000.000</div></div>
+            <div class="st-row" id="row-fee"><div class="st-label">Fee</div><div class="st-value">Rp0</div></div>
+            <div class="st-row" id="row-total"><div class="st-label">Total</div><div class="st-value" id="v-total">Rp50.000.000</div></div>
+            <div class="st-row" id="row-ket"><div class="st-label">Keterangan</div><div class="st-value"></div></div>
+        </div>
+    </div>
+    <script>
+        function formatUang(input) {
+            let value = input.value.replace(/[^0-9]/g, '');
+            if (value !== "") input.value = parseInt(value).toLocaleString('id-ID');
+        }
+
+        function setWaktuSekarang() {
+            const n = new Date();
+            const tgl = n.toLocaleDateString('id-ID', {day:'2-digit', month:'2-digit', year:'numeric'}).replace(/\//g, '-');
+            const jam = n.toLocaleTimeString('id-ID', {hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit'}).replace(/\./g, ':');
+            
+            document.getElementById('in-tgl').value = tgl;
+            document.getElementById('in-jam').value = jam;
+        }
+
+        function updateStruk() {
+            const peng = document.getElementById('in-pengirim').value;
+            const pen = document.getElementById('in-penerima').value;
+            const rek = document.getElementById('in-rek').value;
+            const nom = document.getElementById('in-nom').value;
+            const tgl = document.getElementById('in-tgl').value;
+            const jam = document.getElementById('in-jam').value;
+            
+            const fNom = nom ? "Rp" + nom : "Rp0";
+
+            document.getElementById('v-pengirim').innerText = peng;
+            document.getElementById('v-penerima').innerText = pen;
+            document.getElementById('v-rek').innerText = rek;
+            document.getElementById('v-nom').innerText = fNom;
+            document.getElementById('v-total').innerText = fNom;
+            document.getElementById('v-tgl').innerText = tgl;
+            document.getElementById('v-jam').innerText = jam + " WIB";
+        }
+
+        function acakSistem() {
+            const lPeng = ["M. SULAEMAN", "ACHMAD ZAENI", "HENDRA KUSUMA", "REZA RAHARDIAN"];
+            const lPen = ["Ibu ROHMAT", "SITI AISYAH", "BUDI SANTOSO", "LANI MARLINA"];
+            const lRek = ["1910995890", "1289614396", "1102301449", "0514208348"];
+
+            document.getElementById('in-pengirim').value = lPeng[Math.floor(Math.random() * lPeng.length)];
+            document.getElementById('in-penerima').value = lPen[Math.floor(Math.random() * lPen.length)];
+            document.getElementById('in-rek').value = lRek[Math.floor(Math.random() * lRek.length)];
+
+            let min = 200; 
+            let max = 1000;
+            let rNom = (Math.floor(Math.random() * (max - min + 1)) + min) * 100000;
+            document.getElementById('in-nom').value = rNom.toLocaleString('id-ID');
+
+            setWaktuSekarang();
+            updateStruk();
+        }
+
+        async function download() {
+            const el = document.getElementById("strukBNI");
+            const rect = el.getBoundingClientRect();
+
+            window.scrollTo(0, 0);
+            const canvas = await html2canvas(el, {
+                scale: 3,
+                useCORS: true,
+                backgroundColor: null,
+                width: rect.width,
+                height: rect.height
+            });
+
+            const link = document.createElement("a");
+            link.download = `BNI_Struk_${Date.now()}.png`;
+            link.href = canvas.toDataURL("image/png", 1.0);
+            link.click();
+        }
+
+        window.onload = () => {
+            setWaktuSekarang();
+            updateStruk();
+        };
+    </script>
+
+</body>

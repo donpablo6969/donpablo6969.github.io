@@ -1,0 +1,192 @@
+<body>
+
+<h2>EDIT STRUK MANDIRI</h2>
+
+<div class="main-wrapper">
+  <!-- CONTROL PANEL -->
+  <div id="control-panel">
+    <label class="full-width">
+  Nominal Transfer (misal: 48800000)
+  <input type="text" id="input-nominal" oninput="formatNominal(this); updateStruk();" placeholder="48.800.000" class="full-width">
+</label>
+
+<label class="full-width">
+  Tanggal Transaksi (misal: 11 Jul 2025)
+  <input type="text" id="input-tanggal" oninput="updateStruk()" placeholder="11 Jul 2025" class="full-width">
+</label>
+
+<label class="full-width">
+  Waktu Transaksi Lengkap (misal: 14:21:38 WIB)
+  <input type="text" id="input-waktu-lengkap" oninput="updateStruk()" placeholder="14:21:38 WIB" class="full-width">
+</label>
+
+<label class="full-width">
+  Nomor Referensi (No. Ref.)
+  <input type="text" id="input-ref" oninput="updateStruk()" placeholder="2507111421386591753" class="full-width">
+</label>
+
+<label class="full-width">
+  Nama Penerima
+  <input type="text" id="input-nama-penerima" oninput="updateStruk()" placeholder="Dtnhvcb Perzgp" class="full-width">
+</label>
+
+<label class="full-width">
+  No. Rekening Penerima
+  <input type="text" id="input-norek-penerima" oninput="updateStruk()" placeholder="107007926766023" class="full-width">
+</label>
+
+<label class="full-width">
+  Nama Pengirim
+  <input type="text" id="input-nama-pengirim" oninput="updateStruk()" placeholder="Ghwg Ofwtsro" class="full-width">
+</label>
+
+<label class="full-width">
+  No. Rekening Pengirim (4 digit akhir)
+  <input type="text" id="input-norek-pengirim-suffix" oninput="updateStruk()" placeholder="9435" maxlength="4" class="full-width">
+</label>
+  </div>
+
+  <!-- STRUK -->
+  <div class="container" id="struk">
+    <img src="https://ik.imagekit.io/donpablo69/LIVIN.png" class="background" alt="Struk Mandiri" onerror="this.onerror=null; this.src='https://placehold.co/375x600/FF5733/ffffff?text=Gagal%20Memuat%20Gambar';">
+    <div class="overlay">
+      <div class="field" id="tanggal">11 Nov 2026 • 15:33:32 WIB • No. Ref.<br>20261111153332179443</div>
+      <div class="field" id="nama-penerima">TXXST KWYQ</div>
+      <div class="field" id="bank-norek">Bank Mandiri - 10700942492743245</div>
+      <div class="field" id="pengirim">WKHOD CHLV</div>
+      <div class="field" id="bankpengirim">Bank Mandiri</div>
+      <div class="field" id="norekpengirim">5845</div>
+      <div class="field" id="nominal">Rp 46.000.000</div>
+    </div>
+  </div>
+<!-- BUTTONS -->
+<div class="button-wrap">
+  <button class="button-accent" onclick="acakData()">Acak Data &amp; Waktu Sekarang</button>
+  <button onclick="download()">Download PNG</button>
+</div>
+
+<script>
+  const getInputValue = (id) => document.getElementById(id)?.value ?? "";
+
+  function formatNominal(inputElement) {
+    let value = inputElement.value.replace(/[^\d]/g, "");
+    if (value) {
+      inputElement.value = parseInt(value, 10).toLocaleString("id-ID");
+    } else {
+      inputElement.value = "";
+    }
+  }
+
+  function generateRandomName() {
+    const letters = "abcdefghijklmnopqrstuvwxyz";
+    const randomWord = () => {
+      let word = "";
+      const len = Math.floor(Math.random() * 4) + 4;
+      for (let i = 0; i < len; i++) {
+        word += letters[Math.floor(Math.random() * letters.length)];
+      }
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    };
+    return `${randomWord()} ${randomWord()}`;
+  }
+
+  function updateStruk() {
+    const nominalRaw = getInputValue("input-nominal").replace(/[^\d]/g, "");
+    const tanggal = getInputValue("input-tanggal");
+    const waktuLengkap = getInputValue("input-waktu-lengkap");
+    const ref = getInputValue("input-ref");
+    const namaPenerima = getInputValue("input-nama-penerima");
+    const norekPenerima = getInputValue("input-norek-penerima");
+    const namaPengirim = getInputValue("input-nama-pengirim");
+    const norekPengirim = getInputValue("input-norek-pengirim-suffix");
+
+    document.getElementById("tanggal").innerHTML =
+      `${tanggal} • ${waktuLengkap} • No. Ref.<br>${ref}`;
+
+    document.getElementById("nama-penerima").innerText = namaPenerima;
+    document.getElementById("bank-norek").innerText =
+      `Bank Mandiri - ${norekPenerima}`;
+    document.getElementById("pengirim").innerText = namaPengirim;
+    document.getElementById("bankpengirim").innerText = "Bank Mandiri";
+    document.getElementById("norekpengirim").innerText = norekPengirim;
+
+    document.getElementById("nominal").innerText =
+      nominalRaw
+        ? "Rp " + parseInt(nominalRaw, 10).toLocaleString("id-ID")
+        : "";
+  }
+
+  function acakData() {
+    const now = new Date();
+    const jam = `${String(now.getHours()).padStart(2, "0")}:${String(
+      now.getMinutes()
+    ).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")} WIB`;
+
+    const tanggal = now
+      .toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })
+      .replace(".", "");
+
+    document.getElementById("input-nominal").value =
+      ((Math.floor(Math.random() * 801) + 200) * 100000).toLocaleString("id-ID");
+
+    document.getElementById("input-tanggal").value = tanggal;
+    document.getElementById("input-waktu-lengkap").value = jam;
+    const nowRef = new Date();
+
+const refTime =
+  nowRef.getFullYear().toString() +
+  String(nowRef.getMonth() + 1).padStart(2, "0") +
+  String(nowRef.getDate()).padStart(2, "0") +
+  String(nowRef.getHours()).padStart(2, "0") +
+  String(nowRef.getMinutes()).padStart(2, "0") +
+  String(nowRef.getSeconds()).padStart(2, "0");
+
+const refAjak = Math.floor(100000 + Math.random() * 900000); // 6 digit acak
+
+document.getElementById("input-ref").value = refTime + refAjak;
+
+    document.getElementById("input-nama-penerima").value =
+      generateRandomName().toUpperCase();
+
+    document.getElementById("input-norek-penerima").value =
+      "10700" + Math.floor(100000000000 + Math.random() * 900000000000);
+
+    document.getElementById("input-nama-pengirim").value =
+      generateRandomName().toUpperCase();
+
+    document.getElementById("input-norek-pengirim-suffix").value =
+      Math.floor(1000 + Math.random() * 9000);
+
+    updateStruk();
+  }
+
+  function download() {
+  updateStruk();
+
+  const struk = document.getElementById("struk");
+
+  html2canvas(struk, {
+    useCORS: true,
+    backgroundColor: "#ffffff", // atau null kalau mau transparan
+    scale: 3,
+    width: struk.offsetWidth,
+    height: struk.offsetHeight,
+    scrollX: 0,
+    scrollY: 0
+  }).then((canvas) => {
+    const link = document.createElement("a");
+    link.download = `struk-mandiri-${Date.now()}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  });
+}
+
+  window.onload = acakData;
+</script>
+
+
+</div></body>
