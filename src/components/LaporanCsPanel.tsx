@@ -19,33 +19,143 @@ type LaporanMode = 'ganti-data' | 'locked-unlock' | 'crosscheck-locked';
 interface ExtractedChangeRow {
   no: number;
   dateTime: string;
+  formattedDate: string;
   userId: string;
+  logStaff: string;
   staff: string;
   beforeData: string;
   afterData: string;
+  ket: string;
+  nb: string;
   keterangan: string;
+}
+
+const INDONESIAN_MONTHS = [
+  'Januari',
+  'Februari',
+  'Maret',
+  'April',
+  'Mei',
+  'Juni',
+  'Juli',
+  'Agustus',
+  'September',
+  'Oktober',
+  'November',
+  'Desember',
+];
+
+const KNOWN_BANKS = new Set([
+  'bca',
+  'bni',
+  'bri',
+  'bsi',
+  'btn',
+  'bjb',
+  'btpn',
+  'mandiri',
+  'cimb',
+  'danamon',
+  'permata',
+  'ocbc',
+  'maybank',
+  'panin',
+  'mega',
+  'sinarmas',
+  'allobank',
+  'seabank',
+  'jago',
+  'dana',
+  'gopay',
+  'ovo',
+  'linkaja',
+  'shopeepay',
+]);
+
+const BANK_DISPLAY_MAP: Record<string, string> = {
+  bca: 'BCA',
+  bni: 'BNI',
+  bri: 'BRI',
+  bsi: 'BSI',
+  btn: 'BTN',
+  bjb: 'BJB',
+  btpn: 'BTPN',
+  ocbc: 'OCBC',
+  cimb: 'CIMB',
+  ovo: 'OVO',
+  gopay: 'Gopay',
+  dana: 'Dana',
+  mandiri: 'Mandiri',
+  seabank: 'Seabank',
+  jago: 'Jago',
+  permata: 'Permata',
+  danamon: 'Danamon',
+  maybank: 'Maybank',
+  panin: 'Panin',
+  mega: 'Mega',
+  sinarmas: 'Sinarmas',
+  allobank: 'Allobank',
+  linkaja: 'LinkAja',
+  shopeepay: 'ShopeePay',
+};
+
+function formatBankName(raw: string): string {
+  const cleaned = raw.trim();
+  if (!cleaned) return '-';
+  const lower = cleaned.toLowerCase();
+  if (BANK_DISPLAY_MAP[lower]) return BANK_DISPLAY_MAP[lower];
+  return cleaned
+    .split(/\s+/)
+    .map((w) => (w ? w[0].toUpperCase() + w.slice(1).toLowerCase() : ''))
+    .join(' ');
+}
+
+function capitalizeWord(word: string): string {
+  const w = word.trim();
+  if (!w) return '';
+  return w[0].toUpperCase() + w.slice(1);
+}
+
+function formatIndonesianDate(dateTimeStr: string): string {
+  const matchDmy = dateTimeStr.match(/^(\d{2})-(\d{2})-(\d{4})/);
+  if (matchDmy) {
+    const day = Number(matchDmy[1]);
+    const monthIdx = Number(matchDmy[2]) - 1;
+    const year = matchDmy[3];
+    const monthName = INDONESIAN_MONTHS[monthIdx] || matchDmy[2];
+    return `${day} ${monthName} ${year}`;
+  }
+  const matchYmd = dateTimeStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (matchYmd) {
+    const year = matchYmd[1];
+    const monthIdx = Number(matchYmd[2]) - 1;
+    const day = Number(matchYmd[3]);
+    const monthName = INDONESIAN_MONTHS[monthIdx] || matchYmd[2];
+    return `${day} ${monthName} ${year}`;
+  }
+  return dateTimeStr;
 }
 
 const QUICK_EXAMPLES: { id: string; label: string; raw: string }[] = [
   {
     id: 'ganti-rek',
     label: 'Ganti No Rek (lesi678xxxx)',
-    raw: `8 12-09-2026 12:14:27 keoaaecs9 change user info lesi678xxxx bank : gopay -> GOPAY,rek : 08569404728 -> 085694047282,bank : gopay -> GOPAY,acc : Iwan Setiawan -> Iwan Setiawan,rek : 08569404728 -> 085694047282,color : #FFFFFF -> white lesi678xxxx`,
+    raw: `2\t12-09-2026 12:14:27\tkeoaacs9\tchange user info lesi678xxxx\tbank : gopay => GOPAY,rek : 08569404728 => 085694047282,bank : gopay => GOPAY,acc : Iwan Setiawan => Iwan Setiawan,rek : 08569404728 => 085694047282,color : #FFFFFF => white\tlesi678xxxx`,
   },
   {
     id: 'ganti-nama',
     label: 'Ganti Nama Rek (lesi678xxxx)',
-    raw: `3 12-09-2026 14:22:10 keoaaecs9 change user info lesi678xxxx bank : BCA -> BCA,acc : IWAN S -> IWAN SETIAWAN,rek : 5220391823 -> 5220391823`,
+    raw: `2\t12-09-2026 12:14:27\tkeoaacs9\tchange user info lesi678xxxx\tbank : gopay => GOPAY,rek : 085694047282 => 085694047282,bank : gopay => GOPAY,acc : Iwan S => Iwan Setiawan,rek : 085694047282 => 085694047282,color : #FFFFFF => white\tlesi678xxxx`,
   },
   {
     id: 'spasi-nama',
     label: 'Spasi Nama (cawah09xxxx)',
-    raw: `1 12-09-2026 20:38:31 keoaaecs9 change user info cawah09xxxx bank : gopay -> GOPAY,bank : Dahliasari -> Dahlia Sari,bank : gopay -> GOPAY,acc : Dahliasari -> Dahlia Sari,rek : 089638137501 -> 089638137501,color : #FFFFFF -> white cawah09xxxx`,
+    raw: `1\t17-09-2026 20:38:31\tjvsaacs9\tchange user info cawah09xxxx\tbank : gopay => GOPAY,bank : Dahliasari => Dahlia Sari,bank : gopay => GOPAY,acc : Dahliasari => Dahlia Sari,rek : 089638137501 => 089638137501,color : #FFFFFF => white\tcawah09xxxx`,
   },
   {
     id: 'ganti-bank',
     label: 'Ganti Bank (Dana => BRI)',
-    raw: `5 12-09-2026 16:05:44 keoaaecs9 change user info bima7788 bank : DANA -> BRI,acc : BIMA PUTRA -> BIMA PUTRA,rek : 081234567890 -> 012901928471502`,
+    raw: `4\t12-09-2026 14:10:05\tkeoaacs9\tchange user info budi01xxxx\tbank : dana => BRI,bank : dana => BRI,acc : BUDI SANTOSO => BUDI SANTOSO,rek : 081298765432 => 123401005678504,color : #FFFFFF => white\tbudi01xxxx`,
   },
 ];
 
@@ -59,6 +169,7 @@ function parseChangeLogs(
     .map((l) => l.trim())
     .filter(Boolean);
 
+  const aliasTrimmed = staffAlias.trim();
   const rows: ExtractedChangeRow[] = [];
 
   lines.forEach((line, idx) => {
@@ -66,6 +177,7 @@ function parseChangeLogs(
       /(\d{2}-\d{2}-\d{4}\s+\d{2}:\d{2}:\d{2}|\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})/
     );
     const dateTime = dtMatch ? dtMatch[1] : '-';
+    const formattedDate = dateTime !== '-' ? formatIndonesianDate(dateTime) : '-';
 
     if (mode === 'locked-unlock' || mode === 'crosscheck-locked') {
       const tokens = line.split(/[\s|,;\t]+/).filter(Boolean);
@@ -76,23 +188,32 @@ function parseChangeLogs(
       const isUnlock = /unlock/i.test(line);
       const ket =
         mode === 'crosscheck-locked'
-          ? 'CROSSCHECK AKUN LOCKED'
+          ? 'Crosscheck Akun Locked'
           : isUnlock
-            ? 'UNLOCK AKUN'
-            : 'LOCKED AKUN';
+            ? 'Unlock Akun'
+            : 'Locked Akun';
+      const logStaffMatch = line.match(
+        /\d{2}:\d{2}:\d{2}\s+([A-Za-z0-9_.-]+)/i
+      );
+      const logStaff = capitalizeWord(logStaffMatch ? logStaffMatch[1] : 'Staff');
+      const staffDisplay = aliasTrimmed ? `${logStaff} / ${aliasTrimmed}` : `${logStaff} /`;
       rows.push({
         no: rows.length + 1,
         dateTime,
+        formattedDate,
         userId,
-        staff: staffAlias || 'DON PABLO',
+        logStaff,
+        staff: staffDisplay,
         beforeData: isUnlock ? 'LOCKED' : 'AKTIF',
         afterData: isUnlock ? 'AKTIF (UNLOCK)' : 'LOCKED',
+        ket,
+        nb: ket,
         keterangan: ket,
       });
       return;
     }
 
-    // Standard change user info parser
+    // Standard "change user info <userId> <body>" parser (supports both "=>" and "->")
     const changeMatch = line.match(
       /change\s+user\s+info\s+([A-Za-z0-9_.-]+)\s+(.*)$/i
     );
@@ -103,66 +224,122 @@ function parseChangeLogs(
     const userId = changeMatch
       ? changeMatch[1]
       : line.split(/[\s|,\t]+/)[0] || `user_${idx + 1}`;
-    const staff =
-      staffAlias.trim() || (staffInLogMatch ? staffInLogMatch[1] : 'DON PABLO');
+    const rawLogStaff = staffInLogMatch ? staffInLogMatch[1] : 'Staff';
+    const logStaff = capitalizeWord(rawLogStaff);
+    const staffDisplay = aliasTrimmed ? `${logStaff} / ${aliasTrimmed}` : `${logStaff} /`;
     const body = changeMatch ? changeMatch[2] : line;
 
-    const extractDiff = (keyRegex: RegExp) => {
-      const matches = [...body.matchAll(keyRegex)];
-      for (const m of matches) {
-        const oldVal = (m[1] || '').trim();
-        const newVal = (m[2] || '').trim();
-        if (oldVal && newVal && oldVal.toLowerCase() !== newVal.toLowerCase()) {
-          return { oldVal, newVal };
-        }
+    interface KeyDiff {
+      oldVal: string;
+      newVal: string;
+    }
+    const bankPairs: KeyDiff[] = [];
+    const accPairs: KeyDiff[] = [];
+    const rekPairs: KeyDiff[] = [];
+
+    const pairRegex = /\b(bank|acc|rek)\s*:\s*([^,\t\n]+?)\s*(?:=>|->)\s*([^,\t\n]+)/gi;
+    let m: RegExpExecArray | null;
+    while ((m = pairRegex.exec(body)) !== null) {
+      const key = m[1].toLowerCase();
+      const oldVal = m[2].trim();
+      const newVal = m[3].trim();
+      if (key === 'bank') bankPairs.push({ oldVal, newVal });
+      else if (key === 'acc') accPairs.push({ oldVal, newVal });
+      else if (key === 'rek') rekPairs.push({ oldVal, newVal });
+    }
+
+    const pickedAcc =
+      accPairs.find((p) => p.oldVal.toLowerCase() !== p.newVal.toLowerCase()) ||
+      accPairs[accPairs.length - 1] ||
+      null;
+
+    const pickedRek =
+      rekPairs.find((p) => p.oldVal !== p.newVal) ||
+      rekPairs[rekPairs.length - 1] ||
+      null;
+
+    // Filter out spurious `bank : <accName> => <accName>` duplicates that mirror `acc`
+    const validBankPairs = bankPairs.filter((bp) => {
+      if (
+        pickedAcc &&
+        bp.oldVal.toLowerCase() === pickedAcc.oldVal.toLowerCase() &&
+        bp.newVal.toLowerCase() === pickedAcc.newVal.toLowerCase() &&
+        !KNOWN_BANKS.has(bp.oldVal.toLowerCase()) &&
+        !KNOWN_BANKS.has(bp.newVal.toLowerCase())
+      ) {
+        return false;
       }
-      return null;
-    };
+      return true;
+    });
 
-    const bankDiff = extractDiff(
-      /bank\s*:\s*([^,\->]+?)\s*->\s*([^,]+)/gi
-    );
-    const accDiff = extractDiff(/acc\s*:\s*([^,\->]+?)\s*->\s*([^,]+)/gi);
-    const rekDiff = extractDiff(/rek\s*:\s*([^,\->]+?)\s*->\s*([^,]+)/gi);
+    const pickedBank =
+      validBankPairs.find(
+        (p) =>
+          p.oldVal.toLowerCase() !== p.newVal.toLowerCase() &&
+          (KNOWN_BANKS.has(p.oldVal.toLowerCase()) ||
+            KNOWN_BANKS.has(p.newVal.toLowerCase()))
+      ) ||
+      validBankPairs.find((p) => KNOWN_BANKS.has(p.oldVal.toLowerCase()) || KNOWN_BANKS.has(p.newVal.toLowerCase())) ||
+      validBankPairs[0] ||
+      null;
 
-    const beforeParts: string[] = [];
-    const afterParts: string[] = [];
-    const ketTags: string[] = [];
+    const bankBefore = pickedBank ? formatBankName(pickedBank.oldVal) : '-';
+    const bankAfter = pickedBank ? formatBankName(pickedBank.newVal) : '-';
+    const accBefore = pickedAcc ? pickedAcc.oldVal.toUpperCase() : '-';
+    const accAfter = pickedAcc ? pickedAcc.newVal.toUpperCase() : '-';
+    const rekBefore = pickedRek ? pickedRek.oldVal : '-';
+    const rekAfter = pickedRek ? pickedRek.newVal : '-';
 
-    if (bankDiff) {
-      beforeParts.push(`Bank: ${bankDiff.oldVal}`);
-      afterParts.push(`Bank: ${bankDiff.newVal}`);
-      ketTags.push(`GANTI BANK (${bankDiff.oldVal} -> ${bankDiff.newVal})`);
-    }
-    if (accDiff) {
-      const cleanOld = accDiff.oldVal.replace(/\s+/g, '').toLowerCase();
-      const cleanNew = accDiff.newVal.replace(/\s+/g, '').toLowerCase();
-      beforeParts.push(`A/N: ${accDiff.oldVal}`);
-      afterParts.push(`A/N: ${accDiff.newVal}`);
-      ketTags.push(
-        cleanOld === cleanNew ? 'PERBAIKI SPASI NAMA' : 'GANTI NAMA REKENING'
-      );
-    }
-    if (rekDiff) {
-      beforeParts.push(`Rek: ${rekDiff.oldVal}`);
-      afterParts.push(`Rek: ${rekDiff.newVal}`);
-      ketTags.push('GANTI NO REKENING');
+    const bankChanged =
+      pickedBank !== null &&
+      bankBefore.toLowerCase() !== bankAfter.toLowerCase();
+    const accChanged =
+      pickedAcc !== null &&
+      pickedAcc.oldVal.trim().toLowerCase() !== pickedAcc.newVal.trim().toLowerCase();
+    const isSpacingOnlyAccChange =
+      accChanged &&
+      pickedAcc !== null &&
+      pickedAcc.oldVal.replace(/\s+/g, '').toLowerCase() ===
+        pickedAcc.newVal.replace(/\s+/g, '').toLowerCase();
+    const rekChanged =
+      pickedRek !== null &&
+      pickedRek.oldVal.trim() !== pickedRek.newVal.trim();
+
+    let ket = 'Pergantian Data Rekening';
+    let nb = 'Pergantian Data Rekening';
+
+    if (isSpacingOnlyAccChange && !bankChanged && !rekChanged) {
+      ket = 'Perbaiki Spasi Pada Nama Rekening';
+      nb = 'Perbaiki Spasi Pada Nama Rekening';
+    } else if (bankChanged) {
+      ket = 'Pergantian Data Rekening';
+      nb = 'Pergantian Pada Jenis Bank';
+    } else if (accChanged && !rekChanged) {
+      ket = 'Pergantian Data Rekening';
+      nb = 'Pergantian Pada Nama Rekening';
+    } else if (rekChanged && !accChanged) {
+      ket = 'Pergantian Data Rekening';
+      nb = 'Pergantian Pada No Rekening';
+    } else if (accChanged && rekChanged) {
+      ket = 'Pergantian Data Rekening';
+      nb = 'Pergantian Pada Nama & No Rekening';
     }
 
-    if (beforeParts.length === 0) {
-      beforeParts.push('-');
-      afterParts.push('-');
-      ketTags.push('UPDATE DATA USER');
-    }
+    const beforeData = `${bankBefore}, ${accBefore}, ${rekBefore}`;
+    const afterData = `${bankAfter}, ${accAfter}, ${rekAfter}`;
 
     rows.push({
       no: rows.length + 1,
       dateTime,
+      formattedDate,
       userId,
-      staff,
-      beforeData: beforeParts.join(' | '),
-      afterData: afterParts.join(' | '),
-      keterangan: ketTags.join(' + '),
+      logStaff,
+      staff: staffDisplay,
+      beforeData,
+      afterData,
+      ket,
+      nb,
+      keterangan: nb,
     });
   });
 
@@ -172,7 +349,7 @@ function parseChangeLogs(
 export const LaporanCsPanel: React.FC<LaporanCsPanelProps> = ({
   onCopyText,
 }) => {
-  const [staffAlias, setStaffAlias] = useState('DON PABLO');
+  const [staffAlias, setStaffAlias] = useState('');
   const [mode, setMode] = useState<LaporanMode>('ganti-data');
   const [autoClear, setAutoClear] = useState(true);
   const [rawInput, setRawInput] = useState('');
@@ -199,19 +376,20 @@ export const LaporanCsPanel: React.FC<LaporanCsPanelProps> = ({
 
   const compiledReport = useMemo(() => {
     if (rows.length === 0) return '';
-    const title =
-      mode === 'ganti-data'
-        ? 'LAPORAN GANTI DATA MEMBER'
-        : mode === 'locked-unlock'
-          ? 'LAPORAN LOCKED / UNLOCK AKUN'
-          : 'LAPORAN CROSSCHECK LOCKED AKUN';
 
-    const lines = rows.map(
-      (r) =>
-        `${r.no}. ${r.userId} | ${r.keterangan}\n   Sebelumnya: ${r.beforeData}\n   Terbaru: ${r.afterData} (${r.dateTime})`
-    );
-    return `${title}\nStaff: ${staffAlias || 'DON PABLO'}\nTotal: ${rows.length} Akun\n\n${lines.join('\n')}`;
-  }, [rows, mode, staffAlias]);
+    return rows
+      .map(
+        (r) =>
+          `Staff : ${r.staff}\n` +
+          `Tanggal : ${r.formattedDate}\n\n` +
+          `User ID : ${r.userId}\n` +
+          `Ket : ${r.ket}\n` +
+          `Data Sebelumnya : ${r.beforeData}\n` +
+          `Data Terbarunya : ${r.afterData}\n\n` +
+          `NB : ${r.nb}`
+      )
+      .join('\n\n\n');
+  }, [rows]);
 
   const handleCopyReport = () => {
     if (!compiledReport) return;
@@ -284,7 +462,8 @@ export const LaporanCsPanel: React.FC<LaporanCsPanelProps> = ({
                 type="text"
                 value={staffAlias}
                 onChange={(e) => setStaffAlias(e.target.value)}
-                className="w-32 bg-transparent text-xs font-extrabold text-black dark:text-white focus:outline-none border-b border-[#CBB9A0] dark:border-[#4D3627]"
+                placeholder="Ismail / Nama CS"
+                className="w-32 bg-transparent text-xs font-extrabold text-black dark:text-white placeholder-[#8D7B6A] focus:outline-none border-b border-[#CBB9A0] dark:border-[#4D3627]"
               />
             </div>
           </div>
@@ -406,7 +585,7 @@ export const LaporanCsPanel: React.FC<LaporanCsPanelProps> = ({
             value={rawInput}
             onChange={(e) => setRawInput(e.target.value)}
             onPaste={() => scheduleAutoClear()}
-            placeholder={`Tempelkan format log ganti data di sini...\n\nContoh 1 (Perbaiki Spasi Nama):\n1 12-09-2026 20:38:31 keoaaecs9 change user info cawah09xxxx bank : gopay -> GOPAY,bank : Dahliasari -> Dahlia Sari,acc : Dahliasari -> Dahlia Sari,rek : 089638137501 -> 089638137501\n\nContoh 2 (Ganti No Rekening):\n8 12-09-2026 12:14:27 keoaaecs9 change user info lesi678xxxx bank : gopay -> GOPAY,rek : 08569404728 -> 085694047282`}
+            placeholder={`Tempelkan format log ganti data di sini...\n\nContoh 1 (Ganti No Rek):\n2\t12-09-2026 12:14:27\tkeoaacs9\tchange user info lesi678xxxx\tbank : gopay => GOPAY,rek : 08569404728 => 085694047282,bank : gopay => GOPAY,acc : Iwan Setiawan => Iwan Setiawan,rek : 08569404728 => 085694047282,color : #FFFFFF => white\tlesi678xxxx`}
             className="flex-1 w-full p-3.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-mono-tabular focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
           />
 
@@ -473,15 +652,10 @@ export const LaporanCsPanel: React.FC<LaporanCsPanelProps> = ({
             type="button"
             disabled={!compiledReport}
             onClick={handleCopyReport}
-            className="w-full py-2.5 px-4 rounded-xl bg-[#4A2B18] hover:bg-[#361F11] dark:bg-[#C59656] dark:hover:bg-[#B58342] text-white dark:text-[#140D09] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed shadow-xs text-center"
+            className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#4A2B18] hover:bg-[#361F11] dark:bg-[#C59656] dark:hover:bg-[#B58342] text-white dark:text-[#140D09] text-xs font-extrabold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed shadow-xs"
           >
-            <div className="inline-flex items-center justify-center gap-2 text-xs font-extrabold">
-              <Copy className="w-3.5 h-3.5" />
-              <span>COPY GANTI DATA NAIK LAPORAN</span>
-            </div>
-            <div className="text-[10px] opacity-85">
-              • Input mentah otomatis dibersihkan saat tombol ini diklik
-            </div>
+            <Copy className="w-3.5 h-3.5 shrink-0" />
+            <span>COPY GANTI DATA NAIK LAPORAN</span>
           </button>
 
           <div className="flex items-center justify-between text-xs pt-0.5">
@@ -491,7 +665,7 @@ export const LaporanCsPanel: React.FC<LaporanCsPanelProps> = ({
             <span className="font-bold text-[#3D322B] dark:text-[#D6C7B5]">
               Staff:{' '}
               <strong className="text-[#4A2B18] dark:text-[#E5B874]">
-                {staffAlias || 'DON PABLO'}
+                {staffAlias.trim() || '-'}
               </strong>
             </span>
           </div>

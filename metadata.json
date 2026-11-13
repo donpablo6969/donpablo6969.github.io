@@ -2,5 +2,7 @@
   "name": "HS GROUP 711 — Dashboard Kerja CS & Kasir",
   "description": "Sistem layanan terpadu operasional Customer Service dan Kasir dengan dukungan mode terang dan gelap.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
