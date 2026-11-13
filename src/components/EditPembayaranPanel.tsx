@@ -18,6 +18,7 @@ import { BniMobileGeneratorEmbed } from './BniMobileGeneratorEmbed';
 import { BniWonderGeneratorEmbed } from './BniWonderGeneratorEmbed';
 import { LivinMandiriGeneratorEmbed } from './LivinMandiriGeneratorEmbed';
 import { BrimoGeneratorEmbed } from './BrimoGeneratorEmbed';
+import { TransaksiSlotPanel } from './TransaksiSlotPanel';
 
 interface EditPembayaranPanelProps {
   bankChannels: BankChannel[];
@@ -101,13 +102,11 @@ const RECEIPT_BANKS: {
 ];
 
 const CATEGORIES: { id: EditCategory; label: string }[] = [
-  { id: 'struk', label: 'Edit Struk Transfer' },
-  { id: 'history', label: 'History Transaksi' },
-  { id: 'slot', label: 'Edit Transaksi Slot' },
-  { id: 'togel', label: 'Edit Transaksi Togel' },
-  { id: 'livegame', label: 'Edit Transaksi Livegame' },
-  { id: 'seamless', label: 'Edit Seamless' },
-  { id: 'invoice-merah', label: 'Editor Slip Bukti Bet Togel (Invoice Merah)' },
+  { id: 'struk', label: 'Struk Transfer' },
+  { id: 'slot', label: 'Transaksi Slot' },
+  { id: 'togel', label: 'Transaksi Togel' },
+  { id: 'invoice-merah', label: 'Bet Togel' },
+  { id: 'livegame', label: 'Transaksi Livegame' },
 ];
 
 const SAMPLE_RECIPIENTS = [
@@ -378,117 +377,110 @@ export const EditPembayaranPanel: React.FC<EditPembayaranPanelProps> = ({
 
   return (
     <div className="space-y-5">
-      {/* Top Header + Right Category Selector Card */}
-      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] p-5 grid grid-cols-1 xl:grid-cols-12 gap-5 items-center">
-        <div className="xl:col-span-7 space-y-1.5">
-          <div className="flex flex-wrap items-center gap-2 text-[11px] font-extrabold uppercase tracking-wider text-[#4A2B18] dark:text-[#E5B874]">
-            <span className="px-2 py-0.5 rounded bg-[#EAE0D2] dark:bg-[#2E2017] border border-[#CBB9A0] dark:border-[#4D3627]">
-              PAYMENT &amp; TRANSACTION SUITE
-            </span>
-            <span>MULTI-MODE EDITOR KASIR</span>
+      {/* Compact Header + Category Bar */}
+      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] px-4 py-3 space-y-2.5">
+        <div className="space-y-0.5">
+          <div className="text-[11px] font-extrabold uppercase tracking-wider text-[#4A2B18] dark:text-[#E5B874]">
+            PAYMENT &amp; TRANSACTION SUITE
           </div>
-          <h1 className="text-2xl font-extrabold text-black dark:text-white">
+          <h1 className="text-lg sm:text-xl font-extrabold text-black dark:text-white tracking-tight">
             EDIT PEMBAYARAN &amp; TRANSAKSI
           </h1>
-          <p className="text-xs sm:text-sm text-[#3D322B] dark:text-[#D6C7B5]">
-            Pilih modul pengeditan di panel kanan atas: Edit Struk (MY - BCA / BCA
-            Mobile / BNI / BRImo / Mandiri Livin), History Transaksi, Edit Slot,
-            Togel, Livegame, Seamless, atau Slip Bet.
-          </p>
         </div>
 
-        {/* Right Category Grid */}
-        <div className="xl:col-span-5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] border border-[#DFD1BE] dark:border-[#3A281D] p-3 space-y-2">
-          <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#4A2B18] dark:text-[#E5B874]">
-            PILIHAN KATEGORI EDIT:
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-            {CATEGORIES.map((cat) => {
-              const isInvoiceRed = cat.id === 'invoice-merah';
-              const active = activeCategory === cat.id;
+        <div className="pt-2 border-t border-[#EAE0D2] dark:border-[#332218] flex flex-wrap items-center gap-2">
+          <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#4A2B18] dark:text-[#E5B874] mr-1 whitespace-nowrap">
+            PILIHAN KATEGORI EDIT :
+          </span>
+          {CATEGORIES.map((cat) => {
+            const isInvoiceRed = cat.id === 'invoice-merah';
+            const active = activeCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => setActiveCategory(cat.id)}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold border transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
+                  active
+                    ? isInvoiceRed
+                      ? 'bg-[#9F1239] text-white border-[#9F1239]'
+                      : 'bg-[#4A2B18] text-white border-[#4A2B18] dark:bg-[#C59656] dark:text-[#140D09] dark:border-[#C59656]'
+                    : isInvoiceRed
+                      ? 'bg-[#FBE7EB] dark:bg-[#3E1621] text-[#9F1239] dark:text-[#FDA4AF] border-[#F2B8C6] dark:border-[#70263A] hover:brightness-95'
+                      : 'bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border-[#CBB9A0] dark:border-[#4D3627] hover:bg-[#EAE0D2] dark:hover:bg-[#2C1E16]'
+                }`}
+              >
+                {cat.id === 'slot' ? (
+                  <History className="w-3.5 h-3.5 shrink-0" />
+                ) : cat.id === 'invoice-merah' ? (
+                  <ReceiptText className="w-3.5 h-3.5 shrink-0" />
+                ) : (
+                  <CreditCard className="w-3.5 h-3.5 shrink-0" />
+                )}
+                <span>{cat.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {activeCategory !== 'slot' && (
+        <>
+          {/* Bank Channel Selector Strip (Strictly the 6 user-requested channels) */}
+          <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] px-4 py-3 flex flex-wrap items-center gap-2.5">
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#4A2B18] dark:text-[#E5B874] mr-1">
+              PILIH BANK / STRUK:
+            </span>
+            {RECEIPT_BANKS.map((bank) => {
+              const active = selectedBank === bank.key;
               return (
                 <button
-                  key={cat.id}
+                  key={bank.key}
                   type="button"
-                  onClick={() => setActiveCategory(cat.id)}
-                  className={`${
-                    isInvoiceRed ? 'sm:col-span-2' : ''
-                  } flex items-center gap-2 px-3 py-2 rounded-lg text-[11px] font-extrabold border text-left transition-colors cursor-pointer ${
+                  onClick={() => setSelectedBank(bank.key)}
+                  className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-extrabold border transition-colors cursor-pointer whitespace-nowrap ${
                     active
-                      ? isInvoiceRed
-                        ? 'bg-[#9F1239] text-white border-[#9F1239]'
-                        : 'bg-[#4A2B18] text-white border-[#4A2B18] dark:bg-[#C59656] dark:text-[#140D09] dark:border-[#C59656]'
-                      : isInvoiceRed
-                        ? 'bg-[#FBE7EB] dark:bg-[#3E1621] text-[#9F1239] dark:text-[#FDA4AF] border-[#F2B8C6] dark:border-[#70263A]'
-                        : 'bg-white dark:bg-[#1F150F] text-black dark:text-white border-[#D4C4AE] dark:border-[#3A281D] hover:bg-[#EAE0D2] dark:hover:bg-[#2C1E16]'
+                      ? 'bg-[#4A2B18] text-white border-[#4A2B18] dark:bg-[#C59656] dark:text-[#140D09] dark:border-[#C59656] shadow-xs'
+                      : 'bg-[#F8F4EE] hover:bg-[#EAE0D2] dark:bg-[#140D09] dark:hover:bg-[#2C1E16] text-black dark:text-white border-[#CBB9A0] dark:border-[#4D3627]'
                   }`}
                 >
-                  {cat.id === 'history' ? (
-                    <History className="w-3.5 h-3.5 shrink-0" />
-                  ) : cat.id === 'invoice-merah' ? (
-                    <ReceiptText className="w-3.5 h-3.5 shrink-0" />
-                  ) : (
-                    <CreditCard className="w-3.5 h-3.5 shrink-0" />
-                  )}
-                  <span className="truncate">{cat.label}</span>
+                  <Smartphone className="w-3.5 h-3.5" />
+                  <span>{bank.key}</span>
                 </button>
               );
             })}
           </div>
-        </div>
-      </div>
 
-      {/* Bank Channel Selector Strip (Strictly the 6 user-requested channels) */}
-      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] px-4 py-3 flex flex-wrap items-center gap-2.5">
-        <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#4A2B18] dark:text-[#E5B874] mr-1">
-          PILIH BANK / STRUK:
-        </span>
-        {RECEIPT_BANKS.map((bank) => {
-          const active = selectedBank === bank.key;
-          return (
+          {/* Selected Bank Banner */}
+          <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
+            <div className="space-y-0.5">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-sm font-extrabold text-black dark:text-white uppercase">
+                  EDIT STRUK {selectedBank}
+                </span>
+                <span className="px-2 py-0.5 rounded bg-[#4A2B18] dark:bg-[#C59656] text-white dark:text-[#140D09] text-[10px] font-extrabold">
+                  {bankMeta.badge}
+                </span>
+              </div>
+              <p className="text-xs text-[#3D322B] dark:text-[#D6C7B5]">{bankMeta.subtitle}</p>
+            </div>
+
             <button
-              key={bank.key}
               type="button"
-              onClick={() => setSelectedBank(bank.key)}
-              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-extrabold border transition-colors cursor-pointer whitespace-nowrap ${
-                active
-                  ? 'bg-[#4A2B18] text-white border-[#4A2B18] dark:bg-[#C59656] dark:text-[#140D09] dark:border-[#C59656] shadow-xs'
-                  : 'bg-[#F8F4EE] hover:bg-[#EAE0D2] dark:bg-[#140D09] dark:hover:bg-[#2C1E16] text-black dark:text-white border-[#CBB9A0] dark:border-[#4D3627]'
-              }`}
+              onClick={handleCycleBank}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer whitespace-nowrap"
             >
-              <Smartphone className="w-3.5 h-3.5" />
-              <span>{bank.key}</span>
+              <RefreshCw className="w-3.5 h-3.5" />
+              <span>Pilih Bank Lain &rarr;</span>
             </button>
-          );
-        })}
-      </div>
-
-      {/* Selected Bank Banner */}
-      <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#3A281D] px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
-        <div className="space-y-0.5">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-sm font-extrabold text-black dark:text-white uppercase">
-              EDIT STRUK {selectedBank}
-            </span>
-            <span className="px-2 py-0.5 rounded bg-[#4A2B18] dark:bg-[#C59656] text-white dark:text-[#140D09] text-[10px] font-extrabold">
-              {bankMeta.badge}
-            </span>
           </div>
-          <p className="text-xs text-[#3D322B] dark:text-[#D6C7B5]">{bankMeta.subtitle}</p>
-        </div>
+        </>
+      )}
 
-        <button
-          type="button"
-          onClick={handleCycleBank}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-extrabold cursor-pointer whitespace-nowrap"
-        >
-          <RefreshCw className="w-3.5 h-3.5" />
-          <span>Pilih Bank Lain &rarr;</span>
-        </button>
-      </div>
-
-      {/* Main Editor Workspace: Exact Attached Script for MY - BCA / BCA MOBILE / BNI MOBILE / BNI WONDER, or Multi-Bank Editor */}
-      {selectedBank === 'MY - BCA' && activeCategory === 'struk' ? (
+      {/* Main Editor Workspace */}
+      {activeCategory === 'slot' ? (
+        <TransaksiSlotPanel onCopyText={onCopyText} />
+      ) : selectedBank === 'MY - BCA' && activeCategory === 'struk' ? (
         <MyBcaGeneratorEmbed />
       ) : selectedBank === 'BCA MOBILE' && activeCategory === 'struk' ? (
         <BcaMobileGeneratorEmbed />
