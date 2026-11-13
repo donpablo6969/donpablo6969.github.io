@@ -18,6 +18,7 @@ import {
   Coins,
   Space,
   Sun,
+  Trash2,
   Trophy,
   Wallet,
   X,
@@ -31,6 +32,7 @@ interface TopNavbarProps {
   onNavigate: (route: NavRoute) => void;
   isDark: boolean;
   onToggleTheme: () => void;
+  onClearCache: () => void;
   onLogout: () => void;
 }
 
@@ -111,6 +113,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
   onNavigate,
   isDark,
   onToggleTheme,
+  onClearCache,
   onLogout,
 }) => {
   const [openDropdown, setOpenDropdown] = useState<DropdownId>(null);
@@ -234,6 +237,18 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
                 <span className="hidden sm:inline">Tema Gelap</span>
               </>
             )}
+          </button>
+
+          {/* Clear Cache Button */}
+          <button
+            type="button"
+            onClick={onClearCache}
+            aria-label="Bersihkan Cache Aplikasi"
+            title="Bersihkan cache & segarkan memori agar tidak berat"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2D1F17] dark:hover:bg-[#3B291E] text-black dark:text-white border border-[#CBB9A0] dark:border-[#4D3627] text-xs font-bold transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+          >
+            <Trash2 className="w-3.5 h-3.5 text-[#6E3E20] dark:text-[#E5B874]" />
+            <span className="hidden sm:inline">Clear Cache</span>
           </button>
 
           {/* Logout Button */}

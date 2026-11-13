@@ -48,6 +48,7 @@ export default function App() {
     INITIAL_CASHIER_MUTATIONS
   );
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [cacheResetKey, setCacheResetKey] = useState<number>(0);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -135,6 +136,26 @@ export default function App() {
     setIsAuthenticated(false);
   };
 
+  const handleClearCache = async () => {
+    try {
+      if (typeof window !== 'undefined' && 'caches' in window) {
+        const keys = await window.caches.keys();
+        await Promise.all(keys.map((k) => window.caches.delete(k)));
+      }
+      const themeVal = localStorage.getItem('hs711-theme');
+      localStorage.clear();
+      if (themeVal) localStorage.setItem('hs711-theme', themeVal);
+
+      const authVal = sessionStorage.getItem('donpablo-auth');
+      sessionStorage.clear();
+      if (authVal) sessionStorage.setItem('donpablo-auth', authVal);
+    } catch {
+      // ignore browser storage restrictions
+    }
+    setCacheResetKey((prev) => prev + 1);
+    showToast('Cache dibersihkan & memori aplikasi disegarkan');
+  };
+
   if (!isAuthenticated) {
     return (
       <LoginGate
@@ -152,10 +173,11 @@ export default function App() {
         onNavigate={setActiveRoute}
         isDark={isDark}
         onToggleTheme={() => setIsDark((prev) => !prev)}
+        onClearCache={handleClearCache}
         onLogout={handleLogout}
       />
 
-      <main className="flex-1 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <main key={cacheResetKey} className="flex-1 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {activeRoute === 'dashboard' && (
           <DashboardHome
             wdQueue={wdQueue}
