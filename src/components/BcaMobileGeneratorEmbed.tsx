@@ -445,8 +445,8 @@ button:hover{filter:brightness(.94)}
 .partial-blur{display:inline-block;filter:blur(4px);-webkit-filter:blur(4px);color:inherit}
 #dari-rek{top:15.35%;left:7.0%;width:85%;font-size:clamp(9.5px,2.3vw,11px);font-weight:500;color:#2c353f}
 #ke-rek{top:21.35%;left:7.0%;width:80%;font-size:clamp(9.5px,2.3vw,11px);font-weight:500;color:#2c353f}
-#status-line{top:26.15%;left:14.2%;width:72%;font-size:clamp(11px,2.8vw,13px);font-weight:500;color:#0d3c78}
-#status-bold{top:28.35%;left:14.2%;width:72%;font-size:clamp(11.5px,2.9vw,13.5px);font-weight:700;color:#0d3c78}
+#status-line{top:26.15%;left:14.2%;width:72%;font-size:clamp(11px,2.8vw,13px);font-weight:400;color:#0d3c78}
+#status-bold{top:28.35%;left:14.2%;width:72%;font-size:clamp(11px,2.8vw,13px);font-weight:400;color:#0d3c78}
 #tanggal{top:30.65%;left:14.2%;width:72%;font-size:clamp(11px,2.8vw,13px);font-weight:500;color:#0d3c78}
 #rekening{top:32.85%;left:14.2%;width:72%;font-size:clamp(11px,2.8vw,13px);font-weight:500;color:#0d3c78}
 #nama{top:35.05%;left:14.2%;width:72%;font-size:clamp(11px,2.8vw,13px);font-weight:500;color:#0d3c78}
