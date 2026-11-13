@@ -2,7 +2,7 @@ name: Deploy Vite to GitHub Pages
 
 on:
   push:
-    branches: [ main ] # Sesuaikan dengan branch utama Anda (main/master)
+    branches: [ main ]
 
 jobs:
   build-and-deploy:
@@ -15,7 +15,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          # Hapus atau kosongkan cache agar tidak mencari package-lock.json
 
       - name: Install Dependencies
         run: npm install
