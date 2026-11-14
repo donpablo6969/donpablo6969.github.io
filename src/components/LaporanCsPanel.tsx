@@ -591,15 +591,11 @@ export const LaporanCsPanel: React.FC<LaporanCsPanelProps> = ({
             <span className="px-2 py-0.5 rounded bg-[#EAE0D2] dark:bg-[#2E2017] border border-[#CBB9A0] dark:border-[#D4A373]/75">
               TOOLS OPERASIONAL CS
             </span>
-            <span>Live Extractor &amp; Formatter</span>
           </div>
           <h1 className="text-2xl font-extrabold text-black dark:text-white flex items-center gap-2">
             <FileText className="w-6 h-6 text-[#4A2B18] dark:text-[#E5B874]" />
             <span>LAPORAN GANTI DATA CS</span>
           </h1>
-          <p className="text-xs sm:text-sm text-[#3D322B] dark:text-[#D6C7B5]">
-            Ekstraksi log pergantian rekening/identitas dan laporan locked/unlocked member ke format baku CS.
-          </p>
         </div>
 
         {/* Right Alias + Mode Buttons */}

@@ -17,6 +17,7 @@ import {
   Menu,
   Moon,
   Scale,
+  Send,
   Sun,
   Trash2,
   Trophy,
@@ -144,7 +145,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
       className="sticky top-0 z-40 bg-white/95 dark:bg-[#1A110C]/95 backdrop-blur-md border-b border-[#D4C4AE] dark:border-[#C59656]/60 transition-colors duration-200"
     >
       {/* Top Row: Brand (Left), Graffiti Motivation (Center), Utilities (Right) */}
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-3 grid grid-cols-[1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center gap-3 sm:gap-4 border-b border-[#E8DDD0] dark:border-[#C59656]/35">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-3 grid grid-cols-[1fr_auto] md:grid-cols-[auto_1fr_auto] items-center gap-3 sm:gap-4 border-b border-[#E8DDD0] dark:border-[#C59656]/35">
         <button
           type="button"
           onClick={() => handleSelectRoute('dashboard')}
@@ -164,7 +165,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
         </button>
 
         {/* Center Motivational Graffiti: NO PAIN | NO GAIN */}
-        <div className="hidden md:flex items-center justify-center px-2">
+        <div className="hidden md:flex items-center justify-center px-3 min-w-0">
           <GraffitiMotif isDark={isDark} size="md" />
         </div>
 
@@ -250,18 +251,18 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
         aria-label="Menu Utama CS & Kasir"
         className="hidden lg:block max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-2.5"
       >
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex items-center justify-between gap-1 xl:gap-1.5 flex-nowrap">
           {/* 1. DASHBOARD */}
           <button
             type="button"
             onClick={() => handleSelectRoute('dashboard')}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-extrabold tracking-wide transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 ${
+            className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-full text-[10px] xl:text-[11px] font-extrabold tracking-normal transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 ${
               activeRoute === 'dashboard'
                 ? 'bg-[#FFF3E0] dark:bg-[#4A2B18] text-black dark:text-white border-[#B45309] dark:border-[#F59E0B] shadow-xs'
                 : 'bg-white dark:bg-[#221710] text-black dark:text-white border-[#D97706]/55 dark:border-[#F59E0B]/45 hover:bg-[#FEF6E7] dark:hover:bg-[#2C1E15]'
             }`}
           >
-            <Home className="w-4 h-4 text-[#B45309] dark:text-[#FBBF24]" />
+            <Home className="w-3 h-3 xl:w-3.5 xl:h-3.5 text-[#B45309] dark:text-[#FBBF24] shrink-0" />
             <span>DASHBOARD</span>
           </button>
 
@@ -269,13 +270,13 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
           <button
             type="button"
             onClick={() => handleSelectRoute('bagi-bonus')}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-extrabold tracking-wide transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 ${
+            className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-full text-[10px] xl:text-[11px] font-extrabold tracking-normal transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 ${
               activeRoute === 'bagi-bonus'
                 ? 'bg-emerald-50 dark:bg-emerald-950/70 text-black dark:text-white border-emerald-600 dark:border-emerald-400 shadow-xs'
                 : 'bg-white dark:bg-[#221710] text-black dark:text-white border-emerald-600/50 dark:border-emerald-400/45 hover:bg-emerald-50/70 dark:hover:bg-emerald-950/35'
             }`}
           >
-            <Gift className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            <Gift className="w-3 h-3 xl:w-3.5 xl:h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
             <span>BAGI BONUS</span>
           </button>
 
@@ -283,46 +284,46 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
           <button
             type="button"
             onClick={() => handleSelectRoute('laporan-cs')}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-extrabold tracking-wide transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 ${
+            className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-full text-[10px] xl:text-[11px] font-extrabold tracking-normal transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 ${
               activeRoute === 'laporan-cs'
                 ? 'bg-sky-50 dark:bg-sky-950/70 text-black dark:text-white border-sky-600 dark:border-sky-400 shadow-xs'
                 : 'bg-white dark:bg-[#221710] text-black dark:text-white border-sky-600/50 dark:border-sky-400/45 hover:bg-sky-50/70 dark:hover:bg-sky-950/35'
             }`}
           >
-            <FileText className="w-4 h-4 text-sky-600 dark:text-sky-400" />
+            <FileText className="w-3 h-3 xl:w-3.5 xl:h-3.5 text-sky-600 dark:text-sky-400 shrink-0" />
             <span>LAPORAN CS</span>
           </button>
 
-          {/* 4. WD AUTO FLOP */}
+          {/* 4. WD FLOP */}
           <button
             type="button"
             onClick={() => handleSelectRoute('wd-auto-flop')}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-extrabold tracking-wide transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 ${
+            className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-full text-[10px] xl:text-[11px] font-extrabold tracking-normal transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 ${
               activeRoute === 'wd-auto-flop'
                 ? 'bg-orange-50 dark:bg-orange-950/70 text-black dark:text-white border-orange-600 dark:border-orange-400 shadow-xs'
                 : 'bg-white dark:bg-[#221710] text-black dark:text-white border-orange-600/50 dark:border-orange-400/45 hover:bg-orange-50/70 dark:hover:bg-orange-950/35'
             }`}
           >
-            <LayoutList className="w-4 h-4 text-orange-600 dark:text-orange-400" />
-            <span>WD AUTO FLOP</span>
+            <LayoutList className="w-3 h-3 xl:w-3.5 xl:h-3.5 text-orange-600 dark:text-orange-400 shrink-0" />
+            <span>WD FLOP</span>
           </button>
 
           {/* 5. ISI REKAPAN (Dropdown) */}
-          <div className="relative">
+          <div className="relative shrink-0">
             <button
               type="button"
               onClick={() => toggleDropdown('isi-rekapan')}
               aria-expanded={openDropdown === 'isi-rekapan'}
-              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-extrabold tracking-wide transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 ${
+              className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-full text-[10px] xl:text-[11px] font-extrabold tracking-normal transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 ${
                 isIsiRekapanActive || openDropdown === 'isi-rekapan'
                   ? 'bg-violet-50 dark:bg-violet-950/70 text-black dark:text-white border-violet-600 dark:border-violet-400 shadow-xs'
                   : 'bg-white dark:bg-[#221710] text-black dark:text-white border-violet-600/50 dark:border-violet-400/45 hover:bg-violet-50/70 dark:hover:bg-violet-950/35'
               }`}
             >
-              <ClipboardCheck className="w-4 h-4 text-violet-600 dark:text-violet-400" />
+              <ClipboardCheck className="w-3 h-3 xl:w-3.5 xl:h-3.5 text-violet-600 dark:text-violet-400 shrink-0" />
               <span>ISI REKAPAN</span>
               <ChevronDown
-                className={`w-3.5 h-3.5 transition-transform duration-150 ${
+                className={`w-3 h-3 transition-transform duration-150 shrink-0 ${
                   openDropdown === 'isi-rekapan' ? 'rotate-180' : ''
                 }`}
               />
@@ -369,21 +370,21 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
           </div>
 
           {/* 6. CARI SELISIH (Dropdown) */}
-          <div className="relative">
+          <div className="relative shrink-0">
             <button
               type="button"
               onClick={() => toggleDropdown('cari-selisih')}
               aria-expanded={openDropdown === 'cari-selisih'}
-              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-extrabold tracking-wide transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 ${
+              className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-full text-[10px] xl:text-[11px] font-extrabold tracking-normal transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 ${
                 isCariSelisihActive || openDropdown === 'cari-selisih'
                   ? 'bg-rose-50 dark:bg-rose-950/70 text-black dark:text-white border-rose-600 dark:border-rose-400 shadow-xs'
                   : 'bg-white dark:bg-[#221710] text-black dark:text-white border-rose-600/50 dark:border-rose-400/45 hover:bg-rose-50/70 dark:hover:bg-rose-950/35'
               }`}
             >
-              <Scale className="w-4 h-4 text-rose-600 dark:text-rose-400" />
+              <Scale className="w-3 h-3 xl:w-3.5 xl:h-3.5 text-rose-600 dark:text-rose-400 shrink-0" />
               <span>CARI SELISIH</span>
               <ChevronDown
-                className={`w-3.5 h-3.5 transition-transform duration-150 ${
+                className={`w-3 h-3 transition-transform duration-150 shrink-0 ${
                   openDropdown === 'cari-selisih' ? 'rotate-180' : ''
                 }`}
               />
@@ -429,45 +430,59 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
             )}
           </div>
 
-          {/* 7. EDITING */}
+          {/* 7. AUTO POSTING (next to CARI SELISIH) */}
+          <button
+            type="button"
+            onClick={() => handleSelectRoute('auto-posting')}
+            className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-full text-[10px] xl:text-[11px] font-extrabold tracking-normal transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 ${
+              activeRoute === 'auto-posting'
+                ? 'bg-amber-50 dark:bg-amber-950/70 text-black dark:text-white border-amber-600 dark:border-amber-400 shadow-xs'
+                : 'bg-white dark:bg-[#221710] text-black dark:text-white border-amber-600/50 dark:border-amber-400/45 hover:bg-amber-50/70 dark:hover:bg-amber-950/35'
+            }`}
+          >
+            <Send className="w-3 h-3 xl:w-3.5 xl:h-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
+            <span>AUTO POSTING</span>
+          </button>
+
+          {/* 8. EDIT FOTO */}
           <button
             type="button"
             onClick={() => handleSelectRoute('edit-pembayaran')}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-extrabold tracking-wide transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 ${
+            className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-full text-[10px] xl:text-[11px] font-extrabold tracking-normal transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 ${
               activeRoute === 'edit-pembayaran'
                 ? 'bg-teal-50 dark:bg-teal-950/70 text-black dark:text-white border-teal-600 dark:border-teal-400 shadow-xs'
                 : 'bg-white dark:bg-[#221710] text-black dark:text-white border-teal-600/50 dark:border-teal-400/45 hover:bg-teal-50/70 dark:hover:bg-teal-950/35'
             }`}
           >
-            <CreditCard className="w-4 h-4 text-teal-600 dark:text-teal-400" />
-            <span>EDITING</span>
+            <CreditCard className="w-3 h-3 xl:w-3.5 xl:h-3.5 text-teal-600 dark:text-teal-400 shrink-0" />
+            <span>EDIT FOTO</span>
           </button>
 
-          {/* 8. VALIDASI REKENING */}
+          {/* 9. VALIDASI REK */}
           <button
             type="button"
             onClick={() => handleSelectRoute('validasi')}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-extrabold tracking-wide transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 border-dashed ${
+            className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-full text-[10px] xl:text-[11px] font-extrabold tracking-normal transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 border-dashed ${
               activeRoute === 'validasi'
                 ? 'bg-indigo-50 dark:bg-indigo-950/70 text-black dark:text-white border-indigo-600 dark:border-indigo-400 shadow-xs'
                 : 'bg-white dark:bg-[#221710] text-black dark:text-white border-indigo-600/55 dark:border-indigo-400/50 hover:bg-indigo-50/70 dark:hover:bg-indigo-950/35'
             }`}
           >
-            <CheckSquare className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-            <span>VALIDASI REKENING</span>
+            <CheckSquare className="w-3 h-3 xl:w-3.5 xl:h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <span>VALIDASI REK</span>
           </button>
 
-          {/* 9. CEK NAWALA */}
+          {/* 10. CEK NAWALA */}
           <button
             type="button"
             onClick={() => handleSelectRoute('cek-nawala')}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-extrabold tracking-wide transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 border-dashed ${
+            className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-full text-[10px] xl:text-[11px] font-extrabold tracking-normal transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer border-2 border-dashed ${
               activeRoute === 'cek-nawala'
                 ? 'bg-fuchsia-50 dark:bg-fuchsia-950/70 text-black dark:text-white border-fuchsia-600 dark:border-fuchsia-400 shadow-xs'
                 : 'bg-white dark:bg-[#221710] text-black dark:text-white border-fuchsia-600/55 dark:border-fuchsia-400/50 hover:bg-fuchsia-50/70 dark:hover:bg-fuchsia-950/35'
             }`}
           >
-            <Globe className="w-4 h-4 text-fuchsia-600 dark:text-fuchsia-400" />
+            <Globe className="w-3 h-3 xl:w-3.5 xl:h-3.5 text-fuchsia-600 dark:text-fuchsia-400 shrink-0" />
             <span>CEK NAWALA</span>
           </button>
         </div>
@@ -541,7 +556,20 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
               }`}
             >
               <LayoutList className="w-4 h-4 shrink-0 text-orange-600 dark:text-orange-400" />
-              <span>WD AUTO FLOP</span>
+              <span>WD FLOP</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleSelectRoute('auto-posting')}
+              className={`flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-xs font-extrabold border-2 text-left ${
+                activeRoute === 'auto-posting'
+                  ? 'bg-amber-50 dark:bg-amber-950/70 text-black dark:text-white border-amber-600 dark:border-amber-400'
+                  : 'bg-white dark:bg-[#231811] text-black dark:text-white border-amber-600/50 dark:border-amber-400/40'
+              }`}
+            >
+              <Send className="w-4 h-4 shrink-0 text-amber-600 dark:text-amber-400" />
+              <span>AUTO POSTING</span>
             </button>
 
             <button
@@ -554,7 +582,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
               }`}
             >
               <CreditCard className="w-4 h-4 shrink-0 text-teal-600 dark:text-teal-400" />
-              <span>EDITING</span>
+              <span>EDIT FOTO</span>
             </button>
 
             <button
@@ -567,13 +595,13 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
               }`}
             >
               <CheckSquare className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
-              <span>VALIDASI REKENING</span>
+              <span>VALIDASI REK</span>
             </button>
 
             <button
               type="button"
               onClick={() => handleSelectRoute('cek-nawala')}
-              className={`flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-xs font-extrabold border-2 border-dashed text-left sm:col-span-2 ${
+              className={`flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-xs font-extrabold border-2 border-dashed text-left ${
                 activeRoute === 'cek-nawala'
                   ? 'bg-fuchsia-50 dark:bg-fuchsia-950/70 text-black dark:text-white border-fuchsia-600 dark:border-fuchsia-400'
                   : 'bg-white dark:bg-[#231811] text-black dark:text-white border-fuchsia-600/50 dark:border-fuchsia-400/45'

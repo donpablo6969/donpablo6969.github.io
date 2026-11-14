@@ -258,10 +258,6 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
             <FileSpreadsheet className="w-6 h-6 text-[#4A2B18] dark:text-[#E5B874]" />
             <span>ISI REKAPAN &amp; VALIDASI DATA CS</span>
           </h1>
-          <p className="text-xs sm:text-sm text-[#3D322B] dark:text-[#D6C7B5]">
-            Form khusus CS &amp; Kasir untuk menghitung cepat transaksi per bank,
-            total validasi PL harian, rekapitulasi koin, dan data turnover shift.
-          </p>
         </div>
 
         <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#EAE0D2] dark:bg-[#2C1E16] border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold text-[#4A2B18] dark:text-[#E5B874] shrink-0">
@@ -314,16 +310,6 @@ export const RekapanTotoPanel: React.FC<RekapanTotoPanelProps> = ({
 
       {mode === 'validasi-pl' && (
         <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 space-y-4">
-          {/* Centered Pill Header */}
-          <div className="text-center space-y-1">
-            <span className="inline-block px-4 py-1 rounded-full bg-[#4A2B18] dark:bg-[#C59656] text-white dark:text-[#140D09] text-xs font-extrabold uppercase tracking-wider">
-              ISI DATA VALIDASI
-            </span>
-            <p className="text-xs text-[#3D322B] dark:text-[#D6C7B5]">
-              Tempel data transaksi. Tombol Copy Baris Count menyalin semua hasil.
-            </p>
-          </div>
-
           {/* Preset & Clipboard Action Row */}
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2">

@@ -8,6 +8,7 @@ export type NavRoute =
   | 'rekapan-toto'
   | 'rekapan-wl-sportbooks'
   | 'laporan-cs'
+  | 'auto-posting'
   | 'validasi'
   | 'cek-nawala';
 

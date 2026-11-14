@@ -11,6 +11,7 @@ import {
   Trophy,
   Zap,
 } from 'lucide-react';
+import { BonusParlaySection } from './BonusParlaySection';
 import { formatRupiah } from '../utils/formatters';
 
 interface BagiBonusPanelProps {
@@ -58,47 +59,47 @@ const BONUS_EXAMPLES: {
 }[] = [
   {
     id: 'beli-fitur-150k',
-    label: 'Contoh: Beli Fitur PG 150k (medanxxxx)',
+    label: 'Beli Fitur PG 150k (medanxxxx)',
     sample: `User: medanxxxx | Rek: BAMBANG SUTEDJO (5220391823)\n2026-11-13 14:22:10 | PGSOFT | Mahjong Ways 2 | Ticket: PG-98412201\nDEBIT (Buy Spin): 150,000\nCREDIT (Win): 920,000`,
   },
   {
     id: 'buy-spin-pg',
-    label: 'Contoh: Buy Spin PG (jayaxxxx - Bet 1.2k)',
+    label: 'Buy Spin PG (jayaxxxx - Bet 1.2k)',
     sample: `User: jayaxxxx | Rek: AHMAD FAUZI (1370019284719)\n2026-11-13 14:25:05 | PGSOFT | Mahjong Ways | Ticket: PG-77210498\nDEBIT: 1,200\nCREDIT: 480,000`,
   },
   {
     id: 'scatter-sah',
-    label: 'Contoh: Scatter Sah (rubenxxxx)',
+    label: 'Scatter Sah (rubenxxxx)',
     sample: `User: rubenxxxx | Rek: RUBEN KUSUMA (8220192841)\n2026-11-13 14:31:19 | PGSOFT | Mahjong Ways 2 | Ticket: MW2-55190231\nDEBIT: 2,000\nCREDIT: 350,000`,
   },
   {
     id: 'keduanya-sah',
-    label: 'Contoh: Keduanya Sah (isnaxxxx)',
+    label: 'Keduanya Sah (isnaxxxx)',
     sample: `User: isnaxxxx | Rek: ISNAENI (034101002938501)\n2026-11-13 14:40:12 | PGSOFT | Mahjong Ways 2 | Ticket: MW2-88123904\nDEBIT: 2,000\nCREDIT: 850,000`,
   },
   {
     id: 'harian-sah',
-    label: 'Contoh: Harian Sah (nirwanaxxxx)',
+    label: 'Harian Sah (nirwanaxxxx)',
     sample: `User: nirwanaxxxx | Rek: NIRWANA (081392817401)\n2026-11-13 14:45:00 | PRAGMATIC PLAY | Gates of Olympus | Round: PP-44019283\nDEBIT: 2,000\nCREDIT: 720,000`,
   },
   {
     id: 'ditolak-2-tiket',
-    label: 'Contoh: Ditolak (2 Tiket - 2409xxxx)',
+    label: 'Ditolak (2 Tiket - 2409xxxx)',
     sample: `User: 2409xxxx | Rek: DEDI SURYADI (012901928471502)\n2026-11-13 14:50:11 | PGSOFT | Mahjong Ways | Ticket: MW-112233\n2026-11-13 14:51:04 | PGSOFT | Mahjong Ways | Ticket: MW-112234\nDEBIT: 2,000\nCREDIT: 400,000`,
   },
   {
     id: 'mahjong-ways',
-    label: 'Contoh: Mahjong Ways (ceyaxxxx)',
+    label: 'Mahjong Ways (ceyaxxxx)',
     sample: `User: ceyaxxxx | Rek: CEYA PUTRI (1189029384)\n2026-11-13 15:02:33 | PGSOFT | Mahjong Ways | Ticket: MW1-9910283\nDEBIT: 1,600\nCREDIT: 240,000`,
   },
   {
     id: 'mighty-mania',
-    label: 'Contoh: Mighty Mania (lepenxxxx)',
+    label: 'Mighty Mania (lepenxxxx)',
     sample: `User: lepenxxxx | Rek: HENDRA WIJAYA (0844192837)\n2026-11-13 15:10:44 | IDNSLOT | Mighty Mania | Round: IDN-8871203\nDEBIT: 1,000\nCREDIT: 420,000`,
   },
   {
     id: 'ditolak-debit-2x',
-    label: 'Contoh: Ditolak (Debit 2x)',
+    label: 'Ditolak (Debit 2x)',
     sample: `User: tolakxxxx | Rek: BUDI SANTOSO (5501928374)\n2026-11-13 15:15:20 | PRAGMATIC PLAY | Starlight Princess | Round: PP-990123\nDEBIT: 1,000\nDEBIT: 1,000\nCREDIT: 350,000`,
   },
 ];
@@ -247,6 +248,7 @@ export const BagiBonusPanel: React.FC<BagiBonusPanelProps> = ({ onCopyText }) =>
   const [rawInput, setRawInput] = useState('');
   const [processedRaw, setProcessedRaw] = useState('');
   const [autoClearSec, setAutoClearSec] = useState<3 | 5 | 10>(5);
+  const [remainingClearSec, setRemainingClearSec] = useState<number | null>(null);
   const [showPgTable, setShowPgTable] = useState(false);
 
   const [manualMode, setManualMode] = useState(false);
@@ -255,30 +257,60 @@ export const BagiBonusPanel: React.FC<BagiBonusPanelProps> = ({ onCopyText }) =>
   const [editingBet, setEditingBet] = useState(false);
   const [betOverride, setBetOverride] = useState<number | null>(null);
 
-  // Parlay Bonus Tab state
-  const [parlayUserId, setParlayUserId] = useState('koko_parlay88');
-  const [parlayTeams, setParlayTeams] = useState(5);
-  const [parlayStake, setParlayStake] = useState(50000);
-  const [parlayResult, setParlayResult] = useState<'MENANG_FULL' | 'KALAH_1_TIM'>('MENANG_FULL');
-
   const timerRef = useRef<number | null>(null);
+  const countdownIntervalRef = useRef<number | null>(null);
+
+  const stopAutoClearTimers = () => {
+    if (timerRef.current) {
+      window.clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    if (countdownIntervalRef.current) {
+      window.clearInterval(countdownIntervalRef.current);
+      countdownIntervalRef.current = null;
+    }
+    setRemainingClearSec(null);
+  };
 
   useEffect(() => {
     return () => {
       if (timerRef.current) window.clearTimeout(timerRef.current);
+      if (countdownIntervalRef.current) window.clearInterval(countdownIntervalRef.current);
     };
   }, []);
 
-  const scheduleAutoClear = () => {
-    if (timerRef.current) window.clearTimeout(timerRef.current);
+  const clearAllInputData = () => {
+    stopAutoClearTimers();
+    setRawInput('');
+    setProcessedRaw('');
+    setBetOverride(null);
+    setEditingBet(false);
+  };
+
+  const scheduleAutoClear = (secondsOverride?: 3 | 5 | 10) => {
+    const duration = secondsOverride ?? autoClearSec;
+    stopAutoClearTimers();
+    setRemainingClearSec(duration);
+
+    countdownIntervalRef.current = window.setInterval(() => {
+      setRemainingClearSec((prev) => {
+        if (prev === null || prev <= 1) return null;
+        return prev - 1;
+      });
+    }, 1000);
+
     timerRef.current = window.setTimeout(() => {
-      setRawInput('');
-    }, autoClearSec * 1000);
+      clearAllInputData();
+    }, duration * 1000);
   };
 
   const handleProcess = () => {
     setProcessedRaw(rawInput);
-    if (rawInput.trim()) scheduleAutoClear();
+    if (rawInput.trim()) {
+      scheduleAutoClear();
+    } else {
+      stopAutoClearTimers();
+    }
   };
 
   const handleLoadExample = (sample: string) => {
@@ -286,14 +318,21 @@ export const BagiBonusPanel: React.FC<BagiBonusPanelProps> = ({ onCopyText }) =>
     setEditingBet(false);
     setRawInput(sample);
     setProcessedRaw(sample);
+    scheduleAutoClear();
   };
 
   const handleClear = () => {
-    if (timerRef.current) window.clearTimeout(timerRef.current);
-    setRawInput('');
-    setProcessedRaw('');
-    setBetOverride(null);
-    setEditingBet(false);
+    clearAllInputData();
+  };
+
+  const handleCopyScatterResult = (text: string) => {
+    onCopyText(text, 'Bonus Scatter');
+    clearAllInputData();
+  };
+
+  const handleCopyHarianResult = (text: string) => {
+    onCopyText(text, 'Bonus Harian Slot');
+    clearAllInputData();
   };
 
   const parsed = useMemo(
@@ -306,14 +345,6 @@ export const BagiBonusPanel: React.FC<BagiBonusPanelProps> = ({ onCopyText }) =>
       ),
     [processedRaw, rawInput, manualMode, manualName, manualAcc, betOverride]
   );
-
-  const parlayBonusEstimate = useMemo(() => {
-    if (parlayStake < 25000) return 0;
-    if (parlayResult === 'KALAH_1_TIM') return Math.min(250000, parlayStake);
-    if (parlayTeams >= 8) return Math.min(1500000, parlayStake * 3);
-    if (parlayTeams >= 5) return Math.min(500000, parlayStake);
-    return 0;
-  }, [parlayTeams, parlayStake, parlayResult]);
 
   return (
     <div className="space-y-5">
@@ -328,12 +359,8 @@ export const BagiBonusPanel: React.FC<BagiBonusPanelProps> = ({ onCopyText }) =>
           </div>
           <h1 className="text-2xl font-extrabold text-black dark:text-white flex items-center gap-2">
             <Gift className="w-6 h-6 text-[#4A2B18] dark:text-[#E5B874]" />
-            <span>BAGI BONUS — SCATTER &amp; HARIAN SLOT</span>
+            <span>BAGI BONUS - SCATTER | HARIAN SLOT | TIKET PARLAY</span>
           </h1>
-          <p className="text-xs sm:text-sm text-[#3D322B] dark:text-[#D6C7B5]">
-            Pengecekan dan validasi otomatis tiket klaim scatter Mahjong Ways, PG
-            Soft, dan event turnamen slot harian.
-          </p>
         </div>
 
         {/* Right Mode Switcher */}
@@ -366,93 +393,7 @@ export const BagiBonusPanel: React.FC<BagiBonusPanelProps> = ({ onCopyText }) =>
       </div>
 
       {activeTab === 'parlay' ? (
-        <div className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 space-y-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-base font-extrabold text-black dark:text-white">
-                VALIDATOR EVENT BONUS MIX PARLAY
-              </h2>
-              <p className="text-xs text-[#3D322B] dark:text-[#D6C7B5]">
-                Hitung bonus ekstra kemenangan parlay 5-8 tim atau cashback kalah 1 tim.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() =>
-                onCopyText(
-                  `BONUS PARLAY · ${parlayUserId}\nTim: ${parlayTeams} Partai | Stake: ${formatRupiah(parlayStake)}\nHasil: ${parlayResult}\nBonus: ${formatRupiah(parlayBonusEstimate)}`,
-                  'Hasil Bonus Parlay'
-                )
-              }
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#4A2B18] dark:bg-[#C59656] text-white dark:text-[#140D09] text-xs font-extrabold cursor-pointer"
-            >
-              <Copy className="w-3.5 h-3.5" />
-              <span>Copy Hasil Parlay</span>
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div>
-              <label className="block text-[11px] font-extrabold text-black dark:text-white mb-1">
-                User ID Member
-              </label>
-              <input
-                type="text"
-                value={parlayUserId}
-                onChange={(e) => setParlayUserId(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-bold"
-              />
-            </div>
-            <div>
-              <label className="block text-[11px] font-extrabold text-black dark:text-white mb-1">
-                Jumlah Tim / Partai
-              </label>
-              <input
-                type="number"
-                min={3}
-                max={15}
-                value={parlayTeams}
-                onChange={(e) => setParlayTeams(Number(e.target.value) || 3)}
-                className="w-full px-3 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-bold"
-              />
-            </div>
-            <div>
-              <label className="block text-[11px] font-extrabold text-black dark:text-white mb-1">
-                Modal Taruhan (Rp)
-              </label>
-              <input
-                type="number"
-                value={parlayStake}
-                onChange={(e) => setParlayStake(Number(e.target.value) || 0)}
-                className="w-full px-3 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular font-bold"
-              />
-            </div>
-            <div>
-              <label className="block text-[11px] font-extrabold text-black dark:text-white mb-1">
-                Status Tiket
-              </label>
-              <select
-                value={parlayResult}
-                onChange={(e) =>
-                  setParlayResult(e.target.value as 'MENANG_FULL' | 'KALAH_1_TIM')
-                }
-                className="w-full px-3 py-2.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold"
-              >
-                <option value="MENANG_FULL">MENANG FULL (JP)</option>
-                <option value="KALAH_1_TIM">KALAH 1 TIM (REFUND)</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="p-4 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] border border-[#D4C4AE] dark:border-[#C59656]/60 flex items-center justify-between">
-            <span className="text-xs font-extrabold text-black dark:text-white">
-              ESTIMASI BONUS PARLAY DIBERIKAN
-            </span>
-            <span className="text-xl font-extrabold font-mono-tabular text-[#147D4E] dark:text-[#6EE7A8]">
-              {formatRupiah(parlayBonusEstimate)}
-            </span>
-          </div>
-        </div>
+        <BonusParlaySection onCopyText={onCopyText} />
       ) : (
         <>
           {/* Validator Header + Quick Example Chips */}
@@ -463,17 +404,10 @@ export const BagiBonusPanel: React.FC<BagiBonusPanelProps> = ({ onCopyText }) =>
                   <span className="px-2 py-0.5 rounded bg-[#EAE0D2] dark:bg-[#2E2017] text-[#4A2B18] dark:text-[#E5B874]">
                     VALIDATOR KELAYAKAN BONUS
                   </span>
-                  <span className="text-[#5D4C3E] dark:text-[#D6C7B5]">
-                    Auto Audit, Anti-Double &amp; Buy Spin Support
-                  </span>
                 </div>
                 <h2 className="text-lg font-extrabold text-black dark:text-white">
                   BONUS HARIAN SLOT &amp; MAHJONG WAYS
                 </h2>
-                <p className="text-xs text-[#3D322B] dark:text-[#D6C7B5]">
-                  Audit otomatis kelayakan klaim bonus member berdasarkan nilai
-                  taruhan, total kemenangan, fitur buy spin, dan batas win-up.
-                </p>
               </div>
 
               <div className="flex flex-wrap gap-1.5 xl:max-w-[68%]">
@@ -558,9 +492,8 @@ export const BagiBonusPanel: React.FC<BagiBonusPanelProps> = ({ onCopyText }) =>
                     disabled={!parsed}
                     onClick={() =>
                       parsed &&
-                      onCopyText(
-                        `BONUS SCATTER | ${parsed.userId} | ${parsed.game} | Menang ${formatRupiah(parsed.totalWin)} | Bonus ${formatRupiah(parsed.scatterBonus)}`,
-                        'Bonus Scatter'
+                      handleCopyScatterResult(
+                        `BONUS SCATTER | ${parsed.userId} | ${parsed.game} | Menang ${formatRupiah(parsed.totalWin)} | Bonus ${formatRupiah(parsed.scatterBonus)}`
                       )
                     }
                     className="px-2.5 py-1 rounded-lg bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-[10px] font-extrabold disabled:opacity-45 cursor-pointer"
@@ -572,9 +505,8 @@ export const BagiBonusPanel: React.FC<BagiBonusPanelProps> = ({ onCopyText }) =>
                     disabled={!parsed}
                     onClick={() =>
                       parsed &&
-                      onCopyText(
-                        `BONUS HARIAN SLOT | ${parsed.userId} | ${parsed.provider} - ${parsed.game} | Win x${parsed.multiplier.toFixed(1)} | Bonus ${formatRupiah(parsed.harianBonus)}`,
-                        'Bonus Harian Slot'
+                      handleCopyHarianResult(
+                        `BONUS HARIAN SLOT | ${parsed.userId} | ${parsed.provider} - ${parsed.game} | Win x${parsed.multiplier.toFixed(1)} | Bonus ${formatRupiah(parsed.harianBonus)}`
                       )
                     }
                     className="px-2.5 py-1 rounded-lg bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2C1E16] dark:hover:bg-[#3A281D] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-[10px] font-extrabold disabled:opacity-45 cursor-pointer"
@@ -584,13 +516,19 @@ export const BagiBonusPanel: React.FC<BagiBonusPanelProps> = ({ onCopyText }) =>
                 </div>
 
                 {/* Auto Clear Selector */}
-                <div className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] border border-[#CBB9A0] dark:border-[#D4A373]/75 text-[10px] font-extrabold text-black dark:text-white">
-                  <span>AUTO CLEAR: {autoClearSec}s</span>
+                <div className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-[#F8F4EE] dark:bg-[#140D09] border border-[#CBB9A0] dark:border-[#D4A373]/75 text-[10px] font-extrabold text-black dark:text-white font-mono-tabular">
+                  <span>
+                    AUTO CLEAR: {autoClearSec}s
+                    {remainingClearSec !== null ? ` (${remainingClearSec}s)` : ''}
+                  </span>
                   {([3, 5, 10] as const).map((sec) => (
                     <button
                       key={sec}
                       type="button"
-                      onClick={() => setAutoClearSec(sec)}
+                      onClick={() => {
+                        setAutoClearSec(sec);
+                        if (rawInput.trim()) scheduleAutoClear(sec);
+                      }}
                       className={`px-1.5 py-0.5 rounded cursor-pointer ${
                         autoClearSec === sec
                           ? 'bg-[#4A2B18] text-white dark:bg-[#C59656] dark:text-[#140D09]'
@@ -607,10 +545,16 @@ export const BagiBonusPanel: React.FC<BagiBonusPanelProps> = ({ onCopyText }) =>
                 rows={7}
                 value={rawInput}
                 onChange={(e) => {
-                  setRawInput(e.target.value);
-                  setProcessedRaw(e.target.value);
+                  const val = e.target.value;
+                  setRawInput(val);
+                  setProcessedRaw(val);
+                  if (val.trim()) {
+                    scheduleAutoClear();
+                  } else {
+                    stopAutoClearTimers();
+                  }
                 }}
-                placeholder={`Tempel data log statement transaksi di sini... (Otomatis dihapus dalam ${autoClearSec} detik setelah diproses untuk mencegah klaim dobel)`}
+                placeholder={`Tempel data log statement transaksi di sini... (Otomatis dihapus dalam ${autoClearSec} detik atau saat selesai disalin untuk mencegah klaim dobel)`}
                 className="flex-1 w-full p-3.5 rounded-xl bg-[#F8F4EE] dark:bg-[#140D09] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-mono-tabular focus:outline-none focus:ring-2 focus:ring-[#4A2B18] dark:focus:ring-[#C59656]"
               />
 
@@ -757,9 +701,8 @@ export const BagiBonusPanel: React.FC<BagiBonusPanelProps> = ({ onCopyText }) =>
                 disabled={!parsed}
                 onClick={() =>
                   parsed &&
-                  onCopyText(
-                    `BONUS SCATTER MAHJONG WAYS\nUser ID: ${parsed.userId}\nRek: ${parsed.accountName} (${parsed.accountNumber})\nGame: ${parsed.game} | Ticket: ${parsed.ticketCode}\nMenang: ${formatRupiah(parsed.totalWin)} | Taruhan: ${formatRupiah(parsed.betValue)}\nStatus: ${parsed.scatterReason}`,
-                    'Bonus Scatter'
+                  handleCopyScatterResult(
+                    `BONUS SCATTER MAHJONG WAYS\nUser ID: ${parsed.userId}\nRek: ${parsed.accountName} (${parsed.accountNumber})\nGame: ${parsed.game} | Ticket: ${parsed.ticketCode}\nMenang: ${formatRupiah(parsed.totalWin)} | Taruhan: ${formatRupiah(parsed.betValue)}\nStatus: ${parsed.scatterReason}`
                   )
                 }
                 className="inline-flex items-center gap-1 px-3 py-1 rounded-lg bg-[#4A2B18] dark:bg-[#C59656] text-white dark:text-[#140D09] text-[11px] font-extrabold disabled:opacity-40 cursor-pointer"
@@ -858,9 +801,8 @@ export const BagiBonusPanel: React.FC<BagiBonusPanelProps> = ({ onCopyText }) =>
                 disabled={!parsed}
                 onClick={() =>
                   parsed &&
-                  onCopyText(
-                    `BONUS HARIAN SLOT\nUser ID: ${parsed.userId}\nRek: ${parsed.accountName} (${parsed.accountNumber})\nProvider: ${parsed.provider} | Game: ${parsed.game}\nRound ID: ${parsed.ticketCode}\nWin: ${formatRupiah(parsed.totalWin)} | Bet: ${formatRupiah(parsed.betValue)} (x${parsed.multiplier.toFixed(1)})\nStatus: ${parsed.harianReason}`,
-                    'Bonus Harian Slot'
+                  handleCopyHarianResult(
+                    `BONUS HARIAN SLOT\nUser ID: ${parsed.userId}\nRek: ${parsed.accountName} (${parsed.accountNumber})\nProvider: ${parsed.provider} | Game: ${parsed.game}\nRound ID: ${parsed.ticketCode}\nWin: ${formatRupiah(parsed.totalWin)} | Bet: ${formatRupiah(parsed.betValue)} (x${parsed.multiplier.toFixed(1)})\nStatus: ${parsed.harianReason}`
                   )
                 }
                 className="inline-flex items-center gap-1 px-3 py-1 rounded-lg bg-[#4A2B18] dark:bg-[#C59656] text-white dark:text-[#140D09] text-[11px] font-extrabold disabled:opacity-40 cursor-pointer"
