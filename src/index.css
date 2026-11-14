@@ -63,13 +63,15 @@
 .animate-hacker-marquee {
   display: flex;
   width: max-content;
-  animation: hacker-marquee 14s linear infinite;
+  will-change: transform;
+  animation: hacker-marquee 16s linear infinite;
 }
 
 .animate-hacker-marquee-reverse {
   display: flex;
   width: max-content;
-  animation: hacker-marquee-reverse 12s linear infinite;
+  will-change: transform;
+  animation: hacker-marquee-reverse 14s linear infinite;
 }
 
 .animate-hacker-glitch {
