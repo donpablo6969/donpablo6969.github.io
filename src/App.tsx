@@ -8,13 +8,8 @@ import { LoginGate } from './components/LoginGate';
 import { ToolsCsViews } from './components/ToolsCsViews';
 import { TopNavbar } from './components/TopNavbar';
 import { WdAutoFlopView } from './components/WdAutoFlopView';
-import {
-  INITIAL_BANK_CHANNELS,
-  INITIAL_CASHIER_MUTATIONS,
-  INITIAL_WD_QUEUE,
-  MEMBER_DIRECTORY,
-} from './data/initialData';
-import { BankChannel, NavRoute, WdQueueItem } from './types';
+import { INITIAL_BANK_CHANNELS } from './data/initialData';
+import { BankChannel, NavRoute } from './types';
 
 export default function App() {
   const [isDark, setIsDark] = useState<boolean>(() => {
@@ -36,7 +31,6 @@ export default function App() {
     }
   });
   const [activeRoute, setActiveRoute] = useState<NavRoute>('dashboard');
-  const [wdQueue, setWdQueue] = useState<WdQueueItem[]>(INITIAL_WD_QUEUE);
   const [bankChannels, setBankChannels] = useState<BankChannel[]>(INITIAL_BANK_CHANNELS);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [cacheResetKey, setCacheResetKey] = useState<number>(0);
@@ -87,12 +81,6 @@ export default function App() {
     showToast(customToast || `${label} berhasil disalin ke clipboard`);
   };
 
-  const handleFlopNow = (id: string) => {
-    setWdQueue((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, status: 'FLOP SUKSES' } : item))
-    );
-    showToast(`WD ${id} berhasil dieksekusi (FLOP SUKSES)`);
-  };
 
   const handleUpdateBankChannel = (updated: BankChannel) => {
     setBankChannels((prev) =>
@@ -162,17 +150,7 @@ export default function App() {
       />
 
       <main key={cacheResetKey} className="flex-1 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {activeRoute === 'dashboard' && (
-          <DashboardHome
-            wdQueue={wdQueue}
-            bankChannels={bankChannels}
-            cashierQueue={INITIAL_CASHIER_MUTATIONS}
-            memberDirectory={MEMBER_DIRECTORY}
-            onNavigate={setActiveRoute}
-            onFlopNow={handleFlopNow}
-            onCopyText={handleCopyText}
-          />
-        )}
+        {activeRoute === 'dashboard' && <DashboardHome />}
 
         {activeRoute === 'wd-auto-flop' && (
           <WdAutoFlopView onCopyText={handleCopyText} />
@@ -209,9 +187,9 @@ export default function App() {
       </main>
 
       <footer className="border-t border-[#D4C4AE] dark:border-[#C59656]/60 bg-white/80 dark:bg-[#1A110C]/80 py-4 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[#3D322B] dark:text-[#D6C7B5]">
-          <span className="font-bold text-black dark:text-white">
-            DON PABLO · Portal Kerja Operasional
+        <div className="max-w-[1440px] mx-auto flex items-center justify-center text-center text-xs text-[#3D322B] dark:text-[#D6C7B5]">
+          <span className="font-bold text-black dark:text-white tracking-wide">
+            Created By : DON PABLO | PORTAL BANTUAN KERJA OPERASIONAL HS GROUP
           </span>
         </div>
       </footer>
