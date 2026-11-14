@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { ShieldAlert, Terminal, X } from 'lucide-react';
+import { ShieldAlert, X } from 'lucide-react';
 
 interface HackerGuardOverlayProps {
   onClose: () => void;
@@ -120,13 +120,13 @@ export const HackerGuardOverlay: React.FC<HackerGuardOverlayProps> = ({ onClose 
             </p>
           </div>
 
-          <div className="max-w-2xl mx-auto rounded-xl border border-[#00FF66]/45 bg-[#041409] px-4 py-3 text-left font-mono-tabular text-xs sm:text-sm text-[#86EFAC] space-y-1">
-            <div className="flex items-center gap-2 text-[#00FF66] font-extrabold">
-              <Terminal className="w-4 h-4 shrink-0" />
-              <span>root@donpablo-shield:~# inspect_blocked --ctrl-u</span>
+          <div className="max-w-2xl mx-auto rounded-xl border border-[#00FF66]/45 bg-[#041409] px-6 py-4 text-center font-mono-tabular text-sm sm:text-base font-extrabold tracking-wider text-[#86EFAC] space-y-1.5">
+            <div className="text-[#00FF66]">LEBIH CREATIF YAA DEK</div>
+            <div>JANGAN CUMA NGINTIP BISANYA</div>
+            <div>BELAJAR LAGI SANA</div>
+            <div className="pt-2 text-xs sm:text-sm text-[#00FF66] tracking-widest">
+              CREATED BY : DON PABLO
             </div>
-            <div>&gt; Mendeteksi percobaan intip source code (CTRL + U)...</div>
-            <div>&gt; Akses ditolak oleh sistem keamanan DON PABLO · HS GROUP.</div>
           </div>
 
           <div className="pt-2">
