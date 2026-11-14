@@ -176,6 +176,36 @@ export const WdAutoFlopView: React.FC<WdAutoFlopViewProps> = ({ onCopyText }) =>
 
       {/* Paste Input & Format Toolbar Card */}
       <section className="rounded-2xl bg-white dark:bg-[#1F150F] border border-[#D4C4AE] dark:border-[#C59656]/60 p-5 space-y-4 shadow-xs">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wide text-black dark:text-white">
+              TEMPEL FORMAT DATA WD
+            </span>
+            <span className="px-2.5 py-0.5 rounded bg-[#EAE0D2] dark:bg-[#2C1E16] text-[#4A2B18] dark:text-[#E5B874] text-[11px] font-extrabold font-mono-tabular border border-[#CBB9A0] dark:border-[#D4A373]/75">
+              {displayRows.length} BARIS SIAP SALIN
+            </span>
+            {pendingClearSeconds !== null && (
+              <span className="px-2.5 py-0.5 rounded bg-[#F9EDD7] text-[#854D0E] dark:bg-[#3A2810] dark:text-[#F8C471] text-[11px] font-extrabold">
+                Terhapus dalam {pendingClearSeconds}s...
+              </span>
+            )}
+          </div>
+
+          <button
+            type="button"
+            onClick={handleCopyAll}
+            disabled={displayRows.length === 0}
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-extrabold transition-colors whitespace-nowrap ${
+              displayRows.length > 0
+                ? 'bg-[#4A2B18] hover:bg-[#361F11] dark:bg-[#C59656] dark:hover:bg-[#D4A76A] text-white dark:text-[#140D09] cursor-pointer shadow-xs'
+                : 'bg-[#E8E2DA] dark:bg-[#2A1F18] text-[#8D8178] dark:text-[#6E5E52] cursor-not-allowed'
+            }`}
+          >
+            <Copy className="w-4 h-4" />
+            <span>SALIN SEMUA</span>
+          </button>
+        </div>
+
         <textarea
           rows={6}
           value={rawInput}
@@ -260,26 +290,7 @@ export const WdAutoFlopView: React.FC<WdAutoFlopViewProps> = ({ onCopyText }) =>
                 {fmt === 'FORMAT_1' ? 'FORMAT 1' : 'FORMAT 2'}
               </span>
             ))}
-            {pendingClearSeconds !== null && (
-              <span className="px-2.5 py-0.5 rounded bg-[#F9EDD7] text-[#854D0E] dark:bg-[#3A2810] dark:text-[#F8C471] text-[11px] font-extrabold">
-                Terhapus dalam {pendingClearSeconds}s...
-              </span>
-            )}
           </div>
-
-          <button
-            type="button"
-            onClick={handleCopyAll}
-            disabled={displayRows.length === 0}
-            className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-extrabold transition-colors whitespace-nowrap ${
-              displayRows.length > 0
-                ? 'bg-[#4A2B18] hover:bg-[#361F11] dark:bg-[#C59656] dark:hover:bg-[#D4A76A] text-white dark:text-[#140D09] cursor-pointer shadow-xs'
-                : 'bg-[#E8E2DA] dark:bg-[#2A1F18] text-[#8D8178] dark:text-[#6E5E52] cursor-not-allowed'
-            }`}
-          >
-            <Copy className="w-4 h-4" />
-            <span>SALIN SEMUA</span>
-          </button>
         </div>
 
         <div className="overflow-x-auto">

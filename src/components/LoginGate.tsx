@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { AlertCircle, Eye, EyeOff, Lock, LogIn, Moon, Sun, User } from 'lucide-react';
+import { signInWithPopup } from 'firebase/auth';
+import { doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
+import { AlertCircle, Eye, EyeOff, Lock, LogIn, Moon, ShieldCheck, Sun, User } from 'lucide-react';
+import { OperationType, auth, db, googleProvider, handleFirestoreError } from '../firebase';
 import { GraffitiMotif } from './GraffitiMotif';
 
 interface LoginGateProps {
@@ -23,6 +26,7 @@ export const LoginGate: React.FC<LoginGateProps> = ({
   const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [imgFailed, setImgFailed] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,6 +43,47 @@ export const LoginGate: React.FC<LoginGateProps> = ({
       onLoginSuccess();
     } else {
       setErrorMsg('ID atau Password salah. Periksa kembali akses Anda.');
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setGoogleLoading(true);
+    setErrorMsg(null);
+    try {
+      const res = await signInWithPopup(auth, googleProvider);
+      const user = res.user;
+      const profilePath = `users/${user.uid}`;
+      const userRef = doc(db, 'users', user.uid);
+      const displayName = (user.displayName || user.email || 'Operator').slice(0, 100);
+      const email = (user.email || 'unknown@example.com').slice(0, 200);
+      try {
+        const snap = await getDoc(userRef);
+        if (!snap.exists()) {
+          await setDoc(userRef, {
+            uid: user.uid,
+            displayName,
+            email,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+          });
+        } else {
+          await updateDoc(userRef, {
+            displayName,
+            updatedAt: serverTimestamp(),
+          });
+        }
+      } catch (writeErr) {
+        handleFirestoreError(writeErr, OperationType.WRITE, profilePath);
+      }
+      onLoginSuccess();
+    } catch (err) {
+      setErrorMsg(
+        err instanceof Error
+          ? `Gagal login Google Firebase: ${err.message}`
+          : 'Gagal login dengan akun Google.'
+      );
+    } finally {
+      setGoogleLoading(false);
     }
   };
 
@@ -192,6 +237,24 @@ export const LoginGate: React.FC<LoginGateProps> = ({
               >
                 <LogIn className="w-4 h-4" />
                 <span>Masuk ke Dashboard</span>
+              </button>
+
+              <div className="relative flex items-center py-1">
+                <div className="flex-grow border-t border-[#DFD1BE] dark:border-[#C59656]/35" />
+                <span className="shrink mx-3 text-[11px] font-bold uppercase tracking-wider text-[#6E5C4E] dark:text-[#B9A48D]">
+                  atau
+                </span>
+                <div className="flex-grow border-t border-[#DFD1BE] dark:border-[#C59656]/35" />
+              </div>
+
+              <button
+                type="button"
+                disabled={googleLoading}
+                onClick={() => void handleGoogleLogin()}
+                className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2B1D15] dark:hover:bg-[#38261C] text-black dark:text-white border border-[#CBB9A0] dark:border-[#D4A373]/75 text-xs font-extrabold tracking-wide transition-colors cursor-pointer disabled:opacity-50"
+              >
+                <ShieldCheck className="w-4 h-4 text-[#4A2B18] dark:text-[#E5B874]" />
+                <span>{googleLoading ? 'Menghubungkan Google...' : 'Masuk dengan Google (Firebase Vault)'}</span>
               </button>
             </form>
           </div>

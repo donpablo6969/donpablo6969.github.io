@@ -1,0 +1,179 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isOwner(userId) {
+      return isVerifiedUser() && request.auth.uid == userId;
+    }
+
+    function isBootstrappedAdmin() {
+      return isVerifiedUser() && request.auth.token.email == 'vannyafransisca@gmail.com';
+    }
+
+    function isValidUserProfile(data, userId) {
+      return data.keys().hasAll(['uid', 'displayName', 'email', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['uid', 'displayName', 'email', 'createdAt', 'updatedAt'])
+        && isValidId(data.uid)
+        && data.uid == userId
+        && data.uid == request.auth.uid
+        && data.displayName is string
+        && data.displayName.size() >= 1
+        && data.displayName.size() <= 100
+        && data.email is string
+        && data.email.size() >= 3
+        && data.email.size() <= 200
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidProtectedScript(data, userId, scriptId) {
+      return data.keys().hasAll(['id', 'ownerId', 'title', 'category', 'content', 'isLocked', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['id', 'ownerId', 'title', 'category', 'content', 'isLocked', 'createdAt', 'updatedAt'])
+        && isValidId(data.id)
+        && data.id == scriptId
+        && isValidId(data.ownerId)
+        && data.ownerId == userId
+        && data.title is string
+        && data.title.size() >= 1
+        && data.title.size() <= 120
+        && data.category is string
+        && data.category.size() >= 1
+        && data.category.size() <= 32
+        && data.category in ['WD FLOP', 'BONUS', 'REKAPAN', 'EDIT FOTO', 'NAWALA', 'UMUM']
+        && data.content is string
+        && data.content.size() >= 1
+        && data.content.size() <= 50000
+        && data.isLocked is bool
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidBankChannel(data, userId, channelId) {
+      return data.keys().hasAll(['id', 'ownerId', 'bankName', 'accountNumber', 'holderName', 'status', 'minDeposit', 'maxDeposit', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['id', 'ownerId', 'bankName', 'accountNumber', 'holderName', 'status', 'minDeposit', 'maxDeposit', 'createdAt', 'updatedAt'])
+        && isValidId(data.id)
+        && data.id == channelId
+        && isValidId(data.ownerId)
+        && data.ownerId == userId
+        && data.bankName is string
+        && data.bankName.size() >= 1
+        && data.bankName.size() <= 60
+        && data.accountNumber is string
+        && data.accountNumber.size() >= 1
+        && data.accountNumber.size() <= 40
+        && data.holderName is string
+        && data.holderName.size() >= 1
+        && data.holderName.size() <= 100
+        && data.status is string
+        && data.status.size() >= 1
+        && data.status.size() <= 20
+        && data.status in ['ONLINE', 'GANGGUAN', 'OFFLINE']
+        && data.minDeposit is number
+        && data.minDeposit >= 0
+        && data.maxDeposit is number
+        && data.maxDeposit >= 0
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    match /users/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isBootstrappedAdmin());
+      allow list: if isBootstrappedAdmin();
+      allow create: if isValidId(userId)
+        && isOwner(userId)
+        && isValidUserProfile(incoming(), userId)
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isValidId(userId)
+        && (isOwner(userId) || isBootstrappedAdmin())
+        && isValidUserProfile(incoming(), userId)
+        && incoming().uid == existing().uid
+        && incoming().email == existing().email
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'updatedAt']);
+      allow delete: if false;
+
+      match /protectedScripts/{scriptId} {
+        allow get: if isValidId(userId) && isValidId(scriptId) && (isOwner(userId) || isBootstrappedAdmin());
+        allow list: if isValidId(userId) && (isOwner(userId) || isBootstrappedAdmin()) && resource.data.ownerId == userId;
+        allow create: if isValidId(userId)
+          && isValidId(scriptId)
+          && isOwner(userId)
+          && isValidProtectedScript(incoming(), userId, scriptId)
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time;
+        allow update: if isValidId(userId)
+          && isValidId(scriptId)
+          && (isOwner(userId) || isBootstrappedAdmin())
+          && isValidProtectedScript(incoming(), userId, scriptId)
+          && incoming().id == existing().id
+          && incoming().ownerId == existing().ownerId
+          && incoming().createdAt == existing().createdAt
+          && incoming().updatedAt == request.time
+          && (
+            (existing().isLocked == false && incoming().diff(existing()).affectedKeys().hasOnly(['title', 'category', 'content', 'isLocked', 'updatedAt']))
+            || (existing().isLocked == true && incoming().diff(existing()).affectedKeys().hasOnly(['isLocked', 'updatedAt']))
+          );
+        allow delete: if isValidId(userId)
+          && isValidId(scriptId)
+          && (isOwner(userId) || isBootstrappedAdmin())
+          && existing().isLocked == false;
+      }
+
+      match /bankChannels/{channelId} {
+        allow get: if isValidId(userId) && isValidId(channelId) && (isOwner(userId) || isBootstrappedAdmin());
+        allow list: if isValidId(userId) && (isOwner(userId) || isBootstrappedAdmin()) && resource.data.ownerId == userId;
+        allow create: if isValidId(userId)
+          && isValidId(channelId)
+          && isOwner(userId)
+          && isValidBankChannel(incoming(), userId, channelId)
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time;
+        allow update: if isValidId(userId)
+          && isValidId(channelId)
+          && (isOwner(userId) || isBootstrappedAdmin())
+          && isValidBankChannel(incoming(), userId, channelId)
+          && incoming().id == existing().id
+          && incoming().ownerId == existing().ownerId
+          && incoming().createdAt == existing().createdAt
+          && incoming().updatedAt == request.time
+          && incoming().diff(existing()).affectedKeys().hasOnly([
+            'bankName',
+            'accountNumber',
+            'holderName',
+            'status',
+            'minDeposit',
+            'maxDeposit',
+            'updatedAt'
+          ]);
+        allow delete: if isValidId(userId) && isValidId(channelId) && (isOwner(userId) || isBootstrappedAdmin());
+      }
+    }
+  }
+}

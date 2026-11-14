@@ -1,15 +1,30 @@
 import { useEffect, useState } from 'react';
+import { User, onAuthStateChanged, signOut } from 'firebase/auth';
+import {
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  query,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
 import { CheckCircle2 } from 'lucide-react';
 import { AdminVsGarudaView } from './components/AdminVsGarudaView';
 import { CariSelisihView } from './components/CariSelisihView';
 import { CekNawalaPanel } from './components/CekNawalaPanel';
 import { DashboardHome } from './components/DashboardHome';
+import { FirebaseVaultModal } from './components/FirebaseVaultModal';
+import { HackerGuardOverlay } from './components/HackerGuardOverlay';
 import { LoginGate } from './components/LoginGate';
 import { ToolsCsViews } from './components/ToolsCsViews';
 import { TopNavbar } from './components/TopNavbar';
 import { WdAutoFlopView } from './components/WdAutoFlopView';
 import { INITIAL_BANK_CHANNELS } from './data/initialData';
-import { BankChannel, NavRoute } from './types';
+import { OperationType, auth, db, handleFirestoreError } from './firebase';
+import { BankChannel, BankStatus, NavRoute } from './types';
 
 export default function App() {
   const [isDark, setIsDark] = useState<boolean>(() => {
@@ -34,6 +49,76 @@ export default function App() {
   const [bankChannels, setBankChannels] = useState<BankChannel[]>(INITIAL_BANK_CHANNELS);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [cacheResetKey, setCacheResetKey] = useState<number>(0);
+  const [showHackerGuard, setShowHackerGuard] = useState<boolean>(false);
+  const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
+  const [isVaultOpen, setIsVaultOpen] = useState<boolean>(false);
+  const [syncedChannelIds, setSyncedChannelIds] = useState<Set<string>>(() => new Set());
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setFirebaseUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (!firebaseUser || !firebaseUser.emailVerified) {
+      setSyncedChannelIds(new Set());
+      return;
+    }
+
+    const channelsPath = `users/${firebaseUser.uid}/bankChannels`;
+    const q = query(
+      collection(db, channelsPath),
+      where('ownerId', '==', firebaseUser.uid)
+    );
+
+    const unsubscribe = onSnapshot(
+      q,
+      (snap) => {
+        if (snap.empty) {
+          setSyncedChannelIds(new Set());
+          return;
+        }
+        const ids = new Set<string>();
+        const loaded: BankChannel[] = snap.docs.map((d) => {
+          ids.add(d.id);
+          const data = d.data();
+          const rawStatus = String(data.status || 'ONLINE');
+          const status: BankStatus =
+            rawStatus === 'GANGGUAN' || rawStatus === 'OFFLINE' ? rawStatus : 'ONLINE';
+          return {
+            id: String(data.id || d.id),
+            bankName: String(data.bankName || ''),
+            accountNumber: String(data.accountNumber || ''),
+            holderName: String(data.holderName || ''),
+            status,
+            minDeposit: typeof data.minDeposit === 'number' ? data.minDeposit : 0,
+            maxDeposit: typeof data.maxDeposit === 'number' ? data.maxDeposit : 0,
+          };
+        });
+        setSyncedChannelIds(ids);
+        setBankChannels(loaded);
+      },
+      (err) => {
+        handleFirestoreError(err, OperationType.LIST, channelsPath);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [firebaseUser]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'u') {
+        e.preventDefault();
+        e.stopPropagation();
+        setShowHackerGuard(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown, { capture: true });
+    return () => window.removeEventListener('keydown', handleKeyDown, { capture: true });
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -82,11 +167,56 @@ export default function App() {
   };
 
 
+  const syncSingleBankChannelToFirestore = async (uid: string, ch: BankChannel) => {
+    const docPath = `users/${uid}/bankChannels/${ch.id}`;
+    const docRef = doc(db, 'users', uid, 'bankChannels', ch.id);
+    const updatePayload = {
+      bankName: ch.bankName.slice(0, 60),
+      accountNumber: ch.accountNumber.slice(0, 40),
+      holderName: ch.holderName.slice(0, 100),
+      status: ch.status,
+      minDeposit: ch.minDeposit,
+      maxDeposit: ch.maxDeposit,
+      updatedAt: serverTimestamp(),
+    };
+
+    try {
+      if (syncedChannelIds.has(ch.id)) {
+        await updateDoc(docRef, updatePayload);
+      } else {
+        const snap = await getDoc(docRef);
+        if (snap.exists()) {
+          await updateDoc(docRef, updatePayload);
+        } else {
+          await setDoc(docRef, {
+            id: ch.id,
+            ownerId: uid,
+            ...updatePayload,
+            createdAt: serverTimestamp(),
+          });
+        }
+      }
+    } catch (err) {
+      handleFirestoreError(err, OperationType.WRITE, docPath);
+    }
+  };
+
+  const syncAllBankChannelsToFirebase = async () => {
+    if (!firebaseUser || !firebaseUser.emailVerified) return;
+    for (const ch of bankChannels) {
+      await syncSingleBankChannelToFirestore(firebaseUser.uid, ch);
+    }
+    showToast('Rekening CS berhasil disinkronkan ke Firebase');
+  };
+
   const handleUpdateBankChannel = (updated: BankChannel) => {
     setBankChannels((prev) =>
       prev.map((b) => (b.id === updated.id ? updated : b))
     );
     showToast(`Saluran ${updated.bankName} diperbarui (${updated.status})`);
+    if (firebaseUser && firebaseUser.emailVerified) {
+      void syncSingleBankChannelToFirestore(firebaseUser.uid, updated);
+    }
   };
 
   const handleLoginSuccess = () => {
@@ -104,6 +234,9 @@ export default function App() {
       sessionStorage.removeItem('donpablo-auth');
     } catch {
       // ignore storage write errors
+    }
+    if (auth.currentUser) {
+      void signOut(auth);
     }
     setIsAuthenticated(false);
   };
@@ -130,11 +263,16 @@ export default function App() {
 
   if (!isAuthenticated) {
     return (
-      <LoginGate
-        isDark={isDark}
-        onToggleTheme={() => setIsDark((prev) => !prev)}
-        onLoginSuccess={handleLoginSuccess}
-      />
+      <>
+        <LoginGate
+          isDark={isDark}
+          onToggleTheme={() => setIsDark((prev) => !prev)}
+          onLoginSuccess={handleLoginSuccess}
+        />
+        {showHackerGuard && (
+          <HackerGuardOverlay onClose={() => setShowHackerGuard(false)} />
+        )}
+      </>
     );
   }
 
@@ -147,6 +285,8 @@ export default function App() {
         onToggleTheme={() => setIsDark((prev) => !prev)}
         onClearCache={handleClearCache}
         onLogout={handleLogout}
+        firebaseUserEmail={firebaseUser?.email ?? null}
+        onOpenVault={() => setIsVaultOpen(true)}
       />
 
       <main key={cacheResetKey} className="flex-1 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -204,6 +344,17 @@ export default function App() {
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>{toastMessage}</span>
         </div>
+      )}
+      <FirebaseVaultModal
+        isOpen={isVaultOpen}
+        onClose={() => setIsVaultOpen(false)}
+        firebaseUser={firebaseUser}
+        onCopyText={handleCopyText}
+        onSyncBankChannels={syncAllBankChannelsToFirebase}
+      />
+
+      {showHackerGuard && (
+        <HackerGuardOverlay onClose={() => setShowHackerGuard(false)} />
       )}
     </div>
   );

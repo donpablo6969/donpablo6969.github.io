@@ -18,6 +18,7 @@ import {
   Moon,
   Scale,
   Send,
+  ShieldCheck,
   Sun,
   Trash2,
   Trophy,
@@ -34,6 +35,8 @@ interface TopNavbarProps {
   onToggleTheme: () => void;
   onClearCache: () => void;
   onLogout: () => void;
+  firebaseUserEmail?: string | null;
+  onOpenVault: () => void;
 }
 
 type DropdownId = 'cari-selisih' | 'isi-rekapan' | null;
@@ -82,6 +85,8 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
   onToggleTheme,
   onClearCache,
   onLogout,
+  firebaseUserEmail,
+  onOpenVault,
 }) => {
   const [openDropdown, setOpenDropdown] = useState<DropdownId>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -203,6 +208,28 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
                 <span className="hidden sm:inline">Tema Gelap</span>
               </>
             )}
+          </button>
+
+          {/* Firebase Protected Script Vault */}
+          <button
+            type="button"
+            onClick={onOpenVault}
+            aria-label="Brankas Script Firebase"
+            title={
+              firebaseUserEmail
+                ? `Brankas Firebase Terhubung (${firebaseUserEmail})`
+                : 'Simpan & Kunci Script di Firebase'
+            }
+            className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-xs font-bold transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              firebaseUserEmail
+                ? 'bg-[#E3F5EB] hover:bg-[#D1EEDF] dark:bg-[#103824] dark:hover:bg-[#164A30] text-[#147D4E] dark:text-[#6EE7A8] border-[#A7DFC1] dark:border-[#1E6B43]'
+                : 'bg-[#EAE0D2] hover:bg-[#DFD1BE] dark:bg-[#2D1F17] dark:hover:bg-[#3B291E] text-black dark:text-white border-[#CBB9A0] dark:border-[#D4A373]/75'
+            }`}
+          >
+            <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
+            <span className="hidden sm:inline">
+              {firebaseUserEmail ? 'Brankas Aktif' : 'Brankas Script'}
+            </span>
           </button>
 
           {/* Clear Cache Button */}
@@ -496,14 +523,27 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
             <div className="text-xs font-mono-tabular font-semibold text-black dark:text-white">
               {formattedDate} · {formattedTime}
             </div>
-            <button
-              type="button"
-              onClick={onLogout}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-bold border bg-white dark:bg-[#2A1D15] text-black dark:text-white border-[#CBB9A0] dark:border-[#D4A373]/70 cursor-pointer"
-            >
-              <LogOut className="w-3 h-3" />
-              <span>Keluar</span>
-            </button>
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenVault();
+                }}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-bold border bg-[#EAE0D2] dark:bg-[#2A1D15] text-black dark:text-white border-[#CBB9A0] dark:border-[#D4A373]/70 cursor-pointer"
+              >
+                <ShieldCheck className="w-3 h-3" />
+                <span>{firebaseUserEmail ? 'Brankas Aktif' : 'Brankas Script'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={onLogout}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-bold border bg-white dark:bg-[#2A1D15] text-black dark:text-white border-[#CBB9A0] dark:border-[#D4A373]/70 cursor-pointer"
+              >
+                <LogOut className="w-3 h-3" />
+                <span>Keluar</span>
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">

@@ -1,0 +1,196 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated operator profile for Firebase Vault and cloud sync.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Auth UID",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Operator display name",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Verified operator email",
+          "minLength": 3,
+          "maxLength": 200
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server last update timestamp"
+        }
+      },
+      "required": ["uid", "displayName", "email", "createdAt", "updatedAt"]
+    },
+    "ProtectedScript": {
+      "title": "ProtectedScript",
+      "description": "Private operational script, formula, or sensitive snippet saved securely in Firebase Vault.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Script document ID",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Owner Firebase Auth UID",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Script title",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "category": {
+          "type": "string",
+          "description": "Operational module category",
+          "enum": ["WD FLOP", "BONUS", "REKAPAN", "EDIT FOTO", "NAWALA", "UMUM"],
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "content": {
+          "type": "string",
+          "description": "Protected script or operational template content",
+          "minLength": 1,
+          "maxLength": 50000
+        },
+        "isLocked": {
+          "type": "boolean",
+          "description": "Lock flag preventing accidental edits or deletion"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server last update timestamp"
+        }
+      },
+      "required": [
+        "id",
+        "ownerId",
+        "title",
+        "category",
+        "content",
+        "isLocked",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "BankChannelDoc": {
+      "title": "BankChannelDoc",
+      "description": "Persistent CS bank channel configuration stored in Firestore.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Bank channel ID",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Owner Firebase Auth UID",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "bankName": {
+          "type": "string",
+          "description": "Bank or e-wallet name",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "accountNumber": {
+          "type": "string",
+          "description": "Account number",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "holderName": {
+          "type": "string",
+          "description": "Account holder name",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "status": {
+          "type": "string",
+          "description": "Operational bank status",
+          "enum": ["ONLINE", "GANGGUAN", "OFFLINE"],
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "minDeposit": {
+          "type": "number",
+          "description": "Minimum deposit amount"
+        },
+        "maxDeposit": {
+          "type": "number",
+          "description": "Maximum deposit amount"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server last update timestamp"
+        }
+      },
+      "required": [
+        "id",
+        "ownerId",
+        "bankName",
+        "accountNumber",
+        "holderName",
+        "status",
+        "minDeposit",
+        "maxDeposit",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Verified operator profile document isolated by UID."
+    },
+    "/users/{userId}/protectedScripts/{scriptId}": {
+      "schema": { "$ref": "#/entities/ProtectedScript" },
+      "description": "Private protected scripts and operational formulas owned by the user."
+    },
+    "/users/{userId}/bankChannels/{channelId}": {
+      "schema": { "$ref": "#/entities/BankChannelDoc" },
+      "description": "Persistent CS bank channels synced for the authenticated user."
+    }
+  }
+}
